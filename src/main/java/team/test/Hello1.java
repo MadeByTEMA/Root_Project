@@ -4,7 +4,9 @@ public class Hello1 {
 
   public static void main(String[] args) {
     System.out.println("강사!");
-
+    System.out.println("HomeHome");
+    System.out.println("하이헬로~~ ");
+    
   }
 
 }
