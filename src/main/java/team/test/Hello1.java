@@ -3,7 +3,9 @@ package team.test;
 public class Hello1 {
 
   public static void main(String[] args) {
-    System.out.println("강사!2222");
+    System.out.println("강사!222");
+    System.out.println("ET!");
+    System.out.println("ET2!");
 
     int a = 100;
     if (a < 100) {
