@@ -37,10 +37,10 @@ DROP TABLE IF EXISTS day_scraps RESTRICT;
 -- 유저 인포장소 스크랩
 DROP TABLE IF EXISTS info_scraps RESTRICT;
 
--- 새 테이블
+-- 장소리뷰사진모음
 DROP TABLE IF EXISTS review_place_photo RESTRICT;
 
--- 새 테이블2
+-- 인포사진모음
 DROP TABLE IF EXISTS info_photo RESTRICT;
 
 -- 유저
@@ -135,6 +135,7 @@ CREATE TABLE infos (
   info_no     INTEGER      NOT NULL COMMENT '인포번호', -- 인포번호
   create_date DATETIME     NULL     COMMENT '작성일', -- 작성일
   category    INTEGER      NOT NULL COMMENT '카테고리', -- 카테고리
+  title       VARCHAR(50)  NOT NULL COMMENT '제목', -- 제목
   content     TEXT         NOT NULL COMMENT '내용', -- 내용
   photo_file  VARCHAR(255) NULL     COMMENT '사진파일모음', -- 사진파일모음
   main_photo  VARCHAR(255) NULL     COMMENT '대표사진', -- 대표사진
@@ -154,11 +155,12 @@ ALTER TABLE infos
 
 -- 방문장소
 CREATE TABLE course_places (
-  place_no      INTEGER     NOT NULL COMMENT '장소번호', -- 장소번호
-  course_day_no INTEGER     NOT NULL COMMENT '데이번호', -- 데이번호
-  place_name    VARCHAR(30) NOT NULL COMMENT '장소명', -- 장소명
-  place_address VARCHAR(50) NOT NULL COMMENT '주소', -- 주소
-  etc           TEXT        NULL     COMMENT '비고' -- 비고
+  place_no             INTEGER     NOT NULL COMMENT '장소번호', -- 장소번호
+  course_day_no        INTEGER     NOT NULL COMMENT '데이번호', -- 데이번호
+  place_name           VARCHAR(30) NOT NULL COMMENT '장소명', -- 장소명
+  place_basic_address  VARCHAR(50) NOT NULL COMMENT '기본주소', -- 기본주소
+  place_detail_address VARCHAR(50) NULL     COMMENT '상세주소', -- 상세주소
+  etc                  TEXT        NULL     COMMENT '비고' -- 비고
 )
 COMMENT '방문장소';
 
@@ -237,11 +239,12 @@ ALTER TABLE review_place
 
 -- 인포장소
 CREATE TABLE info_places (
-  place_no      INTEGER     NOT NULL COMMENT '인포장소번호', -- 인포장소번호
-  start_date    DATETIME    NOT NULL COMMENT '시작일', -- 시작일
-  last_date     DATETIME    NULL     COMMENT '종료일', -- 종료일
-  place_name    VARCHAR(30) NOT NULL COMMENT '장소명', -- 장소명
-  place_address VARCHAR(50) NOT NULL COMMENT '주소' -- 주소
+  place_no             INTEGER     NOT NULL COMMENT '인포장소번호', -- 인포장소번호
+  start_date           DATETIME    NOT NULL COMMENT '시작일', -- 시작일
+  last_date            DATETIME    NULL     COMMENT '종료일', -- 종료일
+  place_name           VARCHAR(30) NOT NULL COMMENT '장소명', -- 장소명
+  place_basic_address  VARCHAR(50) NOT NULL COMMENT '기본주소', -- 기본주소
+  place_detail_address VARCHAR(50) NULL     COMMENT '상세주소' -- 상세주소
 )
 COMMENT '인포장소';
 
@@ -300,17 +303,17 @@ ALTER TABLE info_scraps
       place_no  -- 장소인포번호
     );
 
--- 새 테이블
+-- 장소리뷰사진모음
 CREATE TABLE review_place_photo (
   photo_no        INTEGER      NOT NULL COMMENT '사진번호', -- 사진번호
   review_place_no INTEGER      NOT NULL COMMENT '장소리뷰번호', -- 장소리뷰번호
   photo_file      VARCHAR(255) NOT NULL COMMENT '사진파일' -- 사진파일
 )
-COMMENT '새 테이블';
+COMMENT '장소리뷰사진모음';
 
--- 새 테이블
+-- 장소리뷰사진모음
 ALTER TABLE review_place_photo
-  ADD CONSTRAINT PK_review_place_photo -- 새 테이블 기본키
+  ADD CONSTRAINT PK_review_place_photo -- 장소리뷰사진모음 기본키
     PRIMARY KEY (
       photo_no,        -- 사진번호
       review_place_no  -- 장소리뷰번호
@@ -319,17 +322,17 @@ ALTER TABLE review_place_photo
 ALTER TABLE review_place_photo
   MODIFY COLUMN photo_no INTEGER NOT NULL AUTO_INCREMENT COMMENT '사진번호';
 
--- 새 테이블2
+-- 인포사진모음
 CREATE TABLE info_photo (
   photo_no   INTEGER      NOT NULL COMMENT '사진번호', -- 사진번호
   info_no    INTEGER      NOT NULL COMMENT '인포번호', -- 인포번호
   photo_file VARCHAR(255) NOT NULL COMMENT '사진파일' -- 사진파일
 )
-COMMENT '새 테이블2';
+COMMENT '인포사진모음';
 
--- 새 테이블2
+-- 인포사진모음
 ALTER TABLE info_photo
-  ADD CONSTRAINT PK_info_photo -- 새 테이블2 기본키
+  ADD CONSTRAINT PK_info_photo -- 인포사진모음 기본키
     PRIMARY KEY (
       photo_no, -- 사진번호
       info_no   -- 인포번호
@@ -488,9 +491,9 @@ ALTER TABLE info_scraps
       place_no -- 인포장소번호
     );
 
--- 새 테이블
+-- 장소리뷰사진모음
 ALTER TABLE review_place_photo
-  ADD CONSTRAINT FK_review_place_TO_review_place_photo -- 장소리뷰 -> 새 테이블
+  ADD CONSTRAINT FK_review_place_TO_review_place_photo -- 장소리뷰 -> 장소리뷰사진모음
     FOREIGN KEY (
       review_place_no -- 장소리뷰번호
     )
@@ -498,9 +501,9 @@ ALTER TABLE review_place_photo
       review_place_no -- 장소리뷰번호
     );
 
--- 새 테이블2
+-- 인포사진모음
 ALTER TABLE info_photo
-  ADD CONSTRAINT FK_infos_TO_info_photo -- 인포 -> 새 테이블2
+  ADD CONSTRAINT FK_infos_TO_info_photo -- 인포 -> 인포사진모음
     FOREIGN KEY (
       info_no -- 인포번호
     )
