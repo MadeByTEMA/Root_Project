@@ -240,7 +240,7 @@ ALTER TABLE review_place
 CREATE TABLE info_places (
   place_no             INTEGER     NOT NULL COMMENT '인포장소번호', -- 인포장소번호
   start_date           DATETIME    NOT NULL COMMENT '시작일', -- 시작일
-  last_date            DATETIME    NULL     COMMENT '종료일', -- 종료일
+  last_date            DATETIME    NOT NULL COMMENT '종료일', -- 종료일
   place_name           VARCHAR(30) NOT NULL COMMENT '장소명', -- 장소명
   place_basic_address  VARCHAR(50) NOT NULL COMMENT '기본주소', -- 기본주소
   place_detail_address VARCHAR(50) NULL     COMMENT '상세주소' -- 상세주소
@@ -324,7 +324,7 @@ ALTER TABLE review_place_photo
 -- 인포사진모음
 CREATE TABLE info_photo (
   photo_no   INTEGER      NOT NULL COMMENT '사진번호', -- 사진번호
-  info_no    INTEGER      NOT NULL COMMENT '인포번호', -- 인포번호
+  place_no   INTEGER      NOT NULL COMMENT '인포장소번호', -- 인포장소번호
   photo_file VARCHAR(255) NOT NULL COMMENT '사진파일' -- 사진파일
 )
 COMMENT '인포사진모음';
@@ -334,7 +334,7 @@ ALTER TABLE info_photo
   ADD CONSTRAINT PK_info_photo -- 인포사진모음 기본키
     PRIMARY KEY (
       photo_no, -- 사진번호
-      info_no   -- 인포번호
+      place_no  -- 인포장소번호
     );
 
 ALTER TABLE info_photo
@@ -502,10 +502,10 @@ ALTER TABLE review_place_photo
 
 -- 인포사진모음
 ALTER TABLE info_photo
-  ADD CONSTRAINT FK_infos_TO_info_photo -- 인포 -> 인포사진모음
+  ADD CONSTRAINT FK_info_places_TO_info_photo -- 인포장소 -> 인포사진모음
     FOREIGN KEY (
-      info_no -- 인포번호
+      place_no -- 인포장소번호
     )
-    REFERENCES infos ( -- 인포
-      info_no -- 인포번호
+    REFERENCES info_places ( -- 인포장소
+      place_no -- 인포장소번호
     );
