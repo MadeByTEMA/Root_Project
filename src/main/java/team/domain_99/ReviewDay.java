@@ -8,7 +8,7 @@ public class ReviewDay {
   String mainPhoto;
   String title;
   Date dayDate;
-  String text;
+  String mainReview;
   int status;
   Review review;
   List<ReviewPlace> reviewPlace;
