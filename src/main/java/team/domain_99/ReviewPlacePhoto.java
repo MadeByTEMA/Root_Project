@@ -2,6 +2,6 @@ package team.domain_99;
 
 public class ReviewPlacePhoto {
   int no;
-  int reviewPlaceNo;
+  ReviewPlace reviewPlace;
   String photo;
 }

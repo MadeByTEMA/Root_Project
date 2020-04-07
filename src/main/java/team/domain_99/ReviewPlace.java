@@ -5,9 +5,9 @@ import java.util.List;
 public class ReviewPlace {
   int no;
   String name;
-  String basicAddress;
-  String detailAddress;
-  String review;
+  String basicAddr;
+  String detailAddr;
+  String placeReview;
   String mainPhoto;
   int status;
   ReviewDay day;

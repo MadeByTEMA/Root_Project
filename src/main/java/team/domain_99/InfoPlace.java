@@ -6,9 +6,9 @@ import java.util.List;
 public class InfoPlace {
   int no;
   Date startDate;
-  Date lastDate;
+  Date endDate;
   String placeName;
-  String basicAddress;
-  String detailAddress;
+  String basicAddr;
+  String detailAddr;
   List<InfoPhotoFile> infoPhotoFiles;
 }

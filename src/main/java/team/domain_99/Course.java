@@ -6,6 +6,6 @@ import java.util.List;
 public class Course {
   int no;
   User user;
-  Date createDate;
+  Date createdDate;
   List<CourseDay> coursewDay;
 }

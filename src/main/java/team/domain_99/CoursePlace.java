@@ -2,9 +2,9 @@ package team.domain_99;
 
 public class CoursePlace {
   int no;
-  String name;
-  String basicAddress;
-  String detailAddress;
+  String placeName;
+  String basicAddr;
+  String detailAddr;
   String etc;
   CourseDay day;
 }
