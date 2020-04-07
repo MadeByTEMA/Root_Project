@@ -57,7 +57,7 @@ CREATE TABLE users (
   detail_address VARCHAR(50)  NULL     COMMENT '상세주소', -- 상세주소
   photo          VARCHAR(255) NULL     COMMENT '사진', -- 사진
   nickname       VARCHAR(30)  NOT NULL COMMENT '별명', -- 별명
-  account        INTEGER      NULL     COMMENT '계좌번호', -- 계좌번호
+  account        INTEGER(30)  NULL     COMMENT '계좌번호', -- 계좌번호
   bank           VARCHAR(30)  NULL     COMMENT '은행' -- 은행
 )
 COMMENT '유저';
@@ -137,7 +137,6 @@ CREATE TABLE infos (
   category    INTEGER      NOT NULL COMMENT '카테고리', -- 카테고리
   title       VARCHAR(50)  NOT NULL COMMENT '제목', -- 제목
   content     TEXT         NOT NULL COMMENT '내용', -- 내용
-  photo_file  VARCHAR(255) NULL     COMMENT '사진파일모음', -- 사진파일모음
   main_photo  VARCHAR(255) NULL     COMMENT '대표사진', -- 대표사진
   place_no    INTEGER      NULL     COMMENT '인포장소번호' -- 인포장소번호
 )
