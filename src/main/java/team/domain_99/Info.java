@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class Info {
   int no;
-  Date createDate;
+  Date createdDate;
   int category;
   String title;
   String content;

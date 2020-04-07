@@ -6,7 +6,7 @@ import java.util.List;
 public class Review {
   int no;
   User user;
-  Date createDate;
+  Date createdDate;
   int status;
   List<ReviewDay> reviewDay;
 }
