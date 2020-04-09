@@ -1,8 +1,7 @@
 package com.keep.root.domain;
 
-public class InfoPhotoFile {
+public class ScrapPlacePhoto {
   int no;
-  InfoPlace infoPlace;
+  ScrapPlace scrapPlace;
   String photo;
-
 }

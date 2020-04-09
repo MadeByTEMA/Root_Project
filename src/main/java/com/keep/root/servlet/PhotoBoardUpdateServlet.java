@@ -21,11 +21,11 @@ public class PhotoBoardUpdateServlet extends HttpServlet {
   protected void doPost(HttpServletRequest request, HttpServletResponse response)
       throws ServletException, IOException {
 
+    request.setCharacterEncoding("UTF-8");
     int no = Integer.parseInt(request.getParameter("no"));
     int lessonNo = 0;
 
     try {
-      request.setCharacterEncoding("UTF-8");
 
       ServletContext servletContext = getServletContext();
       ApplicationContext iocContainer =
@@ -54,10 +54,9 @@ public class PhotoBoardUpdateServlet extends HttpServlet {
       response.sendRedirect("list?lessonNo=" + lessonNo);
 
     } catch (Exception e) {
-      request.getSession().setAttribute("errorMessage", e.getMessage());
-      request.getSession().setAttribute("url", //
-          "photoboard/list?lessonNo=" + lessonNo);
-      response.sendRedirect("../error");
+      request.setAttribute("error", e);
+      request.setAttribute("url", "list?lessonNo=" + lessonNo);
+      request.getRequestDispatcher("/error").forward(request, response);
     }
   }
 }

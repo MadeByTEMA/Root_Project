@@ -1,5 +1,15 @@
 package com.keep.root.domain;
 
-public class ScrapDay {
+import java.sql.Date;
+import java.util.List;
 
+public class ScrapDay {
+  int no;
+  String mainPhoto;
+  String title;
+  Date dayDate;
+  String mainReview;
+  int status;
+  Scrap scrap;
+  List<ScrapPlace> ScrapPlace;
 }

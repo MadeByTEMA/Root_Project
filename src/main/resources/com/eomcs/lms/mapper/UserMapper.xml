@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.keep.root.dao.UserDao">
+
+  <resultMap type="User" id="UserMap">
+    <id column="user_no"  property="no"/>
+    <result column="user_name"       property="name"/>
+    <result column="birthday"  property="birth"/>
+    <result column="gender"    property="gender"/>
+    <result column="email"    property="email"/>
+    <result column="password" property="password"/>
+    <result column="phone_number" property="tel"/>
+    <result column="zip_code"    property="zipCode"/>
+    <result column="basic_address" property="basicAddr"/>
+    <result column="detail_address" property="deteilAddr"/>
+    <result column="photo"    property="photo"/>
+    <result column="nickname" property="nickName"/>
+    <result column="account" property="account"/>
+    <result column="bank" property="bank"/>
+  </resultMap>
+  
+  <insert id="insert" parameterType="User">
+    insert into lms_member(
+    user_name
+    birthday,
+    gender,
+    email,
+    password,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    ) values(
+      #{name},
+      #{birth},
+      #{gender},
+      #{email},
+      #{password},
+      #{tel},
+      #{zipCode},
+      #{basicAddr},
+      #{deteilAddr},
+      #{photo},
+      #{nickName},
+      #{account},
+      #{bank}
+    )
+  </insert>
+  
+  <select id="findAll" resultMap="MemberMap">
+    select 
+      <include refid="select1"/>
+      cdt
+    from 
+      lms_member
+  </select>
+
+  
+  <select id="findByNo" resultMap="MemberMap" parameterType="int">
+    select 
+      <include refid="select1"/>
+      pwd, 
+      photo
+    from 
+      lms_member
+    where 
+      member_id=#{no}
+  </select>
+  
+  <update id="update" parameterType="Member">
+    update lms_member
+    <set>
+      <if test="name != null and name != ''">name=#{name},</if>
+      <if test="email != null and email != ''">email=#{email},</if> 
+      <if test="password != null and password != ''">pwd=password(#{password}),</if>
+      <if test="tel != null and tel != ''">tel=#{tel},</if>
+      <if test="photo != null and photo != ''">photo=#{photo}</if>
+    </set>
+    where 
+      member_id=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from lms_member
+    where member_id=#{no}
+  </delete>
+  
+  <select id="findByKeyword" 
+    resultMap="MemberMap" 
+    parameterType="string">
+    <bind name="keywordPattern" value="'%' + _parameter + '%'"/>
+    select 
+      <include refid="select1"/>
+      cdt
+    from 
+      lms_member
+    where 
+      name like #{keywordPattern}
+      or email like #{keywordPattern}
+      or tel like #{keywordPattern}
+  </select>
+  
+  <select id="findByEmailAndPassword" 
+    resultMap="MemberMap" 
+    parameterType="map">
+    select 
+      <include refid="select1"/>
+      pwd, 
+      photo
+    from lms_member
+    where 
+      email=#{email} 
+      and pwd=password(#{password})
+  </select>
+</mapper>
+
+
+
+
+
+
+
