@@ -50,7 +50,7 @@ CREATE TABLE users (
   birthday       DATE         NOT NULL COMMENT '생년월일', -- 생년월일
   gender         INTEGER      NOT NULL COMMENT '성별', -- 성별
   email          VARCHAR(50)  NOT NULL COMMENT '이메일', -- 이메일
-  password       VARCHAR(20)  NOT NULL COMMENT '비밀번호', -- 비밀번호
+  password       VARCHAR(255) NOT NULL COMMENT '비밀번호', -- 비밀번호
   phone_number   VARCHAR(50)  NOT NULL COMMENT '핸드폰번호', -- 핸드폰번호
   zip_code       INTEGER(6)   NOT NULL COMMENT '우편번호', -- 우편번호
   basic_address  VARCHAR(50)  NOT NULL COMMENT '기본주소', -- 기본주소

@@ -45,10 +45,10 @@ public class MybatisConfig {
     // SqlSessionFactory 이다.
     SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
     sqlSessionFactoryBean.setDataSource(dataSource);
-    sqlSessionFactoryBean.setTypeAliasesPackage("com.eomcs.lms.domain");
+    sqlSessionFactoryBean.setTypeAliasesPackage("com.keep.root.domain");
     sqlSessionFactoryBean.setMapperLocations(//
         // Spring IoC 컨테이너를 통해 SQL 맵퍼 파일의 위치 정보를 가져온다.
-        appCtx.getResources("classpath:com/eomcs/lms/mapper/*Mapper.xml"));
+        appCtx.getResources("classpath:com/keep/root/mapper/UserMapper.xml"));
     return sqlSessionFactoryBean.getObject();
   }
 }

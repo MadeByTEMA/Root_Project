@@ -1,14 +1,16 @@
-package com.eomcs.lms.servlet;
+package com.keep.root.servlet;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import com.eomcs.lms.AppConfig;
+
+import com.keep.root.AppConfig;
 
 @WebServlet(value = "/AppInitServlet", loadOnStartup = 1)
 public class AppInitServlet extends HttpServlet {

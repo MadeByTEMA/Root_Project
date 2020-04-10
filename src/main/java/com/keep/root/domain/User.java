@@ -5,11 +5,11 @@ import java.sql.Date;
 public class User {
 
   int no;
+  String email;
+  String password;
   String name;
   Date birth;
   int gender;
-  String email;
-  String password;
   String tel;
   int zipCode;
   String basicAddr;
