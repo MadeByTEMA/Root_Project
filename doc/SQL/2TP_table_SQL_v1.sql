@@ -216,13 +216,14 @@ ALTER TABLE review_days
 
 -- 장소리뷰
 CREATE TABLE review_place (
-  review_place_no INTEGER      NOT NULL COMMENT '장소리뷰번호', -- 장소리뷰번호
-  place_name      VARCHAR(30)  NOT NULL COMMENT '장소명', -- 장소명
-  place_address   VARCHAR(50)  NOT NULL COMMENT '주소', -- 주소
-  place_review    TEXT         NOT NULL COMMENT '장소후기', -- 장소후기
-  main_photo      VARCHAR(255) NOT NULL COMMENT '대표사진', -- 대표사진
-  review_day_no   INTEGER      NOT NULL COMMENT '데이리뷰번호', -- 데이리뷰번호
-  status          INTEGER      NOT NULL COMMENT '공개여부' -- 공개여부
+  review_place_no      INTEGER      NOT NULL COMMENT '장소리뷰번호', -- 장소리뷰번호
+  place_name           VARCHAR(30)  NOT NULL COMMENT '장소명', -- 장소명
+  place_basic_address  VARCHAR(50)  NOT NULL COMMENT '기본주소', -- 기본주소
+  place_detail_address VARCHAR(50)  NULL     COMMENT '상세주소', -- 상세주소
+  place_review         TEXT         NOT NULL COMMENT '장소후기', -- 장소후기
+  main_photo           VARCHAR(255) NOT NULL COMMENT '대표사진', -- 대표사진
+  review_day_no        INTEGER      NOT NULL COMMENT '데이리뷰번호', -- 데이리뷰번호
+  status               INTEGER      NOT NULL COMMENT '공개여부' -- 공개여부
 )
 COMMENT '장소리뷰';
 
@@ -509,3 +510,4 @@ ALTER TABLE info_photo
     REFERENCES info_places ( -- 인포장소
       place_no -- 인포장소번호
     );
+    
