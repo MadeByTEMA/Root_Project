@@ -58,7 +58,7 @@
     select 
     email,
     password,
-    user_name
+    user_name,
     birthday,
     gender,
     phone_number,
@@ -78,7 +78,7 @@
     select 
     email,
     password,
-    user_name
+    user_name,
     birthday,
     gender,
     phone_number,
@@ -128,7 +128,7 @@
     select 
     email,
     password,
-    user_name
+    user_name,
     birthday,
     gender,
     phone_number,
@@ -153,7 +153,7 @@
     select 
     email,
     password,
-    user_name
+    user_name,
     birthday,
     gender,
     phone_number,

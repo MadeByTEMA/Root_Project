@@ -1,7 +1,8 @@
-package com.eomcs.lms.servlet;
+package com.keep.root.servlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,17 +10,18 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.context.ApplicationContext;
-import com.eomcs.lms.domain.Member;
-import com.eomcs.lms.service.MemberService;
+
+import com.keep.root.domain.User;
+import com.keep.root.service.UserService;
 
 @WebServlet("/auth/login")
 public class LoginServlet extends HttpServlet {
   private static final long serialVersionUID = 1L;
 
   @Override
-  protected void doGet(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
       String email = "";
       Cookie[] cookies = request.getCookies();
@@ -55,16 +57,14 @@ public class LoginServlet extends HttpServlet {
   }
 
   @Override
-  protected void doPost(HttpServletRequest request, HttpServletResponse response)
-      throws ServletException, IOException {
+  protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
     try {
       response.setContentType("text/html;charset=UTF-8");
       PrintWriter out = response.getWriter();
 
       ServletContext servletContext = getServletContext();
-      ApplicationContext iocContainer =
-          (ApplicationContext) servletContext.getAttribute("iocContainer");
-      MemberService memberService = iocContainer.getBean(MemberService.class);
+      ApplicationContext iocContainer = (ApplicationContext) servletContext.getAttribute("iocContainer");
+      UserService userService = iocContainer.getBean(UserService.class);
 
       String email = request.getParameter("email");
       String password = request.getParameter("password");
@@ -78,13 +78,13 @@ public class LoginServlet extends HttpServlet {
       }
       response.addCookie(cookie);
 
-      Member member = memberService.get(email, password);
+      User user = userService.get(email, password);
 
       out.println("<!DOCTYPE html>");
       out.println("<html>");
       out.println("<head>");
       out.println("<meta charset='UTF-8'>");
-      if (member != null) {
+      if (user != null) {
         out.println("<meta http-equiv='refresh' content='2;url=../index.html'>");
       } else {
         out.println("<meta http-equiv='refresh' content='2;url=login'>");
@@ -94,11 +94,12 @@ public class LoginServlet extends HttpServlet {
       out.println("<body>");
       out.println("<h1>로그인 결과</h1>");
 
-      if (member != null) {
-        out.printf("<p>'%s'님 환영합니다.</p>\n", member.getName());
-        request.getSession().setAttribute("loginUser", member);
+      if (user != null) {
+        out.printf("<p>'%s'님 환영합니다.</p>\n", user.getName());
+        request.getSession().setAttribute("loginUser", user);
       } else {
         out.println("<p>사용자 정보가 유효하지 않습니다.</p>");
+        request.getSession().setAttribute("loginUser", user);
       }
 
       out.println("</body>");
