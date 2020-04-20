@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 
-<jsp:include page="/header.jsp"/>
+<jsp:include page="../header.jsp"/>
 
 <h1>회원가입</h1>
 <form action='add' method='post' enctype='multipart/form-data'>
@@ -15,10 +15,10 @@
 우편번호: <input name='zipCode' type='text'><br>
 기본주소: <input name='basicAddr' type='text'><br>
 상세주소: <input name='detailAddr' type='text'><br>
-사진: <input name='photo' type='file'><br>
+사진: <input name='photoFile' type='file'><br>
 별명: <input name='nickName' type='text'><br>
 <button>등록</button>
 </form>
 
-<jsp:include page="/footer.jsp"/>
+<jsp:include page="../footer.jsp"/>
     

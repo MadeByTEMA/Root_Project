@@ -28,16 +28,16 @@ div.container {
 <div class='collapse navbar-collapse' id='navbarNav'>
   <ul class='navbar-nav mr-auto'>
       <li class="nav-item">
-        <a class="nav-link" href="course/list">코스짜기</a>
+        <a class="nav-link" href="../course/list">코스짜기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="review/list">후기쓰기</a>
+        <a class="nav-link" href="../review/list">후기쓰기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="info/list">공지</a>
+        <a class="nav-link" href="../info/list">공지</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="user/add">로그인</a>
+        <a class="nav-link" href="../auth/form">로그인</a>
     </li>
   </ul>
 <c:if test="${not empty loginUser}">
