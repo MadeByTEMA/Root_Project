@@ -4,17 +4,12 @@ import java.sql.Date;
 import java.util.List;
 
 public class CourseDay {
+
   int no;
   String title;
   Date dayDate;
   Course course;
   List<CoursePlace> coursePlace;
-
-  @Override
-  public String toString() {
-    return "CourseDay [no=" + no + ", title=" + title + ", dayDate=" + dayDate + ", course=" + course + ", coursePlace="
-        + coursePlace + "]";
-  }
 
   public int getNo() {
     return no;
@@ -54,6 +49,12 @@ public class CourseDay {
 
   public void setCoursePlace(List<CoursePlace> coursePlace) {
     this.coursePlace = coursePlace;
+  }
+
+  @Override
+  public String toString() {
+    return "CourseDay [no=" + no + ", title=" + title + ", dayDate=" + dayDate + ", course=" + course + ", coursePlace="
+        + coursePlace + "]";
   }
 
 }

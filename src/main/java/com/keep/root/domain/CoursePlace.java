@@ -1,18 +1,13 @@
 package com.keep.root.domain;
 
 public class CoursePlace {
+
   int no;
   String placeName;
   String basicAddr;
   String detailAddr;
   String etc;
-  CourseDay day;
-
-  @Override
-  public String toString() {
-    return "CoursePlace [no=" + no + ", placeName=" + placeName + ", basicAddr=" + basicAddr + ", detailAddr="
-        + detailAddr + ", etc=" + etc + ", day=" + day + "]";
-  }
+  CourseDay courseDay;
 
   public int getNo() {
     return no;
@@ -54,12 +49,18 @@ public class CoursePlace {
     this.etc = etc;
   }
 
-  public CourseDay getDay() {
-    return day;
+  public CourseDay getCourseDay() {
+    return courseDay;
   }
 
-  public void setDay(CourseDay day) {
-    this.day = day;
+  public void setCourseDay(CourseDay courseDay) {
+    this.courseDay = courseDay;
+  }
+
+  @Override
+  public String toString() {
+    return "CoursePlace [no=" + no + ", placeName=" + placeName + ", basicAddr=" + basicAddr + ", detailAddr="
+        + detailAddr + ", etc=" + etc + ", courseDay=" + courseDay + "]";
   }
 
 }

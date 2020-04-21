@@ -1,22 +1,14 @@
 package com.keep.root.domain;
 
-import java.io.Serializable;
 import java.sql.Date;
 import java.util.List;
 
-public class Course implements Serializable {
-
-  private static final long serialVersionUID = 20200409L;
+public class Course {
 
   int no;
   User user;
   Date createdDate;
-  List<CourseDay> coursewDay;
-
-  @Override
-  public String toString() {
-    return "Course [no=" + no + ", user=" + user + ", createdDate=" + createdDate + ", coursewDay=" + coursewDay + "]";
-  }
+  List<CourseDay> courseDay;
 
   public int getNo() {
     return no;
@@ -42,12 +34,17 @@ public class Course implements Serializable {
     this.createdDate = createdDate;
   }
 
-  public List<CourseDay> getCoursewDay() {
-    return coursewDay;
+  public List<CourseDay> getCourseDay() {
+    return courseDay;
   }
 
-  public void setCoursewDay(List<CourseDay> coursewDay) {
-    this.coursewDay = coursewDay;
+  public void setCourseDay(List<CourseDay> courseDay) {
+    this.courseDay = courseDay;
+  }
+
+  @Override
+  public String toString() {
+    return "Course [no=" + no + ", user=" + user + ", createdDate=" + createdDate + ", courseDay=" + courseDay + "]";
   }
 
 }

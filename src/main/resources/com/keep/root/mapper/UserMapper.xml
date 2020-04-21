@@ -56,6 +56,7 @@
   
   <select id="findAll" resultMap="UserMap">
     select 
+    user_no,
     email,
     password,
     user_name,
@@ -76,6 +77,7 @@
   
   <select id="findByNo" resultMap="UserMap" parameterType="int">
     select 
+    user_no,
     email,
     password,
     user_name,
@@ -126,6 +128,7 @@
     parameterType="string">
     <bind name="keywordPattern" value="'%' + _parameter + '%'"/>
     select 
+    user_no,
     email,
     password,
     user_name,
@@ -150,7 +153,8 @@
   <select id="findByEmailAndPassword" 
     resultMap="UserMap" 
     parameterType="map">
-    select 
+    select
+    user_no, 
     email,
     password,
     user_name,
