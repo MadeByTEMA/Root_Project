@@ -36,6 +36,7 @@ public class CourseDayServiceImpl implements CourseDayService {
     } else {
       List<CoursePlace> coursePlaces = courseDay.getCoursePlace();
       for (CoursePlace coursePlace : coursePlaces) {
+        coursePlace.setCourseDay(courseDay);
         if (coursePlaceDao.insert(coursePlace) == 0) {
           throw new Exception("장소 추가에 실패했습니다.");
         }
@@ -55,7 +56,9 @@ public class CourseDayServiceImpl implements CourseDayService {
 
   @Override
   public CourseDay get(int no) throws Exception {
-    return courseDayDao.findByNo(no);
+    CourseDay courseDay = courseDayDao.findByNo(no);
+    courseDay.setCoursePlace(coursePlaceDao.findAllByCourseDayNo(courseDay.getNo()));
+    return courseDay;
   }
 
   @Transactional

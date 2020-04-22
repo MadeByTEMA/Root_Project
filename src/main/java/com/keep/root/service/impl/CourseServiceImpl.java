@@ -9,8 +9,10 @@ import org.springframework.transaction.support.TransactionTemplate;
 
 import com.keep.root.dao.CourseDao;
 import com.keep.root.dao.CourseDayDao;
+import com.keep.root.dao.CoursePlaceDao;
 import com.keep.root.domain.Course;
 import com.keep.root.domain.CourseDay;
+import com.keep.root.domain.CoursePlace;
 import com.keep.root.service.CourseService;
 
 @Component
@@ -19,11 +21,18 @@ public class CourseServiceImpl implements CourseService {
   TransactionTemplate transactionTemplate;
   CourseDao courseDao;
   CourseDayDao courseDayDao;
+  CoursePlaceDao coursePlaceDao;
 
-  public CourseServiceImpl(PlatformTransactionManager txManager, CourseDao courseDao, CourseDayDao courseDayDao) {
+  public CourseServiceImpl( //
+      PlatformTransactionManager txManager, //
+      CourseDao courseDao, //
+      CourseDayDao courseDayDao, //
+      CoursePlaceDao coursePlaceDao //
+  ) {
     this.transactionTemplate = new TransactionTemplate(txManager);
     this.courseDao = courseDao;
     this.courseDayDao = courseDayDao;
+    this.coursePlaceDao = coursePlaceDao;
   }
 
   @Transactional
@@ -35,7 +44,18 @@ public class CourseServiceImpl implements CourseService {
     } else {
       List<CourseDay> courseDays = course.getCourseDay();
       for (CourseDay courseDay : courseDays) {
-        courseDayDao.insert(courseDay);
+        courseDay.setCourse(course);
+        if (courseDayDao.insert(courseDay) == 0) {
+          throw new Exception("일정 추가에 실패했습니다.");
+        } else {
+          List<CoursePlace> coursePlaces = courseDay.getCoursePlace();
+          for (CoursePlace coursePlace : coursePlaces) {
+            coursePlace.setCourseDay(courseDay);
+            if (coursePlaceDao.insert(coursePlace) == 0) {
+              throw new Exception("장소 추가에 실패했습니다.");
+            }
+          }
+        }
       }
     }
     return result;
@@ -45,6 +65,10 @@ public class CourseServiceImpl implements CourseService {
   public List<Course> list(int userNo) throws Exception {
     List<Course> courses = courseDao.findAllByUserNo(userNo);
     for (Course course : courses) {
+      List<CourseDay> courseDays = courseDayDao.findAllByCourseNo(course.getNo());
+      for (CourseDay courseDay : courseDays) {
+        courseDay.setCoursePlace(coursePlaceDao.findAllByCourseDayNo(courseDay.getNo()));
+      }
       course.setCourseDay(courseDayDao.findAllByCourseNo(course.getNo()));
     }
     return courses;
@@ -52,7 +76,14 @@ public class CourseServiceImpl implements CourseService {
 
   @Override
   public Course get(int no) throws Exception {
-    return courseDao.findByNo(no);
+    System.out.println("짜잔 get 호출 됐지롱");
+    Course course = courseDao.findByNo(no);
+    List<CourseDay> courseDays = courseDayDao.findAllByCourseNo(course.getNo());
+    for (CourseDay courseDay : courseDays) {
+      courseDay.setCoursePlace(coursePlaceDao.findAllByCourseDayNo(courseDay.getNo()));
+    }
+    course.setCourseDay(courseDayDao.findAllByCourseNo(course.getNo()));
+    return course;
   }
 
   @Transactional
@@ -66,6 +97,10 @@ public class CourseServiceImpl implements CourseService {
   public int delete(int no) throws Exception {
     List<CourseDay> courseDays = courseDayDao.findAllByCourseNo(no);
     for (CourseDay courseDay : courseDays) {
+      List<CoursePlace> coursePlaces = coursePlaceDao.findAllByCourseDayNo(courseDay.getNo());
+      for (CoursePlace coursePlace : coursePlaces) {
+        coursePlaceDao.delete(coursePlace.getNo());
+      }
       courseDayDao.delete(courseDay.getNo());
     }
     return courseDao.delete(no);

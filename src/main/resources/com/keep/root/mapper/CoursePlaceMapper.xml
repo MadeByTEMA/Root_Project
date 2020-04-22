@@ -19,11 +19,11 @@
   
   <insert id="insert" parameterType="CoursePlace"
     useGeneratedKeys="true" keyColumn="place_no" keyProperty="no">
-    insert into courses(place_name,place_basic_address,place_detail_address,etc,course_day_no)
+    insert into course_places(place_name,place_basic_address,place_detail_address,etc,course_day_no)
     values(#{placeName}, #{basicAddr}, #{detailAddr}, #{etc}, #{courseDay.no})
   </insert>
   
-  <select id="findAllByCourseNo" resultMap="CoursePlaceMap" parameterType="int">
+  <select id="findAllByCourseDayNo" resultMap="CoursePlaceMap" parameterType="int">
     select 
       place_no,
       place_name,

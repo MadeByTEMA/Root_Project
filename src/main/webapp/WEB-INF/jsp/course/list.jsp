@@ -14,12 +14,12 @@
     <th>코스작성일</th>
   </tr>
 
-  <c:forEach items="${list}" var="courselist">
-    <c:forEach items="${courselist.courseDay}" var="daylist">
+  <c:forEach items="${list}" var="course">
+    <c:forEach items="${course.courseDay}" var="courseday">
       <tr>
-        <td>${daylist.title}</td> 
-        <td>${daylist.dayDate}</td> 
-        <td>${courselist.createdDate}</td> 
+        <td><a href='detail?no=${course.no}'>${courseday.title}</a></td> 
+        <td>${courseday.dayDate}</td> 
+        <td>${course.createdDate}</td> 
       </tr>
    </c:forEach>
   </c:forEach>

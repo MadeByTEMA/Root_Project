@@ -51,10 +51,4 @@ public class CourseDay {
     this.coursePlace = coursePlace;
   }
 
-  @Override
-  public String toString() {
-    return "CourseDay [no=" + no + ", title=" + title + ", dayDate=" + dayDate + ", course=" + course + ", coursePlace="
-        + coursePlace + "]";
-  }
-
 }

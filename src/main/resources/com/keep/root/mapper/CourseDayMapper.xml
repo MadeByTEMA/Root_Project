@@ -21,7 +21,7 @@
   
   <insert id="insert" parameterType="CourseDay"
     useGeneratedKeys="true" keyColumn="course_day_no" keyProperty="no">
-    insert into courses(title,day_date,course_no)
+    insert into course_days(title,day_date,course_no)
     values(#{title}, #{dayDate}, #{course.no})
   </insert>
   
