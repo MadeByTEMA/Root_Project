@@ -11,6 +11,19 @@ public class CourseDay {
   Course course;
   List<CoursePlace> coursePlace;
 
+  public CourseDay() {
+  }
+
+  public CourseDay( //
+      String title, //
+      Date dayDate, //
+      List<CoursePlace> coursePlace //
+  ) {
+    this.title = title;
+    this.dayDate = dayDate;
+    this.coursePlace = coursePlace;
+  }
+
   public int getNo() {
     return no;
   }

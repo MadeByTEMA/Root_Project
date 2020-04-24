@@ -50,6 +50,7 @@ public class CourseController {
       HttpSession session, //
       String title, //
       Date dayDate, //
+
       String placeName, //
       String basicAddr, //
       String detailAddr, //
@@ -60,19 +61,15 @@ public class CourseController {
       throw new Exception("유저 번호가 유효하지 않습니다.");
     }
     course.setUser(user);
-    CoursePlace courseplace = new CoursePlace();
-    courseplace.setPlaceName(placeName);
-    courseplace.setBasicAddr(basicAddr);
-    courseplace.setDetailAddr(detailAddr);
-    courseplace.setEtc(etc);
+
+    CoursePlace courseplace = new CoursePlace(placeName, basicAddr, detailAddr, etc);
     List<CoursePlace> courseplaces = new LinkedList<>();
     courseplaces.add(courseplace);
-    CourseDay courseday = new CourseDay();
-    courseday.setTitle(title);
-    courseday.setDayDate(dayDate);
-    courseday.setCoursePlace(courseplaces);
+
+    CourseDay courseday = new CourseDay(title, dayDate, courseplaces);
     List<CourseDay> coursedays = new LinkedList<>();
     coursedays.add(courseday);
+
     course.setCourseDay(coursedays);
     courseService.add(course);
     return "redirect:list?userNo=" + user.getNo();

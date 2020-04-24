@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.keep.root.dao.ReviewDayDao">
+
+  <resultMap type="ReviewDay" id="ReviewDayMap">
+    <id column="review_day_no"  property="no"/>
+    <result column="title"    property="title"/>
+    <result column="day_date"    property="dayDate"/>
+    <result column="day_review"    property="mainReview"/>
+    <result column="main_photo"    property="mainPhoto"/>
+    <result column="status"    property="status"/>
+    
+    <association property="review" javaType="Review">
+      <id column="review_no"  property="no"/>
+    </association>
+    
+    <collection property="reviewPlace" ofType="ReviewPlace">
+      <id column="review_place_no"   property="no"/>
+    </collection>
+  </resultMap>
+  
+  <insert id="insert" parameterType="ReviewDay"
+    useGeneratedKeys="true" keyColumn="review_day_no" keyProperty="no">
+    insert into review_days(title,day_date,day_review,status,main_photo,review_no)
+    values(#{title}, #{dayDate}, #{mainReview}, #{status}, #{mainPhoto}, #{review.no})
+  </insert>
+  
+  <select id="findAllByReviewNo" resultMap="ReviewDayMap" parameterType="int">
+    select 
+      review_day_no,
+      title,
+      day_date,
+      day_review,
+      main_photo,
+      status
+    from review_days
+    where
+      review_no=#{no}
+    order by
+      review_day_no desc
+  </select>
+
+  
+  <select id="findByNo" resultMap="ReviewDayMap" parameterType="int">
+    select 
+      d.review_day_no,
+      d.title,
+      d.day_date,
+      d.day_review,
+      d.main_photo,
+      d.status,
+      r.review_no,
+      p.review_place_no
+    from review_days d
+      inner join reviews r on d.review_no=r.review_no
+      left outer join review_places p on d.review_day_no=p.review_day_no
+    where 
+      d.review_day_no=#{no}
+  </select>
+  
+  <update id="update" parameterType="ReviewDay">
+    update review_days
+    <set>
+      <if test="title != null and title != ''">title=#{title},</if> 
+      <if test="dayDate != null and dayDate != ''">day_date=#{dayDate},</if>
+    </set>
+    where 
+      review_day_no=#{no}
+  </update>
+  
+  <delete id="delete" parameterType="int">
+    delete from review_days
+    where review_day_no=#{no}
+  </delete>
+  
+</mapper>
+
+
+
+
+
+
+

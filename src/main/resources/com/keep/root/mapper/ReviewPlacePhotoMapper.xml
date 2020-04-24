@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.keep.root.dao.ReviewPlacePhotoDao">
+
+  <resultMap type="ReviewPlacePhoto" id="ReviewPlacePhotoMap">
+    <id column="photo_no"  property="no"/>
+    <result column="photo_file"    property="photo"/>
+    
+    <association property="reviewPlace" javaType="ReviewPlace">
+      <id column="review_place_no"  property="no"/>
+    </association>
+  </resultMap>
+    
+  <insert id="insert" parameterType="ReviewPlace"
+    useGeneratedKeys="true" keyColumn="photo_no" keyProperty="no">
+    insert into review_place_photo(photo_file,review_place_no)
+    values(#{photo}, #{reviewPlace.no})
+  </insert>
+  
+  <select id="findAllByReviewPlaceNo" resultMap="ReviewPlacePhotoMap" parameterType="int">
+    select 
+      photo_no,
+      photo_file
+    from review_place_photo
+    where
+      review_place_no=#{no}
+    order by
+      photo_no desc
+  </select>
+
+  
+  <select id="findByNo" resultMap="ReviewPlacePhotoMap" parameterType="int">
+    select 
+      t.photo_no,
+      t.photo_file,
+      p.review_place_no
+    from review_place_photo t
+      inner join review_place p on t.review_place_no=p.review_place_no
+    where 
+      t.photo_no=#{no}
+  </select>
+  
+  <delete id="delete" parameterType="int">
+    delete from review_place_photo
+    where photo_no=#{no}
+  </delete>
+  
+</mapper>
+
+
+
+
+
+
+

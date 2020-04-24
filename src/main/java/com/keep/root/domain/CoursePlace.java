@@ -9,6 +9,16 @@ public class CoursePlace {
   String etc;
   CourseDay courseDay;
 
+  public CoursePlace() {
+  }
+
+  public CoursePlace(String placeName, String basicAddr, String detailAddr, String etc) {
+    this.placeName = placeName;
+    this.basicAddr = basicAddr;
+    this.detailAddr = detailAddr;
+    this.etc = etc;
+  }
+
   public int getNo() {
     return no;
   }
