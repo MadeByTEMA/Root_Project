@@ -44,7 +44,8 @@ div.container {
     </li>
   </ul>
 <c:if test="${not empty loginUser}">
-  <span class='navbar-text'>${loginUser.name}</span>
+  <span class='navbar-text'>${loginUser.name} ${loginUser.point} Point</span>
+  <a href='../mypage/form' class='btn btn-success btn-sm'>MyPage</a>
   <a href='../auth/logout' class='btn btn-success btn-sm'>로그아웃</a>
 </c:if>
 <c:if test="${empty loginUser}">

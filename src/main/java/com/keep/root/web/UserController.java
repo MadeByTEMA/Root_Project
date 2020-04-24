@@ -33,6 +33,10 @@ public class UserController {
   public void form() {
   }
 
+  @GetMapping("updateform")
+  public void updateform() {
+  }
+
   @PostMapping("add")
   public String add(User user, MultipartFile photoFile) throws Exception {
     if (photoFile.getSize() > 0) {

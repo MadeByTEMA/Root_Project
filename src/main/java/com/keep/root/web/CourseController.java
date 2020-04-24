@@ -48,7 +48,6 @@ public class CourseController {
   @RequestMapping("add")
   public String add(//
       HttpSession session, //
-      Model model, //
       String title, //
       Date dayDate, //
       String placeName, //
