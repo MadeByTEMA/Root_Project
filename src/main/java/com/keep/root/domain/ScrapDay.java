@@ -1,15 +1,25 @@
 package com.keep.root.domain;
 
-import java.sql.Date;
-import java.util.List;
-
 public class ScrapDay {
-  int no;
-  String mainPhoto;
-  String title;
-  Date dayDate;
-  String mainReview;
-  int status;
-  Scrap scrap;
-  List<ScrapPlace> ScrapPlace;
+  User user;
+  ReviewDay reviewDay;
+  
+  @Override
+  public String toString() {
+    return "ScrapDay [user=" + user + ", reviewDay=" + reviewDay + "]";
+  }
+  
+  public User getUser() {
+    return user;
+  }
+  public void setUser(User user) {
+    this.user = user;
+  }
+  public ReviewDay getReviewDay() {
+    return reviewDay;
+  }
+  public void setReviewDay(ReviewDay reviewDay) {
+    this.reviewDay = reviewDay;
+  }
+  
 }
