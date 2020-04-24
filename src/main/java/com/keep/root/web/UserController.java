@@ -88,9 +88,9 @@ public class UserController {
       photoFile.transferTo(new File(dirPath + "/" + filename));
       user.setPhoto(filename);
     }
-
+    System.out.printf("사진이다 ------------------------------ %s \n", user.getPhoto());
     if (userService.update(user) > 0) {
-      return "redirect:list";
+      return "redirect:../../index.html";
     } else {
       throw new Exception("변경할 회원 번호가 유효하지 않습니다.");
     }

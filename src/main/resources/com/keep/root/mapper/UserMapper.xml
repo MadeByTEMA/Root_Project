@@ -103,15 +103,15 @@
       <if test="email != null and email != ''">email=#{email},</if> 
       <if test="password != null and password != ''">password=password(#{password}),</if>
       <if test="name != null and name != ''">user_name=#{name},</if>
-      <if test="birth != null and birth != ''">birthday=#{birth},</if>
-      <if test="gender != null and gender != ''">gender=#{gender},</if>
+      <if test="birth != null">birthday=#{birth},</if>
+      <if test="gender > 0">gender=#{gender},</if>
       <if test="tel != null and tel != ''">phone_number=#{tel},</if>
-      <if test="zipCode != null and zipCode != ''">zip_code=#{zipCode},</if>
+      <if test="zipCode > 0">zip_code=#{zipCode},</if>
       <if test="basicAddr != null and basicAddr != ''">basic_address=#{basicAddr},</if>
       <if test="detailAddr != null and detailAddr != ''">detail_address=#{detailAddr},</if>
-      <if test="photo != null and photo != ''">photo=#{photo}</if>
-      <if test="nickName != null and nickName != ''">nickname=#{nickName}</if>
-      <if test="account != null and account != ''">account=#{account}</if>
+      <if test="photo != null and photo != ''">photo=#{photo},</if>
+      <if test="nickName != null and nickName != ''">nickname=#{nickName},</if>
+      <if test="account > 0">account=#{account},</if>
       <if test="bank != null and bank != ''">bank=#{bank}</if>
     </set>
     where 
