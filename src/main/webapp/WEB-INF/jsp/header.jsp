@@ -34,7 +34,7 @@ div.container {
         <a class="nav-link" href="../course/list">코스짜기</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="../scrap/list">후기쓰기</a>
+        <a class="nav-link" href="../review/list">후기쓰기</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="../info/list">공지</a>
