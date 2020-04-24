@@ -1,15 +1,26 @@
 package com.keep.root.domain;
 
-import java.util.List;
-
 public class ScrapPlace {
-  int no;
-  String name;
-  String basicAddr;
-  String detailAddr;
-  String placeReview;
-  String mainPhoto;
-  int status;
-  ScrapDay day;
-  List<ScrapPlacePhoto> scrapPlacePhotos;
+  User user;
+  ReviewPlace reviewPlace;
+  
+  @Override
+  public String toString() {
+    return "ScrapPlace [user=" + user + ", reviewPlace=" + reviewPlace + "]";
+  }
+  
+  public User getUser() {
+    return user;
+  }
+  public void setUser(User user) {
+    this.user = user;
+  }
+  public ReviewPlace getReviewPlace() {
+    return reviewPlace;
+  }
+  public void setReviewPlace(ReviewPlace reviewPlace) {
+    this.reviewPlace = reviewPlace;
+  }
+  
+  
 }
