@@ -1,7 +1,6 @@
 package com.keep.root.dao;
 
 import java.util.List;
-import java.util.Map;
 import com.keep.root.domain.ScrapPlace;
 
 // 데이터를 저장하고 꺼내는 방식(파일, 클라우드저장소, DB 등)에 상관없이
@@ -16,5 +15,5 @@ public interface ScrapPlaceDao {
 
   ScrapPlace findPlaceNo(int reviewPlaceNo) throws Exception;
 
-  int delete(Map<String, Integer> params) throws Exception;
+  int delete(int reviewPlaceNo) throws Exception;
 }

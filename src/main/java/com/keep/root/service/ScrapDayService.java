@@ -1,7 +1,6 @@
 package com.keep.root.service;
 
 import java.util.List;
-import java.util.Map;
 import com.keep.root.domain.ScrapDay;
 
 public interface ScrapDayService {
@@ -12,5 +11,5 @@ public interface ScrapDayService {
 
   ScrapDay get(int reviewDayNo) throws Exception;
 
-  int delete(Map<String, Integer> params) throws Exception;
+  int delete(int reviewDayNo) throws Exception;
 }

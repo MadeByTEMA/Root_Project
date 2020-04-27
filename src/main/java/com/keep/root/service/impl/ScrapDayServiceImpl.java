@@ -1,12 +1,10 @@
 package com.keep.root.service.impl;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import com.keep.root.dao.ScrapDayDao;
-import com.keep.root.dao.ScrapPlaceDao;
 import com.keep.root.domain.ScrapDay;
 import com.keep.root.service.ScrapDayService;
 
@@ -17,9 +15,9 @@ public class ScrapDayServiceImpl implements ScrapDayService {
   ScrapDayDao scrapDayDao;
 
   public ScrapDayServiceImpl( //
-      PlatformTransactionManager txManager, // 
+      PlatformTransactionManager txManager, //
       ScrapDayDao scrapDayDao //
-      ) {
+  ) {
     this.transactionTemplate = new TransactionTemplate(txManager);
     this.scrapDayDao = scrapDayDao;
   }
@@ -40,9 +38,9 @@ public class ScrapDayServiceImpl implements ScrapDayService {
   }
 
   @Override
-  public int delete(Map<String, Integer> params) throws Exception {
-    return scrapDayDao.delete(params);
+  public int delete(int reviewDayNo) throws Exception {
+    return scrapDayDao.delete(reviewDayNo);
   }
 
-  
+
 }
