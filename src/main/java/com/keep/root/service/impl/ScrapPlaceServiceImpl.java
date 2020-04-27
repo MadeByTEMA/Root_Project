@@ -1,7 +1,6 @@
 package com.keep.root.service.impl;
 
 import java.util.List;
-import java.util.Map;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
@@ -15,8 +14,7 @@ public class ScrapPlaceServiceImpl implements ScrapPlaceService {
   TransactionTemplate transactionTemplate;
   ScrapPlaceDao scrapPlaceDao;
 
-  public ScrapPlaceServiceImpl(PlatformTransactionManager txManager,
-      ScrapPlaceDao scrapPlaceDao) {
+  public ScrapPlaceServiceImpl(PlatformTransactionManager txManager, ScrapPlaceDao scrapPlaceDao) {
     this.transactionTemplate = new TransactionTemplate(txManager);
     this.scrapPlaceDao = scrapPlaceDao;
   }
@@ -29,7 +27,7 @@ public class ScrapPlaceServiceImpl implements ScrapPlaceService {
   @Override
   public List<ScrapPlace> list(int scrapDayNo) throws Exception {
     return scrapPlaceDao.findAll(scrapDayNo);
-    }
+  }
 
   @Override
   public ScrapPlace get(int reviewPlaceNo) throws Exception {
@@ -38,8 +36,8 @@ public class ScrapPlaceServiceImpl implements ScrapPlaceService {
   }
 
   @Override
-  public int delete(Map<String, Integer> params) throws Exception {
-    return scrapPlaceDao.delete(params);
+  public int delete(int reviewPlaceNo) throws Exception {
+    return scrapPlaceDao.delete(reviewPlaceNo);
   }
 
 }

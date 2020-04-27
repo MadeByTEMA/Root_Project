@@ -39,11 +39,10 @@
     order by
       review_place_no desc
   </select>
-
   
-  <delete id="delete" parameterType="int">
-    delete from course_days
-    where course_day_no=#{no}
+  <delete id="delete" parameterType="map" >
+    delete from place_scraps
+    where review_place_no=#{no}
   </delete>
   
 </mapper>

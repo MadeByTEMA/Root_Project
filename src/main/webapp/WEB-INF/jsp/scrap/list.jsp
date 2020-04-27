@@ -12,13 +12,15 @@
     <th>제목</th>
     <th>여행일</th>
     <th>메인후기</th>
+    <th>삭제</th>
   </tr>
 
   <c:forEach items="${day}" var="scrap">
       <tr>
-        <td>${scrap.reviewDay.title}</a></td> 
+        <td>${scrap.reviewDay.title}</td> 
         <td>${scrap.reviewDay.dayDate}</td> 
         <td>${scrap.reviewDay.mainReview}</td> 
+        <td><a href='delete?no=${scrap.reviewDay.no}'>삭제</a></td>
       </tr>
   </c:forEach>
 </table>
@@ -30,6 +32,7 @@
     <th>리뷰</th>
     <th>기본주소</th>
     <th>상세주소</th>
+    <th>삭제</th>
   </tr>
 <hr>
 <h5>장소 스크랩</h5>
@@ -40,6 +43,7 @@
         <td>${scrap.reviewPlace.placeReview.substring(0,10)}</td> 
         <td>${scrap.reviewPlace.basicAddr}</td> 
         <td>${scrap.reviewPlace.detailAddr}</td> 
+        <td><a href='delete?no=${scrap.reviewPlace.no}'>삭제</a></td>
       </tr>
   </c:forEach>
 </table>
