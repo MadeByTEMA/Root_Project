@@ -21,10 +21,10 @@ public class ScrapController {
 
   @Autowired
   ScrapDayService scrapDayService;
-  
+
   @Autowired
   ScrapPlaceService scrapPlaceService;
-  
+
   @Autowired
   UserService userService;
 
@@ -37,6 +37,13 @@ public class ScrapController {
     model.addAttribute("day", scrapDayService.list(user.getNo()));
     model.addAttribute("place", scrapPlaceService.list(user.getNo()));
   }
-  
-  
+
+  @GetMapping("delete")
+  public String delete(int no, HttpSession session, Model model) throws Exception {
+    model.addAttribute("day", scrapDayService.delete(no));
+    model.addAttribute("place", scrapPlaceService.delete(no));
+    return "redirect:list?sessionNo=" + session.getId();
+
+  }
+
 }

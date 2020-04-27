@@ -39,9 +39,9 @@
   </select>
 
   
-  <delete id="delete" parameterType="int">
-    delete from course_days
-    where course_day_no=#{no}
+  <delete id="delete" parameterType="map" >
+    delete from day_scraps
+    where review_day_no=#{no}
   </delete>
   
 </mapper>
