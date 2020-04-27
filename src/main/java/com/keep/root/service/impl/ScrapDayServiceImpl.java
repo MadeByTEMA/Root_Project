@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
 import com.keep.root.dao.ScrapDayDao;
-import com.keep.root.dao.ScrapPlaceDao;
 import com.keep.root.domain.ScrapDay;
 import com.keep.root.service.ScrapDayService;
 
@@ -17,9 +16,9 @@ public class ScrapDayServiceImpl implements ScrapDayService {
   ScrapDayDao scrapDayDao;
 
   public ScrapDayServiceImpl( //
-      PlatformTransactionManager txManager, // 
+      PlatformTransactionManager txManager, //
       ScrapDayDao scrapDayDao //
-      ) {
+  ) {
     this.transactionTemplate = new TransactionTemplate(txManager);
     this.scrapDayDao = scrapDayDao;
   }
@@ -44,5 +43,5 @@ public class ScrapDayServiceImpl implements ScrapDayService {
     return scrapDayDao.delete(params);
   }
 
-  
+
 }
