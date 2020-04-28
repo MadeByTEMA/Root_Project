@@ -21,14 +21,14 @@
     
   </tr>
   <c:forEach items="${course.courseDay}" var="courseDay">
-    <c:forEach items="${courseDay.coursePlace}" var="courseplace">
+    <c:forEach items="${courseDay.coursePlace}" var="coursePlace">
       <tr>
         <td>${courseDay.title}</td> 
         <td>${courseDay.dayDate}</td> 
-        <td>${courseplace.placeName}</td> 
-        <td>${courseplace.basicAddr}</td> 
-        <td>${courseplace.detailAddr}</td> 
-        <td>${courseplace.etc}</td> 
+        <td>${coursePlace.placeName}</td> 
+        <td>${coursePlace.basicAddr}</td> 
+        <td>${coursePlace.detailAddr}</td> 
+        <td>${coursePlace.etc}</td> 
       </tr>
    </c:forEach>
   </c:forEach>

@@ -21,17 +21,24 @@
     
   </tr>
   
-  <c:forEach items="${reviewday}" var="reviewDay">
-    <c:forEach items="${reviewDay.reviewPlace}" var="place">
+  <c:forEach items="${review.reviewDay}" var="reviewDay">
+      메인사진 : <img src='${pageContext.servletContext.contextPath}/upload/review/${reviewDay.mainPhoto}' width='360'><br>
+    <c:forEach items="${reviewDay.reviewPlace}" var="reviewPlace">
+      장소대표사진 : <img src='${pageContext.servletContext.contextPath}/upload/review/${reviewPlace.mainPhoto}' width='360'><br>
+      <c:forEach items="${reviewPlace.reviewPlacePhotos}" var="reviewPlacePhoto" varStatus="status">
+      <c:if test="${status.first}">
       <tr>
         <td>${reviewDay.title}</td> 
         <td>${reviewDay.dayDate}</td>
         <td>${reviewDay.mainReview}</td>  
-        <td>${place.name}</td> 
-        <td>${place.basicAddr}</td> 
-        <td>${place.detailAddr}</td> 
-        <td>${place.placeReview}</td> 
+        <td>${reviewPlace.name}</td> 
+        <td>${reviewPlace.basicAddr}</td> 
+        <td>${reviewPlace.detailAddr}</td> 
+        <td>${reviewPlace.placeReview}</td>
+        </c:if>
+        장소사진 : <img src='${pageContext.servletContext.contextPath}/upload/review/${reviewPlacePhoto.photo}' width='360'><br>
       </tr>
+     </c:forEach>
    </c:forEach>
   </c:forEach>
 </table>

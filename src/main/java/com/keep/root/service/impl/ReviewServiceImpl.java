@@ -61,6 +61,8 @@ public class ReviewServiceImpl implements ReviewService {
             } else {
               List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlace.getReviewPlacePhotos();
               for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
+                System.out.printf("내 사이즈얌!!!!!!!!!!%s \n", reviewPlacePhotos.size());
+                System.out.printf("나는 파일 실 저장시 이름이야! %s \n", reviewPlacePhoto.getPhoto());
                 reviewPlacePhoto.setReviewPlace(reviewPlace);
                 if (reviewPlacePhotoDao.insert(reviewPlacePhoto) == 0) {
                   throw new Exception("장소사진 추가에 실패했습니다.");
@@ -74,6 +76,7 @@ public class ReviewServiceImpl implements ReviewService {
     return result;
   }
 
+  @Transactional
   @Override
   public List<Review> list(int userNo) throws Exception {
     List<Review> reviews = reviewDao.findAllByUserNo(userNo);
@@ -91,12 +94,20 @@ public class ReviewServiceImpl implements ReviewService {
     return reviews;
   }
 
+  @Transactional
   @Override
   public Review get(int no) throws Exception {
-    System.out.println("짜잔 get 호출 됐지롱");
     Review review = reviewDao.findByNo(no);
     List<ReviewDay> reviewDays = reviewDayDao.findAllByReviewNo(review.getNo());
     for (ReviewDay reviewDay : reviewDays) {
+      List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
+      for (ReviewPlace reviewPlace : reviewPlaces) {
+        List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
+        for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
+          System.out.printf("나는 파일 호출시 이름이야! : %s \n", reviewPlacePhoto.getPhoto());
+        }
+        reviewPlace.setReviewPlacePhotos(reviewPlacePhotos);
+      }
       reviewDay.setReviewPlace(reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo()));
     }
     review.setReviewDay(reviewDayDao.findAllByReviewNo(review.getNo()));

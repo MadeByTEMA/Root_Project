@@ -61,6 +61,7 @@ public class CourseServiceImpl implements CourseService {
     return result;
   }
 
+  @Transactional
   @Override
   public List<Course> list(int userNo) throws Exception {
     List<Course> courses = courseDao.findAllByUserNo(userNo);

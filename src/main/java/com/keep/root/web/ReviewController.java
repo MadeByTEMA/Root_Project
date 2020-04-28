@@ -21,9 +21,6 @@ import com.keep.root.domain.ReviewDay;
 import com.keep.root.domain.ReviewPlace;
 import com.keep.root.domain.ReviewPlacePhoto;
 import com.keep.root.domain.User;
-import com.keep.root.service.ReviewDayService;
-import com.keep.root.service.ReviewPlacePhotoService;
-import com.keep.root.service.ReviewPlaceService;
 import com.keep.root.service.ReviewService;
 import com.keep.root.service.UserService;
 
@@ -36,15 +33,6 @@ public class ReviewController {
 
   @Autowired
   ReviewService reviewService;
-
-  @Autowired
-  ReviewDayService reviewDayService;
-
-  @Autowired
-  ReviewPlaceService reviewPlaceService;
-
-  @Autowired
-  ReviewPlacePhotoService reviewPlacePhotoService;
 
   @Autowired
   UserService userService;
@@ -80,15 +68,18 @@ public class ReviewController {
     review.setUser(user);
 
     List<ReviewPlacePhoto> reviewPlacePhotos = new LinkedList<>();
-    ReviewPlacePhoto revivewplacephoto = new ReviewPlacePhoto();
     for (MultipartFile photoFile : PlacePhotos) {
       if (photoFile.getSize() > 0) {
+        ReviewPlacePhoto revivewplacephoto = new ReviewPlacePhoto();
         String dirPath = servletContext.getRealPath("/upload/review");
         String filename = UUID.randomUUID().toString();
         photoFile.transferTo(new File(dirPath + "/" + filename));
         revivewplacephoto.setPhoto(filename);
+        reviewPlacePhotos.add(revivewplacephoto);
       }
-      reviewPlacePhotos.add(revivewplacephoto);
+    }
+    for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
+      System.out.printf("저장 된 파일 이름이야 !! %s \n", reviewPlacePhoto.getPhoto());
     }
 
     ReviewPlace reviewplace = new ReviewPlace(name, basicAddr, detailAddr, placeReview, placeStatus, reviewPlacePhotos);
@@ -130,7 +121,6 @@ public class ReviewController {
   @GetMapping("detail")
   public void detail(int no, Model model) throws Exception {
     model.addAttribute("review", reviewService.get(no));
-    model.addAttribute("reviewday", reviewDayService.list(no));
   }
 
   @GetMapping("delete")
