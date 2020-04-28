@@ -42,7 +42,7 @@
     where
       review_day_no=#{no}
     order by
-      review_place_no desc
+      review_place_no asc
   </select>
 
   

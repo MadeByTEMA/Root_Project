@@ -28,7 +28,7 @@
     where
       review_place_no=#{no}
     order by
-      photo_no desc
+      photo_no asc
   </select>
 
   

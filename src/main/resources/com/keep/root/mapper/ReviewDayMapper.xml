@@ -40,7 +40,7 @@
     where
       review_no=#{no}
     order by
-      review_day_no desc
+      review_day_no asc
   </select>
 
   

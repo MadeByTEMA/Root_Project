@@ -54,6 +54,7 @@ public class CourseDayServiceImpl implements CourseDayService {
     return courseDays;
   }
 
+  @Transactional
   @Override
   public CourseDay get(int no) throws Exception {
     CourseDay courseDay = courseDayDao.findByNo(no);

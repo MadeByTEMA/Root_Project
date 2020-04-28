@@ -20,11 +20,14 @@ div.container {
   border: 1px solid gray;
   width: 600px;
 }
+.btn {
+margin-left: 5px;
+}
 </style>
 </head>
 <body>
 <nav class='navbar navbar-expand-lg navbar-dark bg-dark'>
-<a class='navbar-brand' href='#'>Root</a>
+<a class='navbar-brand' href="http://localhost:9999/Root_Project/index.html">Root</a>
 <button class='navbar-toggler' type='button' data-toggle='collapse' data-target='#navbarNav' aria-controls='navbarNav' aria-expanded='false' aria-label='Toggle navigation'>
   <span class='navbar-toggler-icon'></span>
 </button>
@@ -44,7 +47,7 @@ div.container {
     </li>
   </ul>
 <c:if test="${not empty loginUser}">
-  <span class='navbar-text'>${loginUser.name} ${loginUser.point} Point</span>
+  <span class='navbar-text'>${loginUser.nickName} ${loginUser.point} Point</span>
   <a href='../mypage/form' class='btn btn-success btn-sm'>MyPage</a>
   <a href='../auth/logout' class='btn btn-success btn-sm'>로그아웃</a>
 </c:if>

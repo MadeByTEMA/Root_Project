@@ -15,13 +15,27 @@
   </tr>
 
   <c:forEach items="${list}" var="course">
-    <c:forEach items="${course.courseDay}" var="courseday">
-      <tr>
-        <td><a href='detail?no=${course.no}'>${courseday.title}</a></td> 
-        <td>${courseday.dayDate}</td> 
-        <td>${course.createdDate}</td> 
-      </tr>
-   </c:forEach>
+  <c:set var="count" value="${status1.count}"/>
+    <tr>
+      <c:forEach items="${course.courseDay}" var="courseday" varStatus="status">
+        <c:if test="${status.first}">
+          <c:set var="startDate" value="${courseday.dayDate}"/>
+          <td><a href='detail?no=${course.no}'>${courseday.title}</a></td>
+        </c:if>
+        <c:if test="${status.last}">
+          <c:set var="endDate" value="${courseday.dayDate}"/>
+        </c:if>
+      </c:forEach>
+    <c:choose>
+      <c:when test="${startDate eq endDate}"> 
+        <td>${startDate}</td>
+      </c:when>
+      <c:otherwise>
+        <td>${startDate} ~ ${endDate}</td>
+      </c:otherwise>
+    </c:choose>
+    <td>${course.createdDate}</td> 
+    </tr>
   </c:forEach>
 </table>
 

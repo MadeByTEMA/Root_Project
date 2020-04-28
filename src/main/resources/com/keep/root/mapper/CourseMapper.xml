@@ -34,7 +34,7 @@
     where
       user_no=#{no}
     order by
-      course_no desc
+      course_no asc
   </select>
 
   

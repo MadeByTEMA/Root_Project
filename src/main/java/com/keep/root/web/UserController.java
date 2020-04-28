@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +46,6 @@ public class UserController {
       photoFile.transferTo(new File(dirPath + "/" + filename));
       user.setPhoto(filename);
     }
-
     if (userService.add(user) > 0) {
       return "redirect:list";
     } else {
@@ -80,7 +80,9 @@ public class UserController {
   @PostMapping("update")
   public String update( //
       User user, //
-      MultipartFile photoFile) throws Exception {
+      MultipartFile photoFile, //
+      HttpSession session //
+  ) throws Exception {
 
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
@@ -88,9 +90,9 @@ public class UserController {
       photoFile.transferTo(new File(dirPath + "/" + filename));
       user.setPhoto(filename);
     }
-    System.out.printf("사진이다 ------------------------------ %s \n", user.getPhoto());
+    session.setAttribute("loginUser", user);
     if (userService.update(user) > 0) {
-      return "redirect:../../index.html";
+      return "redirect:../mypage/form";
     } else {
       throw new Exception("변경할 회원 번호가 유효하지 않습니다.");
     }

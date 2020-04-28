@@ -74,9 +74,9 @@ public class CourseServiceImpl implements CourseService {
     return courses;
   }
 
+  @Transactional
   @Override
   public Course get(int no) throws Exception {
-    System.out.println("짜잔 get 호출 됐지롱");
     Course course = courseDao.findByNo(no);
     List<CourseDay> courseDays = courseDayDao.findAllByCourseNo(course.getNo());
     for (CourseDay courseDay : courseDays) {

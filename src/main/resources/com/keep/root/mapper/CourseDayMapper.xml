@@ -34,7 +34,7 @@
     where
       course_no=#{no}
     order by
-      course_day_no desc
+      course_day_no asc
   </select>
 
   

@@ -1,3 +1,4 @@
+<%@ page import="com.keep.root.domain.Course,com.keep.root.domain.CourseDay,com.keep.root.domain.CoursePlace,java.util.List"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
@@ -19,22 +20,21 @@
     <th>비고</th>
     
   </tr>
-  
-  <c:forEach items="${courseday}" var="courseDay">
-    <c:forEach items="${courseDay.coursePlace}" var="place">
+  <c:forEach items="${course.courseDay}" var="courseDay">
+    <c:forEach items="${courseDay.coursePlace}" var="courseplace">
       <tr>
         <td>${courseDay.title}</td> 
         <td>${courseDay.dayDate}</td> 
-        <td>${place.placeName}</td> 
-        <td>${place.basicAddr}</td> 
-        <td>${place.detailAddr}</td> 
-        <td>${place.etc}</td> 
+        <td>${courseplace.placeName}</td> 
+        <td>${courseplace.basicAddr}</td> 
+        <td>${courseplace.detailAddr}</td> 
+        <td>${courseplace.etc}</td> 
       </tr>
    </c:forEach>
   </c:forEach>
 </table>
 
-  <a href='delete?no=${course.no}&userNo=${course.user.no}'>삭제</a></p>
+  <a href='delete?no=${course.no}&userNo=${course.user.no}'>삭제</a>
 </c:if>
 
 <c:if test="${empty course}">

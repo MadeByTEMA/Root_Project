@@ -17,8 +17,6 @@ import com.keep.root.domain.Course;
 import com.keep.root.domain.CourseDay;
 import com.keep.root.domain.CoursePlace;
 import com.keep.root.domain.User;
-import com.keep.root.service.CourseDayService;
-import com.keep.root.service.CoursePlaceService;
 import com.keep.root.service.CourseService;
 import com.keep.root.service.UserService;
 
@@ -31,12 +29,6 @@ public class CourseController {
 
   @Autowired
   CourseService courseService;
-
-  @Autowired
-  CourseDayService courseDayService;
-
-  @Autowired
-  CoursePlaceService coursePlaceService;
 
   @Autowired
   UserService userService;
@@ -87,7 +79,6 @@ public class CourseController {
   @GetMapping("detail")
   public void detail(int no, Model model) throws Exception {
     model.addAttribute("course", courseService.get(no));
-    model.addAttribute("courseday", courseDayService.list(no));
   }
 
   @GetMapping("delete")
