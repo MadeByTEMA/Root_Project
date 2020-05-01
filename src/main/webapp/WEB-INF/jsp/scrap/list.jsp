@@ -20,7 +20,7 @@
         <td><a href='../review/detail?no=${scrap.reviewDay.no}'>${scrap.reviewDay.title}</td> 
         <td>${scrap.reviewDay.dayDate}</td> 
         <td>${scrap.reviewDay.mainReview}</td> 
-        <td><a href='delete?no=${scrap.reviewDay.no}'>삭제</a></td>
+        <td><button type="button" onclick="location.href='delete?no=${scrap.reviewDay.no}'">삭제</button></td>
       </tr>
   </c:forEach>
 </table>
@@ -38,12 +38,12 @@
 <h5>장소 스크랩</h5>
   <c:forEach items="${place}" var="scrap">
       <tr>
-        <td>${scrap.reviewPlace.name}</a></td> 
-        <td>${scrap.reviewPlace.mainPhoto}</a></td> 
+        <td>${scrap.reviewPlace.name}</td> 
+        <td>${scrap.reviewPlace.mainPhoto}</td> 
         <td>${scrap.reviewPlace.placeReview.substring(0,10)}</td> 
         <td>${scrap.reviewPlace.basicAddr}</td> 
         <td>${scrap.reviewPlace.detailAddr}</td> 
-        <td><a href='delete?no=${scrap.reviewPlace.no}'>삭제</a></td>
+        <td><button type="button" onclick="location.href='delete?no=${scrap.reviewPlace.no}'">삭제</button></td>
       </tr>
   </c:forEach>
 </table>
