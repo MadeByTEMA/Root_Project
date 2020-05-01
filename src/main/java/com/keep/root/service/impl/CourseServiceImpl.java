@@ -45,11 +45,13 @@ public class CourseServiceImpl implements CourseService {
       List<CourseDay> courseDays = course.getCourseDay();
       for (CourseDay courseDay : courseDays) {
         courseDay.setCourse(course);
+        System.out.println(courseDay.getTitle());
         if (courseDayDao.insert(courseDay) == 0) {
           throw new Exception("일정 추가에 실패했습니다.");
         } else {
           List<CoursePlace> coursePlaces = courseDay.getCoursePlace();
           for (CoursePlace coursePlace : coursePlaces) {
+            System.out.println(coursePlace.getBasicAddr());
             coursePlace.setCourseDay(courseDay);
             if (coursePlaceDao.insert(coursePlace) == 0) {
               throw new Exception("장소 추가에 실패했습니다.");

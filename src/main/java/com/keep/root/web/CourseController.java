@@ -43,23 +43,27 @@ public class CourseController {
       String title, //
       Date dayDate, //
 
-      String placeName, //
-      String basicAddr, //
-      String detailAddr, //
-      String etc, //
+      String[] placeNames, //
+      String[] basicAddrs, //
+      String[] detailAddrs, //
+      String[] etcs, //
       Course course) throws Exception {
     User user = (User) session.getAttribute("loginUser");
     if (user == null) {
       throw new Exception("유저 번호가 유효하지 않습니다.");
     }
+
     course.setUser(user);
 
-    CoursePlace courseplace = new CoursePlace(placeName, basicAddr, detailAddr, etc);
     List<CoursePlace> courseplaces = new LinkedList<>();
-    courseplaces.add(courseplace);
 
-    CourseDay courseday = new CourseDay(title, dayDate, courseplaces);
+    for (int i = 0; i < placeNames.length; i++) {
+      CoursePlace courseplace = new CoursePlace(placeNames[i], basicAddrs[i], detailAddrs[i], etcs[i]);
+      courseplaces.add(courseplace);
+    }
+
     List<CourseDay> coursedays = new LinkedList<>();
+    CourseDay courseday = new CourseDay(title, dayDate, courseplaces);
     coursedays.add(courseday);
 
     course.setCourseDay(coursedays);
