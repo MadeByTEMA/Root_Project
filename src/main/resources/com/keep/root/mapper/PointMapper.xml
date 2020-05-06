@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  
+   <mapper  namespace="com.keep.root.dao.PointDao">
+   
+    <resultMap type="Point" id="PointMap">
+	    <id column="point_no"   property="no"/>
+	    <result column="user_no"   property="userNo"/>
+	    <result column="trader_no"   property="traderNo"/>
+	    <result column="point_type"   property="pointType"/>
+	    <result column="content"   property="content"/>
+	    <result column="price"   property="price"/>
+	    
+	    <association property="user" javaType="User">
+      <id column="user_no"   property="no"/>
+      <result column="user_name"  property="name"/>
+      <result column="phone_number"  property="tel"/>
+      <result column="account"  property="account"/>
+      <result column="bank"  property="bank"/>
+      </association>
+      
+    </resultMap>
+   
+   <select id="insert" parameterType="Point">
+     insert into points
+       user_no, trader_no, point_type, content, price
+     values(#{userNo}, #{traderNo}, #{pointType}, #{content}, #{price})
+   </select>
+   
+   <select id="findAll" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price
+     from
+      points p
+     where
+      point_no
+   </select>
+   
+   <select id="findOutputByUserNo" resultMap="PointMap" parameterType="map">
+     select 
+      p.user_no,
+      p.trader_no,
+      u.user_name, 
+      u.phone_number,
+      u.account,
+      u.bank
+      from
+      points p 
+      inner join users u on (p.user_no=u.user_no) 
+      where
+      u.user_no
+   </select>
+   
+   <select id="find" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no,
+      p.trader_no,
+      p.user_no,
+      p.point_type,
+      p.content
+     from
+      points p
+     where
+      p.point_no=#{no}
+   </select>
+   
+   <select id="findByUserNo" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no,
+      p.user_no,
+      p.trader_no,
+      u.user_name, 
+      u.phone_number,
+      u.account,
+      u.bank
+     from
+      points p
+      inner join users u on p.user_no=u.user_no 
+     where 
+      p.user_no=#{no}
+   </select>
+   
+   <select id="findBytraderNo" resultMap="PointMap" parameterType="int">
+     select
+       p.trader_no 
+     from
+      points p
+      inner join users u on p.trader_no=u.user_no
+     where 
+      p.point_no=#{no}
+   </select>
+   
+   
+   <update id="update" parameterType="Point">
+     update points set
+      point_type=#{pointType},
+      content=#{content},
+      price=#{price}
+     where point_no=#{no}
+   </update>
+   
+   <delete id="delete" parameterType="int">
+    delete from points
+    where point_no=#{no}
+   </delete>
+   
+   </mapper>
