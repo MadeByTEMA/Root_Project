@@ -21,7 +21,6 @@ public class InfoController {
   @Autowired
   InfoService infoService;
 
-
   @RequestMapping("detail")
   public void detail(int no, Map<String, Object> model) throws Exception {
     Info info = infoService.get(no);
@@ -30,11 +29,8 @@ public class InfoController {
 
   @RequestMapping("list")
   public void list(Map<String, Object> model) throws Exception {
-	  System.out.println("호출1");
     List<Info> infos = infoService.list();
-	  System.out.println("호출2");
     model.put("list", infos);
-	  System.out.println("호출3");
   }
 
 }

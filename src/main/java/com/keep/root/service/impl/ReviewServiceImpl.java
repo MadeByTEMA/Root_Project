@@ -61,8 +61,6 @@ public class ReviewServiceImpl implements ReviewService {
             } else {
               List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlace.getReviewPlacePhotos();
               for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
-                System.out.printf("내 사이즈얌!!!!!!!!!!%s \n", reviewPlacePhotos.size());
-                System.out.printf("나는 파일 실 저장시 이름이야! %s \n", reviewPlacePhoto.getPhoto());
                 reviewPlacePhoto.setReviewPlace(reviewPlace);
                 if (reviewPlacePhotoDao.insert(reviewPlacePhoto) == 0) {
                   throw new Exception("장소사진 추가에 실패했습니다.");
@@ -104,7 +102,6 @@ public class ReviewServiceImpl implements ReviewService {
       for (ReviewPlace reviewPlace : reviewPlaces) {
         List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
         for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
-          System.out.printf("나는 파일 호출시 이름이야! : %s \n", reviewPlacePhoto.getPhoto());
         }
         reviewPlace.setReviewPlacePhotos(reviewPlacePhotos);
       }

@@ -12,21 +12,19 @@ import com.keep.root.service.InfoService;
 public class InfoServiceImpl implements InfoService {
 
   InfoDao infoDao;
-  
+
   public InfoServiceImpl(InfoDao infoDao) {
-	    this.infoDao = infoDao;
-	  }
+    this.infoDao = infoDao;
+  }
 
-@Override
-public Info get(int no) throws Exception {
-	return infoDao.findByNo(no);
-}
+  @Override
+  public Info get(int no) throws Exception {
+    return infoDao.findByNo(no);
+  }
 
-@Override
-public List<Info> list() throws Exception {
-	  System.out.println("서비스 : 호출");
-	return infoDao.findAll();
-}
+  @Override
+  public List<Info> list() throws Exception {
+    return infoDao.findAll();
+  }
 
- 
 }
