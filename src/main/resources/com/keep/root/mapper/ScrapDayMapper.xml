@@ -18,6 +18,11 @@
       <result column="day_review" property="mainReview"/>
       <result column="status" property="status"/>
     </association>
+    
+     <association property="review" javaType="Review">
+      <id column="review_no"  property="no"/>
+    </association>
+    
   </resultMap>
   
   
@@ -27,11 +32,13 @@
       s.review_day_no,
       d.main_photo,
       d.title,
+      d.review_no,
       d.day_date,
       d.day_review,
       d.status
     from day_scraps s
       inner join review_days d on s.review_day_no=d.review_day_no
+      left outer join reviews r on r.review_no=d.review_no
     where 
       s.user_no=#{no}
     order by

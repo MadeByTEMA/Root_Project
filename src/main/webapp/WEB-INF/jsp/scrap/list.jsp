@@ -17,7 +17,7 @@
 
   <c:forEach items="${day}" var="scrap">
       <tr>
-        <td><a href='../review/detail?no=${scrap.reviewDay.no}'>${scrap.reviewDay.title}</td> 
+        <td><a href='../review/detail?no=${scrap.review.no}'>${scrap.reviewDay.title}</td> 
         <td>${scrap.reviewDay.dayDate}</td> 
         <td>${scrap.reviewDay.mainReview}</td> 
         <td><button type="button" onclick="location.href='delete?no=${scrap.reviewDay.no}'">삭제</button></td>
