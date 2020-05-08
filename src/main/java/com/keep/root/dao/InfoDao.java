@@ -6,8 +6,8 @@ import com.keep.root.domain.Info;
 
 public interface InfoDao {
 
-	Info findByNo(int no) throws Exception;
-
 	List<Info> findAll() throws Exception;
+
+	Info findByNo(int no) throws Exception;
 
 }

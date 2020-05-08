@@ -11,16 +11,26 @@
     <result column="category" property="category"/>
     <result column="title"       property="title"/>
     <result column="content"  property="content"/>
+    <result column="photo_file"       property="photoFile"/>
     <result column="main_photo"    property="mainPhoto"/>
+        <result column="place"    property="placeName"/>
+    <result column="start_date"    property="startDate"/>
+    <result column="last_date"    property="endDate"/>
+    <result column="place_basic_address"    property="basicAddr"/>
+    <result column="place_detail_address"    property="detailAddr"/>
   </resultMap>
 
   <select id="findAll" resultMap="InfoMap">
-    select 
+   select 
     info_no,
     create_date,
-    category,
     title,
     content,
+    place,
+    start_date,
+    last_date,
+    place_basic_address,
+    place_basic_address,
     main_photo
     from 
       infos
@@ -30,10 +40,14 @@
   <select id="findByNo" resultMap="InfoMap" parameterType="int">
     select 
     info_no,
-    create_date,
-    category,
+     create_date,
     title,
     content,
+    place,
+    start_date,
+    last_date,
+    place_basic_address,
+    place_basic_address,
     main_photo
     from 
      infos
@@ -41,6 +55,21 @@
       info_no=#{no}
   </select>
   
+  <!--  
+    <select id="findByCategory" resultMap="InfoMap" parameterType="int">
+    select 
+	    info_no,
+	    create_date,
+	    category,
+	    title,
+	    content
+   from 
+   		infos
+    where 
+      category=#{category}
+  </select>
+  
+  -->
  
 
   

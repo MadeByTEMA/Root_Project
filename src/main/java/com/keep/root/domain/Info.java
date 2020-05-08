@@ -8,9 +8,23 @@ public class Info {
   int category;
   String title;
   String content;
+  String photoFile;
   String mainPhoto;
-  InfoPlace infoPlace;
+  String placeName;
+  Date startDate;
+  Date endDate;
+  String basicAddr;
+  String detailAddr;
+//List<InfoPhotoFile> infoPhotoFiles;
   
+  
+@Override
+public String toString() {
+	return "Info [no=" + no + ", createdDate=" + createdDate + ", category=" + category + ", title=" + title
+			+ ", content=" + content + ", photoFile=" + photoFile + ", mainPhoto=" + mainPhoto + ", startDate="
+			+ startDate + ", endDate=" + endDate + ", placeName=" + placeName + ", basicAddr=" + basicAddr
+			+ ", detailAddr=" + detailAddr + "]";
+}
 public int getNo() {
 	return no;
 }
@@ -41,23 +55,50 @@ public String getContent() {
 public void setContent(String content) {
 	this.content = content;
 }
+public String getPhotoFile() {
+	return photoFile;
+}
+public void setPhotoFile(String photoFile) {
+	this.photoFile = photoFile;
+}
 public String getMainPhoto() {
 	return mainPhoto;
 }
 public void setMainPhoto(String mainPhoto) {
 	this.mainPhoto = mainPhoto;
 }
-public InfoPlace getInfoPlace() {
-	return infoPlace;
+public Date getStartDate() {
+	return startDate;
 }
-public void setInfoPlace(InfoPlace infoPlace) {
-	this.infoPlace = infoPlace;
+public void setStartDate(Date startDate) {
+	this.startDate = startDate;
 }
-@Override
-public String toString() {
-	return "Info [no=" + no + ", createdDate=" + createdDate + ", category=" + category + ", title=" + title
-			+ ", content=" + content + ", mainPhoto=" + mainPhoto + ", infoPlace=" + infoPlace + "]";
+public Date getEndDate() {
+	return endDate;
+}
+public void setEndDate(Date endDate) {
+	this.endDate = endDate;
+}
+public String getPlaceName() {
+	return placeName;
+}
+public void setPlaceName(String placeName) {
+	this.placeName = placeName;
+}
+public String getBasicAddr() {
+	return basicAddr;
+}
+public void setBasicAddr(String basicAddr) {
+	this.basicAddr = basicAddr;
+}
+public String getDetailAddr() {
+	return detailAddr;
+}
+public void setDetailAddr(String detailAddr) {
+	this.detailAddr = detailAddr;
 }
   
   
+
+ 
 }

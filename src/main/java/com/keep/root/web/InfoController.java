@@ -23,8 +23,8 @@ public class InfoController {
 
   @RequestMapping("detail")
   public void detail(int no, Map<String, Object> model) throws Exception {
-    Info info = infoService.get(no);
-    model.put("info", info);
+    Info infos = infoService.get(no);
+    model.put("info", infos);
   }
 
   @RequestMapping("list")
@@ -32,5 +32,7 @@ public class InfoController {
     List<Info> infos = infoService.list();
     model.put("list", infos);
   }
+
+  
 
 }

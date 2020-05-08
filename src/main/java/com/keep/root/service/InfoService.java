@@ -10,4 +10,6 @@ public interface InfoService {
 
 	List<Info> list() throws Exception;
 
+	
+
 }

@@ -6,6 +6,7 @@
 <jsp:include page="../header.jsp"/>
 
 <h1>공지 사항</h1>
+
 <body>
   <table border='1' align="center">
   <tr align="center">
