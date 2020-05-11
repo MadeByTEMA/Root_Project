@@ -26,16 +26,146 @@
     var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
   }
   
+  {
+  var dragDropData = new Object();
+  var dragEvent = "";
+  }
+  
+  function input(obj) {
+    if (obj.parentNode.id=="placeForm") {
+      document.getElementById("showPlaceName").value = (obj.value);
+      /*
+      console.log($(obj.parentNode).index());
+      console.log(obj.value);
+      console.log(obj.parentNode.parentNode.parentNode);
+      console.log($(obj.parentNode).children('.placeName').value);
+      */
+    } else if (obj.parentNode.id==""){
+      var rightFieldDiv = document.getElementById("rightField");
+      var rightFieldChildDiv = null;
+      for (var i = 0; i < rightFieldDiv.childNodes.length; i++) {
+        if (i == $(obj.parentNode).index()) {
+          $(rightFieldDiv.childNodes[i]).find('.showPlaceName').val(obj.value);
+          break;
+        }
+      }
+    }
+  }
+  
+  function allowDrop(ev) {
+    ev.preventDefault();
+  }
+
+  function drag(ev) {
+    dragEvent = ev.target;
+    if (ev.target.parentNode.parentNode.id == "rightField") {
+      dragDropData.index = $(ev.target.parentNode).index();
+      var leftFieldDiv = document.getElementById("leftField");
+      for (var i = 0; i < leftFieldDiv.childNodes.length; i++) {
+        if (i == dragDropData.index) {
+          dragDropData.placeName = $(leftFieldDiv.childNodes[dragDropData.index]).find('.placeName').val();
+          dragDropData.basicAddr = $(leftFieldDiv.childNodes[dragDropData.index]).find('.basicAddr').val();
+          dragDropData.detailAddr = $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val();
+          dragDropData.etc = $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val();
+          break;
+        }
+      }
+    } else { // 가장 첫번째 place
+      dragDropData.index = "first";
+      var placeFormDiv = document.getElementById("placeForm");
+      dragDropData.placeName = $(placeFormDiv).find('.placeName').val();
+      dragDropData.basicAddr = $(placeFormDiv).find('.basicAddr').val();
+      dragDropData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
+      dragDropData.etc = $(placeFormDiv).find('.etc').val();
+    }
+  }
+
+  function drop(ev) {
+    ev.preventDefault();
+    var tempData = new Object();
+    tempData.index = $(ev.target.parentNode).index();
+    if (dragDropData.index == "first") { // drag가 가장 첫번째 place인지 확인
+      var leftFieldDiv = document.getElementById("leftField");
+      tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
+      tempData.basicAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val();
+      tempData.detailAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val();
+      tempData.etc = $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val();
+      
+      $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(dragDropData.placeName);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(dragDropData.basicAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(dragDropData.detailAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(dragDropData.etc);
+      
+      var placeFormDiv = document.getElementById("placeForm");
+      $(placeFormDiv).find('.placeName').val(tempData.placeName);
+      $(placeFormDiv).find('.basicAddr').val(tempData.basicAddr);
+      $(placeFormDiv).find('.detailAddr').val(tempData.detailAddr);
+      $(placeFormDiv).find('.etc').val(tempData.etc);
+      
+      ev.target.value = dragDropData.placeName;
+      dragEvent.value = tempData.placeName;
+      
+    } else if (ev.target.parentNode.parentNode.id == "rightField") { // drag & drop 둘다 first place 아님.
+      var leftFieldDiv = document.getElementById("leftField");
+      tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
+      tempData.basicAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val();
+      tempData.detailAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val();
+      tempData.etc = $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val();
+      
+      $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(dragDropData.placeName);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(dragDropData.basicAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(dragDropData.detailAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(dragDropData.etc);
+      
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.placeName').val(tempData.placeName);
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val(tempData.etc);
+      
+      ev.target.value = dragDropData.placeName;
+      dragEvent.value = tempData.placeName;
+      
+    } else { // drop이 first place.
+      var placeFormDiv = document.getElementById("placeForm");
+      tempData.placeName = $(placeFormDiv).find('.placeName').val();
+      tempData.basicAddr = $(placeFormDiv).find('.basicAddr').val();
+      tempData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
+      tempData.etc = $(placeFormDiv).find('.etc').val();
+      
+      $(placeFormDiv).find('.placeName').val(dragDropData.placeName);
+      $(placeFormDiv).find('.basicAddr').val(dragDropData.basicAddr);
+      $(placeFormDiv).find('.detailAddr').val(dragDropData.detailAddr);
+      $(placeFormDiv).find('.etc').val(dragDropData.etc);
+      
+      var leftFieldDiv = document.getElementById("leftField");
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.placeName').val(tempData.placeName);
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
+      $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val(tempData.etc);
+      
+      ev.target.value = dragDropData.placeName;
+      dragEvent.value = tempData.placeName;
+      
+    }
+    
+  }
   
   function addForm(){
     var div = document.createElement('div');
     var str = document.getElementById('placeForm').innerHTML;
     str +=  '<button type="button" onclick="remove_div(this)"> 코스 삭제</button>';
     div.innerHTML = str;
-    document.getElementById('field').appendChild(div);
+    document.getElementById('leftField').appendChild(div);
+    
+    var div2 = document.createElement('div');
+    var str2 = '<input class="showPlaceName" id="showPlaceName" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" type="text" readonly>';
+    div2.innerHTML = str2;
+    document.getElementById('rightField').appendChild(div2);
     }
+  
     function remove_div(obj){
-    document.getElementById('field').removeChild(obj.parentNode);
+    document.getElementById('leftField').removeChild(obj.parentNode);
+    console.log(obj.parentNode);
     }
   
   function openDaumZipAddress(btn) { // 주소 API 연결

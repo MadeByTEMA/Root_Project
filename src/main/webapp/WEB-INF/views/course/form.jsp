@@ -8,24 +8,26 @@
 	</div>
 	<div class='daybar'>
 	   <div class='selectDay'>
-	  여행예정일: <input class='dayDate' name='dayDates' type="date"><br>
+	  여행예정일: <input class='dayDate' name='dayDate' type="date"><br>
 	   </div>
 	</div>
 	<div class='content'>
 		<div class='leftContent'>
 		  <div id="placeForm">
-			  장소명: <input class='placeName'  onkeypress="input(this);" name='placeNames' type='text'><br>
+			  장소명: <input class='placeName'  onchange="input(this);" name='placeNames' type='text'><br>
 			  기본주소:<input type="text" class="basicAddr" name='basicAddrs' style='width:240px;' readonly/> 
 			  <input type="button" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
 			  상세주소:<input type="text" class="detailAddr" name='detailAddrs' style="width:240px;"/> <br/>
 			  비고: <input class='etc' name='etcs' type='text'><br>
 		  </div>
-		  <div id="field"></div>
+		  <div id="leftField"></div>
 				<button type="button" onclick="addForm()"> 코스 추가</button> <br>
 				<button>등록</button> <br>
 		  </div>
 		<div class=rightContent> 
-			<div id="map" style="width:100%;height:350px;"></div>
+			<div id="map" style="width:100%; height:350px;"></div>
+			  <input class='showPlaceName' id='showPlaceName' draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" type='text' readonly>
+			<div id="rightField" ></div>
 		</div>
 	</div>
 </form>
