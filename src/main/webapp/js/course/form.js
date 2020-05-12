@@ -1,8 +1,8 @@
   {
   var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
   mapOption = { 
-  center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
-  level: 3 // 지도의 확대 레벨
+    center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+    level: 3 // 지도의 확대 레벨
   };
   var map = new kakao.maps.Map(mapContainer, mapOption);
   }
@@ -18,6 +18,8 @@
   }
   
   var locationArray = new Array();
+  var markerArray = new Array();
+  var distanceArray = new Array();
   
   {
     var drawingFlag = false; // 선이 그려지고 있는 상태를 가지고 있을 변수입니다
@@ -28,7 +30,6 @@
   
   {
   var dragDropData = new Object();
-  var dragEvent = "";
   }
   
   function input(obj) {
@@ -84,6 +85,7 @@
     ev.preventDefault();
     var tempData = new Object();
     tempData.index = $(ev.target.parentNode).index();
+    drawingFlag = false;
     if (dragDropData.index == "first") { // drag가 가장 첫번째 place인지 확인
       var leftFieldDiv = document.getElementById("leftField");
       tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
@@ -102,8 +104,8 @@
       $(placeFormDiv).find('.detailAddr').val(tempData.detailAddr);
       $(placeFormDiv).find('.etc').val(tempData.etc);
       
-      ev.target.value = dragDropData.placeName;
-      dragEvent.value = tempData.placeName;
+      input(placeFormDiv.childNodes[1]);
+      input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
       
     } else if (ev.target.parentNode.parentNode.id == "rightField") { // drag & drop 둘다 first place 아님.
       var leftFieldDiv = document.getElementById("leftField");
@@ -122,8 +124,8 @@
       $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
       $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val(tempData.etc);
       
-      ev.target.value = dragDropData.placeName;
-      dragEvent.value = tempData.placeName;
+      input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
+      input(leftFieldDiv.childNodes[dragDropData.index].childNodes[1]);
       
     } else { // drop이 first place.
       var placeFormDiv = document.getElementById("placeForm");
@@ -143,11 +145,57 @@
       $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
       $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val(tempData.etc);
       
-      ev.target.value = dragDropData.placeName;
-      dragEvent.value = tempData.placeName;
+      input(leftFieldDiv.childNodes[dragDropData.index].childNodes[1]);
+      input(placeFormDiv.childNodes[1]);
       
     }
     
+    getGeoLocation();
+  }
+  
+  function getGeoLocation() {
+    drawingFlag = false;
+    deleteClickLine();
+    deleteCircleDot();
+    deleteDistnce();
+    deleteMarker();
+    locationArray = new Array();
+    var geocoder = new kakao.maps.services.Geocoder();
+    var basicAddrs = document.querySelectorAll('.basicAddr');
+    console.log(basicAddrs.length);
+    for (let i = 0; i < basicAddrs.length; i++) {
+      geocoder.addressSearch(basicAddrs[i].value, function(result, status) {
+        if (status === kakao.maps.services.Status.OK) {
+          locationArray[i] = {x:result[0].x, y:result[0].y};
+        }
+      });
+    }
+    
+    setTimeout(() => {
+      displayMarkers(locationArray);      
+    }, 1000);
+  }
+  
+  function displayMarkers(geoLocations) {
+    var bounds = new kakao.maps.LatLngBounds();
+
+    for (var i = 0; i < geoLocations.length; i++) {
+      var geoLocation = geoLocations[i];
+      var markerPosition = new kakao.maps.LatLng(geoLocation.y, geoLocation.x);
+      var marker = new kakao.maps.Marker({
+        position: markerPosition
+      });
+      marker.setMap(map);
+      markerArray.push(marker);
+      // LatLngBounds 객체에 좌표를 추가합니다
+      bounds.extend(markerPosition);
+      mapDrawingStart(i);
+    }
+    
+    if (geoLocations.length == 1) {
+      map.panTo(markerPosition);
+    }
+    map.setBounds(bounds);
   }
   
   function addForm(){
@@ -158,60 +206,72 @@
     document.getElementById('leftField').appendChild(div);
     
     var div2 = document.createElement('div');
-    var str2 = '<input class="showPlaceName" id="showPlaceName" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" type="text" readonly>';
+    var str2 = '<input class="showPlaceName" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" type="text" readonly>';
     div2.innerHTML = str2;
     document.getElementById('rightField').appendChild(div2);
-    }
+  }
   
-    function remove_div(obj){
+  function remove_div(obj){
+    document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
     document.getElementById('leftField').removeChild(obj.parentNode);
-    console.log(obj.parentNode);
-    }
+    getGeoLocation();
+  }
   
   function openDaumZipAddress(btn) { // 주소 API 연결
     new daum.Postcode({
       oncomplete:function(data) {
         $(btn.parentNode).find('.basicAddr').val(data.address);
         $(btn.parentNode).find('.detailAddr').focus(); // 상세주소에 focus 주기
-        var geocoder = new kakao.maps.services.Geocoder();
-        var location = new Object();
-        var markerPosition = "";
-        var callback = function(result, status) {
-          if (status === kakao.maps.services.Status.OK) {
-            location.x = result[0].x;
-            location.y = result[0].y;
-            locationArray.push(location);
-            if (locationArray.length == 1) {
-              markerPosition = new kakao.maps.LatLng(location.y, location.x);
-              var marker = new kakao.maps.Marker({
-                position: markerPosition
-              });
-              map.panTo(markerPosition);
-              marker.setMap(map);
-            } else {
-              mapReMapping();
-            }
-          }
-        };
-        geocoder.addressSearch(data.address, callback);
+        getGeoLocation();
       }
     }).open();
-    drawingFlag = false;
   }
+  
+  function getLocation(address) {
+    var geocoder = new kakao.maps.services.Geocoder();
+    var location = new Object();
+    var markerPosition = "";
+    var callback = function(result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        location.x = result[0].x;
+        location.y = result[0].y;
+        locationArray.push(location);
+        if (locationArray.length == 1) {
+          deleteClickLine();
+          deleteCircleDot();
+          deleteDistnce();
+          deleteMarker();
+          markerPosition = new kakao.maps.LatLng(location.y, location.x);
+          var marker = new kakao.maps.Marker({
+            position: markerPosition
+          });
+          marker.setMap(map);
+          markerArray.push(marker);
+          map.panTo(markerPosition);
+        } else {
+          mapReMapping();
+        }
+      }
+    };
+    geocoder.addressSearch(address, callback);
+  }
+  
   
   function mapReMapping() {
   var bounds = new kakao.maps.LatLngBounds();
   var marker;
+  drawingFlag = false;
   for (var i = 0; i < locationArray.length; i++) {
       // 배열의 좌표들이 잘 보이게 마커를 지도에 추가합니다
       var points = new kakao.maps.LatLng(locationArray[i].y, locationArray[i].x);
       marker = new kakao.maps.Marker({ position : points });
       marker.setMap(map);
+      markerArray.push(marker);
       // LatLngBounds 객체에 좌표를 추가합니다
       bounds.extend(points);
       mapDrawingStart(i);
     }
-  map.setBounds(bounds);
+    map.setBounds(bounds);
   }
   
   function mapDrawingStart(i) {
@@ -219,8 +279,8 @@
     if (!drawingFlag) {
       drawingFlag = true;
       deleteClickLine();
-      deleteDistnce();
       deleteCircleDot();
+      deleteDistnce();
       clickLine = new kakao.maps.Polyline({
         map: map, // 선을 표시할 지도입니다 
         path: [points], // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
@@ -246,12 +306,27 @@
         clickLine = null;        
     }
   }
-  function deleteDistnce () {
-    if (distanceOverlay) {
-        distanceOverlay.setMap(null);
-        distanceOverlay = null;
+  
+  function deleteDistnce() {
+    for (var i = 0; i < distanceArray.length; i++) {
+      if (distanceArray[i]) {
+      (distanceArray[i]).setMap(null);
+      distanceArray[i] = null;
+      delete distanceArray[i];
+      }
     }
-}
+  }
+  
+  function deleteMarker() {
+    for (var i = 0; i < markerArray.length; i++) {
+      if (markerArray[i]) {
+      (markerArray[i]).setMap(null);
+      markerArray[i] = null;
+      delete markerArray[i];
+      }
+    }
+  }
+  
   function deleteCircleDot() {
     var i;
     for ( i = 0; i < dots.length; i++ ){
@@ -271,7 +346,8 @@
       xAnchor: 0,
       yAnchor: 0,
       zIndex: 3  
-  });      
+  });
+    distanceArray.push(distanceOverlay);
 }
 
   function getTimeHTML(distance) {

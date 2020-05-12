@@ -16,7 +16,7 @@
 		  <div id="placeForm">
 			  장소명: <input class='placeName'  onchange="input(this);" name='placeNames' type='text'><br>
 			  기본주소:<input type="text" class="basicAddr" name='basicAddrs' style='width:240px;' readonly/> 
-			  <input type="button" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
+			  <input type="button" onChange="getGeoLocation();" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
 			  상세주소:<input type="text" class="detailAddr" name='detailAddrs' style="width:240px;"/> <br/>
 			  비고: <input class='etc' name='etcs' type='text'><br>
 		  </div>
