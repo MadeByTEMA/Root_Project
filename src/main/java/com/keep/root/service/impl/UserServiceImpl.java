@@ -2,9 +2,7 @@ package com.keep.root.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
-
 import com.keep.root.dao.UserDao;
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
@@ -22,6 +20,12 @@ public class UserServiceImpl implements UserService {
   public List<User> list() throws Exception {
     return userDao.findAll();
   }
+
+  @Override
+  public List<User> list(int userNo) throws Exception {
+    return userDao.findAll(userNo);
+  }
+
 
   @Override
   public int delete(int no) throws Exception {
@@ -54,5 +58,15 @@ public class UserServiceImpl implements UserService {
   @Override
   public int update(User user) throws Exception {
     return userDao.update(user);
+  }
+
+  @Override
+  public User get(String name, String tel, String account, String bank) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("name", name);
+    params.put("tel", tel);
+    params.put("account", account);
+    params.put("bank", bank);
+    return userDao.findForWithdraw(params);
   }
 }

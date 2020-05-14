@@ -9,20 +9,20 @@
    <mapper  namespace="com.keep.root.dao.PointDao">
    
     <resultMap type="Point" id="PointMap">
-	    <id column="point_no"   property="no"/>
-	    <result column="user_no"   property="userNo"/>
-	    <result column="trader_no"   property="traderNo"/>
-	    <result column="point_type"   property="pointType"/>
-	    <result column="content"   property="content"/>
-	    <result column="price"   property="price"/>
-	    
-	    <association property="user" javaType="User">
+      <id column="point_no"   property="no"/>
+      <result column="user_no"   property="userNo"/>
+      <result column="trader_no"   property="traderNo"/>
+      <result column="point_type"   property="pointType"/>
+      <result column="content"   property="content"/>
+      <result column="price"   property="price"/>
+      
+      <collection property="user" javaType="User">
       <id column="user_no"   property="no"/>
       <result column="user_name"  property="name"/>
       <result column="phone_number"  property="tel"/>
       <result column="account"  property="account"/>
       <result column="bank"  property="bank"/>
-      </association>
+      </collection>
       
     </resultMap>
    
@@ -30,6 +30,10 @@
      insert into points
        user_no, trader_no, point_type, content, price
      values(#{userNo}, #{traderNo}, #{pointType}, #{content}, #{price})
+     <!-- 
+    insert into points (user_no, trader_no, point_type, content,  price )
+       values( 4, 3, 3, 2, 20000);
+      -->
    </select>
    
    <select id="findAll" resultMap="PointMap" parameterType="map">
@@ -38,8 +42,34 @@
      from
       points p
      where
-      point_no
+       not p.user_no = p.trader_no 
+       and point_no
    </select>
+   
+   <select id="findAllByUser" resultMap="PointMap" parameterType="map">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)  
+     where
+      not p.user_no = p.trader_no
+      and p.user_no=${userNo}
+ 
+      <!-- 
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no) // inner join은 from
+     where
+      not p.user_no = p.trader_no 
+      and p.user_no=1;
+
+       -->
+    </select>
    
    <select id="findOutputByUserNo" resultMap="PointMap" parameterType="map">
      select 
@@ -54,6 +84,10 @@
       inner join users u on (p.user_no=u.user_no) 
       where
       u.user_no
+      <!-- 
+      - inner 조인을 하지 않았을 경우, 해당 번호에 대한 값이 실행되지 않았음.
+      - 즉, 해당 번호가 반복되었음. 
+       -->
    </select>
    
    <select id="find" resultMap="PointMap" parameterType="map">
@@ -68,6 +102,11 @@
      where
       p.point_no=#{no}
    </select>
+   
+   <!--  
+     where 
+      p.point_no=#{no}
+    -->
    
    <select id="findByUserNo" resultMap="PointMap" parameterType="map">
      select 
@@ -95,18 +134,44 @@
       p.point_no=#{no}
    </select>
    
-   
    <update id="update" parameterType="Point">
-     update points set
-      point_type=#{pointType},
-      content=#{content},
-      price=#{price}
-     where point_no=#{no}
+   update points p set
+   <if test="price != null and price != ''"> p.price=#{price}</if>
+   where p.point_no=#{no}
+     
+     <!-- 
+     update points p, users u
+     <set>
+      <if test="account != null and account != ''"> u.account=#{account},</if>
+      <if test="bank != null and bank != ''"> u.bank=#{bank},</if>
+      <if test="tel != null and tel != ''"> u.phone_number=#{tel},</if>
+      <if test="price != null and price != ''"> p.price=#{price},</if>
+      <if test="content != null and content != ''"> p.content=#{content}</if>
+     </set>
+     where p.point_no=#{no} and u.user_no#{userNo}
+
+     
+    update points p, users u
+     set
+      u.account=11,
+      u.bank='하나',
+      u.phone_number=010-4444-6666,
+      p.price=10000,
+      p.content=3
+     where p.point_no=2 and u.user_no=1
+     
+       <if test="price != null and price != ''"> p.price=3000</if>
+   where p.point_no=7
+      -->
    </update>
    
    <delete id="delete" parameterType="int">
     delete from points
     where point_no=#{no}
+    <!-- 
+    delete from points
+    where point_no=8
+     -->
    </delete>
    
    </mapper>

@@ -1,7 +1,6 @@
 package com.keep.root.service;
 
 import java.util.List;
-
 import com.keep.root.domain.User;
 
 public interface UserService {
@@ -19,5 +18,10 @@ public interface UserService {
   List<User> search(String keyword) throws Exception;
 
   int update(User member) throws Exception;
+
+  // withdraw
+  List<User> list(int userNo) throws Exception;
+
+  User get(String name, String tel, String account, String bank) throws Exception;
 
 }
