@@ -83,16 +83,17 @@ public class UserController {
       MultipartFile photoFile, //
       HttpSession session //
   ) throws Exception {
-
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
       String filename = UUID.randomUUID().toString();
       photoFile.transferTo(new File(dirPath + "/" + filename));
       user.setPhoto(filename);
     }
-    session.setAttribute("loginUser", user);
+    User temp = (User) session.getAttribute("loginUser");
+    user.setNo(temp.getNo());
     if (userService.update(user) > 0) {
-      return "redirect:../mypage/form";
+      session.setAttribute("loginUser", user);
+      return "redirect:../mypage/form?no=" + user.getNo();
     } else {
       throw new Exception("변경할 회원 번호가 유효하지 않습니다.");
     }

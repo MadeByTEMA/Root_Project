@@ -20,6 +20,9 @@ public class User {
   String bank;
   int point; // setter 아직 정의 안함.
 
+  public User() {
+  }
+
   @Override
   public String toString() {
     return "User [no=" + no + ", name=" + name + ", birth=" + birth + ", gender=" + gender + ", email=" + email
