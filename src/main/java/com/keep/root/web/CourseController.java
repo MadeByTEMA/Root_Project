@@ -18,6 +18,8 @@ import com.keep.root.domain.CourseDay;
 import com.keep.root.domain.CoursePlace;
 import com.keep.root.domain.User;
 import com.keep.root.service.CourseService;
+import com.keep.root.service.ScrapDayService;
+import com.keep.root.service.ScrapPlaceService;
 import com.keep.root.service.UserService;
 
 @Controller
@@ -31,10 +33,22 @@ public class CourseController {
   CourseService courseService;
 
   @Autowired
+  ScrapDayService scrapDayService;
+
+  @Autowired
+  ScrapPlaceService scrapPlaceService;
+
+  @Autowired
   UserService userService;
 
   @GetMapping("form")
-  public void form() {
+  public void form(HttpSession session, Model model) throws Exception {
+    User user = (User) session.getAttribute("loginUser");
+    if (user == null) {
+      throw new Exception("로그인이 필요합니다.");
+    }
+    model.addAttribute("scrapDays", scrapDayService.list(user.getNo()));
+    model.addAttribute("scrapPlaces", scrapPlaceService.list(user.getNo()));
   }
 
   @RequestMapping("add")

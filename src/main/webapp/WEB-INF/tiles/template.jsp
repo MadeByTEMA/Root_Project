@@ -10,9 +10,19 @@
 <c:if test="${not empty refreshUrl}">
 <meta http-equiv="Refresh" content="${refreshUrl}">
 </c:if>
-<link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
+
+
+<link rel='stylesheet' href='${pageContext.getServletContext().getContextPath()}/node_modules/semantic/semantic.min.css'>
+<link rel='stylesheet' href='${pageContext.getServletContext().getContextPath()}/node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='<tiles:getAsString name="css.common"/>'>
 <link rel='stylesheet' href='<tiles:getAsString name="css.page"/>'>
+
+<script src='${pageContext.getServletContext().getContextPath()}/node_modules/jquery/dist/jquery.min.js'></script>
+<script src='${pageContext.getServletContext().getContextPath()}/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
+<script src='${pageContext.getServletContext().getContextPath()}/node_modules//@popperjs/core/dist/umd/popper.min.js'></script>
+<script src='${pageContext.getServletContext().getContextPath()}/node_modules/sweetalert/dist/sweetalert.min.js'></script>
+<script src='${pageContext.getServletContext().getContextPath()}/node_modules/semantic/semantic.min.js'></script>
+
 <title>나만의 루트를 만들다. 루트</title>
 </head>
 <body>
@@ -28,6 +38,9 @@
 <div class='footer'>
 <tiles:insertAttribute name="footer"/>
 </div>
+
+    
+
 
 </body>
 </html>

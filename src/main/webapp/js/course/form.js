@@ -32,6 +32,112 @@
   var dragDropData = new Object();
   }
   
+  function sidebarToggle() {
+   $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+  }
+  
+  $('.ui.dropdown').dropdown({
+    action:'nothing'
+  });
+  
+  $('.minus.icon').css('margin', '0px');
+  $('.minus.icon').css('padding-left', 'calc(100% - 89.52px)');
+  
+  $('.ui.accordion').accordion();
+  
+  $('.trigger .accordion')
+    .accordion({
+      selector: {
+        trigger: '.title .icon'
+      }
+    });
+    
+  var starvalue = 0;
+  
+    $('.ui.rating')
+    .rating({
+      maxRating: 1,
+      onRate: function(value) {
+        starvalue = value;
+      }
+    })
+  ;
+    
+    $('.clearing .rating')
+    .rating('setting', 'clearable', true)
+  ;
+    
+    $(document).ready(function() {
+      $('.ui.rating').on("click", function() {
+        scrapDataOnCourse(this);
+      });
+    });
+    
+    $(document).ready(function() {
+      $('.plus.icon').on("click", function() {
+        addDate();
+      });
+    });
+    
+  function addDate() {
+   console.log();
+   console.log(document.querySelectorAll('.item'));
+   var div = document.createElement('div');
+   var str = document.querySelectorAll('.item')[0].innerHTML;
+   console.log(str);
+  }
+    
+  function scrapDataOnCourse(obj) {
+    if (starvalue == 1) {
+      if (document.querySelectorAll('.placeName').length == 1 && document.querySelectorAll('.placeName')[0].value == ""
+        && document.querySelectorAll('.basicAddr')[0].value == "" && document.querySelectorAll('.detailAddr')[0].value == "") {
+        var placeNames = document.querySelectorAll('.placeName');
+        for (var i = 3; i < obj.parentNode.parentNode.childNodes.length; i += 4) {
+          if((obj.parentNode.parentNode.childNodes[i].childNodes[0].textContent).substring(23)==(obj.parentNode.childNodes[0].textContent).substring(23)) {
+            if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
+              placeNames[0].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(17);
+            } else {
+              placeNames[0].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(23);
+            }
+            input(placeNames[0]);
+          }
+        }
+        var basicAddrs = document.querySelectorAll('.basicAddr');
+        var detailAddrs = document.querySelectorAll('.detailAddr');
+        if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
+          basicAddrs[0].value = (obj.parentNode.childNodes[0].textContent).substring(17);
+          detailAddrs[0].value = (obj.parentNode.childNodes[2].textContent).substring(17);
+        } else {
+          basicAddrs[0].value = (obj.parentNode.childNodes[0].textContent).substring(23);
+          detailAddrs[0].value = (obj.parentNode.childNodes[2].textContent).substring(23);
+        }
+      } else {
+      addForm();
+      var placeNames = document.querySelectorAll('.placeName');
+      for (var i = 3; i < obj.parentNode.parentNode.childNodes.length; i += 4) {
+        if((obj.parentNode.parentNode.childNodes[i].childNodes[0].textContent).substring(23)==(obj.parentNode.childNodes[0].textContent).substring(23)) {
+          if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
+            placeNames[placeNames.length-1].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(17);
+          } else {
+            placeNames[placeNames.length-1].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(23);
+          }
+          input(placeNames[placeNames.length-1]);
+        }
+      }
+        var basicAddrs = document.querySelectorAll('.basicAddr');
+        var detailAddrs = document.querySelectorAll('.detailAddr');
+        if(obj.parentNode.parentNode.parentNode.parentNode.id=="accordionArea") {
+          basicAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[0].textContent).substring(17);
+          detailAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[2].textContent).substring(17);
+        } else {
+          basicAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[0].textContent).substring(23);
+          detailAddrs[placeNames.length-1].value = (obj.parentNode.childNodes[2].textContent).substring(23);
+        }
+      }
+    }
+    getGeoLocation();
+  }
+    
   function input(obj) {
     if (obj.parentNode.id=="placeForm") {
       document.getElementById("showPlaceName").value = (obj.value);
@@ -162,7 +268,6 @@
     locationArray = new Array();
     var geocoder = new kakao.maps.services.Geocoder();
     var basicAddrs = document.querySelectorAll('.basicAddr');
-    console.log(basicAddrs.length);
     for (let i = 0; i < basicAddrs.length; i++) {
       geocoder.addressSearch(basicAddrs[i].value, function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
