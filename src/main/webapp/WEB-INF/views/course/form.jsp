@@ -34,7 +34,7 @@
                     <div class="content">
                       ${scrapPlace.basicAddr}<br>
                       ${scrapPlace.detailAddr}
-                    <div class="ui heart rating"></div>
+                    <div class="ui red rating" data-icon="heart"></div>
                     </div>
                   </c:forEach>
                 </div>
@@ -57,7 +57,7 @@
               <div class="content">
                 ${scrapPlace.reviewPlace.basicAddr}<br>
                 ${scrapPlace.reviewPlace.detailAddr}
-                <div class="ui heart rating"></div>
+                <div class="ui red rating" data-icon="heart"></div>
               </div>
             </c:if>
             <c:if test="${!status.first}">
@@ -68,7 +68,7 @@
               <div class="content">
                 ${scrapPlace.reviewPlace.basicAddr}<br>
                 ${scrapPlace.reviewPlace.detailAddr}
-                <div class="ui heart rating"></div>
+                <div class="ui red rating" data-icon="heart"></div>
               </div>
             </c:if>
 		      </c:forEach>

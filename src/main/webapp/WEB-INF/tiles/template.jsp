@@ -12,7 +12,7 @@
 </c:if>
 
 
-<link rel='stylesheet' href='${pageContext.getServletContext().getContextPath()}/node_modules/semantic/semantic.min.css'>
+<link rel='stylesheet' href='${pageContext.getServletContext().getContextPath()}/semantic/dist/semantic.min.css'>
 <link rel='stylesheet' href='${pageContext.getServletContext().getContextPath()}/node_modules/bootstrap/dist/css/bootstrap.min.css'>
 <link rel='stylesheet' href='<tiles:getAsString name="css.common"/>'>
 <link rel='stylesheet' href='<tiles:getAsString name="css.page"/>'>
@@ -21,7 +21,7 @@
 <script src='${pageContext.getServletContext().getContextPath()}/node_modules/bootstrap/dist/js/bootstrap.min.js'></script>
 <script src='${pageContext.getServletContext().getContextPath()}/node_modules//@popperjs/core/dist/umd/popper.min.js'></script>
 <script src='${pageContext.getServletContext().getContextPath()}/node_modules/sweetalert/dist/sweetalert.min.js'></script>
-<script src='${pageContext.getServletContext().getContextPath()}/node_modules/semantic/semantic.min.js'></script>
+<script src='${pageContext.getServletContext().getContextPath()}/semantic/dist/semantic.min.js'></script>
 
 <title>나만의 루트를 만들다. 루트</title>
 </head>
