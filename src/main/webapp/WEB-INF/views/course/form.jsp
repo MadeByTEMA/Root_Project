@@ -79,7 +79,6 @@
   <div class="pusher"></div>
   
 
-
 <form action='add' method='post' >
 	<div class="titlebar">
 	  <h1> <input name='title' type='text' placeholder="제목" style='width:100%;'></h1><br>
@@ -90,15 +89,24 @@
     </div>
 		<div class='rightStatebar'>
 		  <div class='selectDay'>
-		  여행예정일: <input class='dayDate' name='dayDate' type="date"><br>
+			  <div class="ui calendar" id="button_calendar">
+				  <div class="ui button">여행시작일
+				  </div>
+				</div>
 		  </div>
-		  <div id='dropdown' class="ui selection dropdown">
-			  <input type="hidden" name="gender">
+		  <div id='dropdown' class="ui disabled dropdown">
+			  <input type="hidden" name="selectDate">
 			  <i class="dropdown icon"></i>
-			  <div class="default text">Day</div>
+			  <div class="default text">Day
+			    <div class="innerDate"></div>
+			  </div>
 				  <div class="menu">
-				    <div class="item" data-text="2020-05-02">2020-05-04
-				      <i class="minus icon"></i>
+				    <div class="item" data-text="2020-05-02">
+				      <div class="innerline">
+					      <div class="innerlineDay">Day2</div>
+						    <div class="innerlineDate" onclick="test();">2020-05-04</div>
+					    </div>
+					    <i class="minus icon"></i>
 				    </div>
 				    <div class="plus">
 				      <i class="plus icon"></i>

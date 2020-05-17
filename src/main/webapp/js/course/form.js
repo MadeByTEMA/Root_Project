@@ -41,7 +41,8 @@
   });
   
   $('.minus.icon').css('margin', '0px');
-  $('.minus.icon').css('padding-left', 'calc(100% - 89.52px)');
+  $('.minus.icon').css('padding-left', 'calc(100% - 144px)');
+  $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
   
   $('.ui.accordion').accordion();
   
@@ -68,6 +69,12 @@
   ;
     
     $(document).ready(function() {
+      $('.ui.dropdown').on("click", function() {
+        dropdownInit();
+      });
+    });
+    
+    $(document).ready(function() {
       $('.ui.rating').on("click", function() {
         scrapDataOnCourse(this);
       });
@@ -79,12 +86,101 @@
       });
     });
     
+    $('#button_calendar')
+    .calendar({
+      type: 'date',
+      today: true,
+      minDate: new Date(),
+      text: {
+      days: ['일', '월', '화', '수', '목', '금', '토'],
+      months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+      monthsShort: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
+      today: 'Today',
+      now: 'Now',
+      am: 'AM',
+      pm: 'PM'
+      },
+      onChange: function (date, text, mode) {
+        startDateLoad(date);
+      },
+      formatter: {
+        date: function (date, settings) {
+        if (!date) return '';
+        var day = date.getDate();
+        var month = date.getMonth() + 1;
+        month = month >= 10 ? month : '0' + month;
+        var year = date.getFullYear();
+        day = day >= 10 ? day : '0' + day;
+        return year + '년 ' + month + '월 ' + day + '일';
+        }
+      }
+    })
+  ;
+
+  function calculateDate(date, addDays) {
+    if (typeof addDays == "number") {
+    date.setDate(date.getDate() + addDays);
+    }
+    var day = date.getDate();
+    var month = date.getMonth() + 1;
+    month = month >= 10 ? month : '0' + month;
+    var year = date.getFullYear();
+    day = day >= 10 ? day : '0' + day;
+    
+    return year + '-' + month + '-' + day;
+  }
+    
+  function startDateLoad(obj) {
+    var date = calculateDate(obj);
+    document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day1</div>';
+    document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate">' + date + '</div>';
+    document.getElementById('dropdown').className = 'ui selection dropdown';
+    dropdownInit(obj);
+  }
+    
+  function dropdownInit(obj) {
+       for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+         var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
+         var firstDate = new Date(document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML);
+         str += '<div class="innerlineDate" onclick="test();">' + calculateDate(firstDate, i) + '</div></div>';
+         str += '<i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i>'
+         if (i < 3) {
+         document.getElementById('dropdown').childNodes[7].childNodes[(i * 2) + 1].innerHTML = str;
+         (document.getElementById('dropdown').childNodes[7].childNodes[(i * 2) + 1]).setAttribute('data-text', calculateDate(firstDate, i));
+         } else {
+           document.getElementById('dropdown').childNodes[7].childNodes[i + 3].innerHTML = str;
+           (document.getElementById('dropdown').childNodes[7].childNodes[i + 3]).setAttribute('data-text', calculateDate(firstDate, i));
+         }
+      }
+  }
+  
+  function test() {
+    console.log("test 호출");
+  }
+    
   function addDate() {
-   console.log();
-   console.log(document.querySelectorAll('.item'));
-   var div = document.createElement('div');
-   var str = document.querySelectorAll('.item')[0].innerHTML;
-   console.log(str);
+    var plusdiv = document.createElement('div');
+    plusdiv.className = 'plus';
+    plusdiv.innerHTML += '<i class="plus icon" onclick="addDate();"></i>'
+    
+    // plusdiv 생성
+    document.getElementById('dropdown').childNodes[7].appendChild(plusdiv);
+    
+    // 기존 plusdiv datadiv(item)로 변경
+    
+    var datadiv = null;
+    if (document.getElementById('dropdown').childNodes[7].childNodes.length == 6) {
+    datadiv = document.getElementById('dropdown').childNodes[7].childNodes[document.getElementById('dropdown').childNodes[7].childNodes.length - 3];
+    } else {
+    datadiv = document.getElementById('dropdown').childNodes[7].childNodes[document.getElementById('dropdown').childNodes[7].childNodes.length - 2];
+    }
+    
+    datadiv.className = 'item';
+    $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+  }
+  
+  function removeDate(obj) {
+    console.log("removeDate 호출 됨");
   }
     
   function scrapDataOnCourse(obj) {
