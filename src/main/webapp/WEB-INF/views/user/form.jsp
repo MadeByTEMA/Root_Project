@@ -2,7 +2,7 @@
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
 
-<h1>회원가입</h1><br><br><br><br><br><br><br>
+<h1>회원가입</h1>
 <form action='add' method='post' name="form" enctype='multipart/form-data'>
 <span style="color:red;">*</span>&nbsp;
 이메일: <input type='text' name='email' id="email" onkeyup="emailSearch()">
@@ -237,7 +237,10 @@ function birthCheck(){
 //전화번호 유효성
 function telSearch() {
     var t = j('#tel').val();
+    console.log(t);
+    console.log("telCnt"+ telCnt);
       if(t==""){
+    	  console.log("tel 없음!");
         document.getElementById("alert_tel").innerHTML=('<span style="color: red;">전화번호를 입력해주세요!</span>');
         telCnt = 5;
         return telCnt;
@@ -253,7 +256,7 @@ function telSearch() {
          data: { tel : t },
          url: "telSearch",
          success : function(result){
-         cnt = result;
+         telCnt = result;
          console.log(result);
          if (result == 0){
            j("#alert_tel").text("OK!");
