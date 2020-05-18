@@ -69,12 +69,6 @@
   ;
     
     $(document).ready(function() {
-      $('.ui.dropdown').on("click", function() {
-        dropdownInit();
-      });
-    });
-    
-    $(document).ready(function() {
       $('.ui.rating').on("click", function() {
         scrapDataOnCourse(this);
       });
@@ -139,26 +133,37 @@
   }
     
   function dropdownInit(obj) {
-       for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
-         var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
-         var firstDate = new Date(document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML);
-         str += '<div class="innerlineDate" onclick="test();">' + calculateDate(firstDate, i) + '</div></div>';
-         str += '<i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i>'
-         if (i < 3) {
-         document.getElementById('dropdown').childNodes[7].childNodes[(i * 2) + 1].innerHTML = str;
-         (document.getElementById('dropdown').childNodes[7].childNodes[(i * 2) + 1]).setAttribute('data-text', calculateDate(firstDate, i));
-         } else {
-           document.getElementById('dropdown').childNodes[7].childNodes[i + 3].innerHTML = str;
-           (document.getElementById('dropdown').childNodes[7].childNodes[i + 3]).setAttribute('data-text', calculateDate(firstDate, i));
-         }
-      }
+     for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+       var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
+       var firstDate = new Date(document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML);
+       var calculDate = calculateDate(firstDate, i)
+       str += '<div class="innerlineDate" onclick="test();">' + calculDate + '</div></div>';
+       if (i == 0) {
+       str += '<div class="minusArea"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+       } else {
+       str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+       }
+       document.querySelectorAll('.item')[i].innerHTML = str;
+       (document.querySelectorAll('.item')[i]).setAttribute('data-text', calculDate);
+    }
   }
   
   function test() {
     console.log("test 호출");
   }
     
+  
+  function removeDate(obj) {
+    (obj.parentNode.parentNode).removeChild(obj.parentNode);
+    dropdownInit();
+  }
+  
   function addDate() {
+    // 기존 plusdiv datadiv(item)로 변경
+    var datadiv = document.querySelectorAll('.plus')[0];
+    datadiv.className = 'item';
+    $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+    
     var plusdiv = document.createElement('div');
     plusdiv.className = 'plus';
     plusdiv.innerHTML += '<i class="plus icon" onclick="addDate();"></i>'
@@ -166,23 +171,9 @@
     // plusdiv 생성
     document.getElementById('dropdown').childNodes[7].appendChild(plusdiv);
     
-    // 기존 plusdiv datadiv(item)로 변경
-    
-    var datadiv = null;
-    if (document.getElementById('dropdown').childNodes[7].childNodes.length == 6) {
-    datadiv = document.getElementById('dropdown').childNodes[7].childNodes[document.getElementById('dropdown').childNodes[7].childNodes.length - 3];
-    } else {
-    datadiv = document.getElementById('dropdown').childNodes[7].childNodes[document.getElementById('dropdown').childNodes[7].childNodes.length - 2];
-    }
-    
-    datadiv.className = 'item';
-    $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+    dropdownInit();
   }
   
-  function removeDate(obj) {
-    console.log("removeDate 호출 됨");
-  }
-    
   function scrapDataOnCourse(obj) {
     if (starvalue == 1) {
       if (document.querySelectorAll('.placeName').length == 1 && document.querySelectorAll('.placeName')[0].value == ""

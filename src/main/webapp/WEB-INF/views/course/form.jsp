@@ -103,10 +103,12 @@
 				  <div class="menu">
 				    <div class="item" data-text="2020-05-02">
 				      <div class="innerline">
-					      <div class="innerlineDay">Day2</div>
+					      <div class="innerlineDay">Day1</div>
 						    <div class="innerlineDate" onclick="test();">2020-05-04</div>
 					    </div>
-					    <i class="minus icon"></i>
+					    <div class="minusArea">
+					      <i class="minus icon"></i>
+					    </div>
 				    </div>
 				    <div class="plus">
 				      <i class="plus icon"></i>
