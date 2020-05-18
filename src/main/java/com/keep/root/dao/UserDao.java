@@ -24,8 +24,15 @@ public interface UserDao {
 
   User findByEmailAndPassword(Map<String, Object> params) throws Exception;
 
+  int nickNameSearch(String nickName) throws Exception;
+
+  int emailSearch(String email) throws Exception;
+
+  int telSearch(String tel) throws Exception;
+
   // withdraw
   List<User> findAll(int userNo) throws Exception;
 
   User findForWithdraw(Map<String, Object> params) throws Exception;
+
 }

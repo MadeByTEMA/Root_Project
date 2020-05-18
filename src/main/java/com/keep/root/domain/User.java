@@ -20,15 +20,37 @@ public class User {
   String bank;
   int point; // setter 아직 정의 안함.
 
-  public User() {
+  public User() {}
+
+  public User(String email, //
+      String password, //
+      String name, //
+      Date birth, //
+      int gender, //
+      String tel, //
+      int zipCode, //
+      String basicAddr, //
+      String detailAddr, //
+      String nickName) {
+    this.email = email;
+    this.password = password;
+    this.name = name;
+    this.birth = birth;
+    this.gender = gender;
+    this.tel = tel;
+    this.zipCode = zipCode;
+    this.basicAddr = basicAddr;
+    this.detailAddr = detailAddr;
+    this.nickName = nickName;
   }
+
 
   @Override
   public String toString() {
-    return "User [no=" + no + ", name=" + name + ", birth=" + birth + ", gender=" + gender + ", email=" + email
-        + ", password=" + password + ", tel=" + tel + ", zipCode=" + zipCode + ", basicAddr=" + basicAddr
-        + ", detailAddr=" + detailAddr + ", photo=" + photo + ", nickName=" + nickName + ", account=" + account
-        + ", bank=" + bank + "]";
+    return "User [no=" + no + ", name=" + name + ", birth=" + birth + ", gender=" + gender
+        + ", email=" + email + ", password=" + password + ", tel=" + tel + ", zipCode=" + zipCode
+        + ", basicAddr=" + basicAddr + ", detailAddr=" + detailAddr + ", photo=" + photo
+        + ", nickName=" + nickName + ", account=" + account + ", bank=" + bank + "]";
   }
 
   public int getNo() {
@@ -147,6 +169,5 @@ public class User {
     return point;
   }
 
-  public void setPoint(int point) {
-  }
+  public void setPoint(int point) {}
 }
