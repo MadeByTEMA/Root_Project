@@ -3,19 +3,30 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>공지 상세정보</h1>
+<h3>공지 상세정보</h3>
 
 <c:if test="${not empty info}">
 <form action='detail' method='post'>
-번호: <input name='no' readonly type='text' value='${info.no}'><br>
-제목: <input name='title' readonly type='text' value='${info.title}'><br>
-내용:<br>
-<textarea name=content rows='5' cols='60' readonly="readonly" disabled>${info.content}</textarea><br>
-장소: <input name='placeName' readonly type='text' value='${info.placeName}'><br>
-시작일: <input name='startDate' readonly type='text' value='${info.startDate}'><br>
-종료일: <input name='endDate' readonly type='text' value='${info.endDate}'><br>
-기본주소: <input name='basicAddr' readonly type='text' value='${info.basicAddr}'><br>
-상세주소: <input name='detailAddr' readonly type='text' value='${info.detailAddr}'><br>
+ <div class="form-group">
+    <label for="exampleFormControlInput1">번호</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.no}'><br>
+     <label for="exampleFormControlInput1">제목</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.title}'><br>
+  </div>
+  <div class="form-group">
+    <label for="exampleFormControlTextarea1">내용</label>
+    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"readonly="readonly" disabled>${info.content}</textarea><br>
+  </div>
+  <label for="exampleFormControlInput1">장소</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.placeName}'><br>
+    <label for="exampleFormControlInput1">시작일</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.startDate}'><br>
+    <label for="exampleFormControlInput1">종료일</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.endDate}'><br>
+    <label for="exampleFormControlInput1">기본주소</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.basicAddr}'><br>
+    <label for="exampleFormControlInput1">상세주소</label>
+    <input readonly type="text" class="form-control" id="exampleFormControlInput1" value='${info.detailAddr}'><br>
 </form>
 </c:if>
 

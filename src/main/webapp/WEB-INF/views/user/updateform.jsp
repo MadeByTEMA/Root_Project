@@ -3,11 +3,13 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>정보수정</h1>
+<div class="all">
+<h3>정보수정</h3>
 <form action='update' method='post' enctype='multipart/form-data'>
-<img src='${pageContext.servletContext.contextPath}/upload/user/${loginUser.photo}' width='360'>
-<input name='no' hidden value='${loginUser.no}'><br>
-사진: <input name='photoFile' type='file' ><br>
+<div class="form-group" style="line-height:170%; font-size:12px; font-family:돋움;">
+<img src='${pageContext.servletContext.contextPath}/upload/user/${loginUser.photo}' height='100' width='100' vspace=30 hspace=20 >
+<input name='no' hidden value='${loginUser.no}'>
+<input name='photoFile' type='file'><br>
 별명: <input name='nickName' type='text' value='${loginUser.nickName}'><br>  
 이메일: <input name='email' type='text' readonly value='${loginUser.email}'><br>
 비밀번호: <input name='password' type="password"><br>
@@ -25,6 +27,7 @@
 우편번호: <input name='zipCode' type='text' value='${loginUser.zipCode}'><br>
 기본주소: <input name='basicAddr' type='text' value='${loginUser.basicAddr}'><br>
 상세주소: <input name='detailAddr' type='text' value='${loginUser.detailAddr}'><br>
-<button>등록</button>
+<button id="btn2">등록</button>
+</div>
 </form>
-
+</div>

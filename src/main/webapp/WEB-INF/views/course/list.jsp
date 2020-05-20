@@ -3,18 +3,21 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>코스 리스트</h1>
+<h3>코스 리스트</h3>
 <a href='form'>새 코스 등록</a><br>
-  <table border='1'>
+<body>
+  <table class="table table-hover" >
+  <thead>
   <tr>
     <th>제목</th>
     <th>여행예정일</th>
     <th>코스작성일</th>
   </tr>
-
+   </thead>
+ <tbody>
   <c:forEach items="${list}" var="course">
   <c:set var="count" value="${status1.count}"/>
-    <tr>
+    <tr align="center">
       <c:forEach items="${course.courseDay}" var="courseday" varStatus="status">
         <c:if test="${status.first}">
           <c:set var="startDate" value="${courseday.dayDate}"/>
@@ -35,5 +38,7 @@
     <td>${course.createdDate}</td> 
     </tr>
   </c:forEach>
+    </tbody>
 </table>
+</body>
 

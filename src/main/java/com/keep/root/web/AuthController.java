@@ -28,7 +28,10 @@ public class AuthController {
   @PostMapping("login")
   public String login(String email, String password, String saveEmail, HttpServletResponse response,
       HttpSession session, Model model) throws Exception {
-
+	  System.out.println("--------------");
+	System.out.println(email);
+	System.out.println(password);
+	System.out.println(saveEmail);
     Cookie cookie = new Cookie("email", email);
     if (saveEmail != null) {
       cookie.setMaxAge(60 * 60 * 24 * 30);
@@ -49,6 +52,7 @@ public class AuthController {
     }
     return "auth/login";
   }
+ 
 
   @RequestMapping("logout")
   public String logout(HttpSession session) {

@@ -173,6 +173,7 @@
       email=#{email} 
       and password=password(#{password})
   </select>
+
 </mapper>
 
 

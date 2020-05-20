@@ -3,23 +3,28 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>후기 리스트</h1>
+<h3>후기 리스트</h3>
 <a href='form'>새 후기 등록</a><br>
-  <table border='1'>
-  <tr>
+<body>
+  <table class="table table-hover" >
+  <thead>
+  <tr align="center">
     <th>제목</th>
     <th>여행예정일</th>
     <th>코스작성일</th>
   </tr>
-
+    </thead>
+  <tbody>
   <c:forEach items="${list}" var="review">
     <c:forEach items="${review.reviewDay}" var="reviewday">
-      <tr>
+      <tr align="center">
         <td><a href='detail?no=${review.no}'>${reviewday.title}</a></td> 
         <td>${reviewday.dayDate}</td> 
         <td>${review.createdDate}</td> 
       </tr>
    </c:forEach>
   </c:forEach>
+    </tbody>
 </table>
+</body>
 

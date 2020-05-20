@@ -14,6 +14,7 @@ div.leftStatebar {
   float:left;
 }
 div.selectDay {
+  display:inline-block;
   float:left;
 }
 div.rightStatebar {
@@ -25,6 +26,7 @@ div.leftContent {
   width:50%;
 }
 div.rightContent {
+  display:inline-block;
   float:right;
   width:50%;
   top:0;
@@ -32,32 +34,15 @@ div.rightContent {
 div.plus {
 	padding:11px 16px;
 }
-div.dayCount {
-	float:left;
-}
-div.innerDate {
-  float:right;
-}
-.default.text {
-	width:126px;
-	height:14px;
-}
-div.innerline {
-	float:left;
-	width:126px;
-  height:14px;
-}
-div.innerlineDay {
-  float:left;
-}
-div.innerlineDate {
-  float:right;
-}
 .ui.rating {
 	float:right;
 }
 .ui.dropdown {
   float:right;
+}
+.minus.icon {
+	padding-left:calc(100% - 16.52px);
+	margin-right:0rem;
 }
 .plus.icon {
   padding-left: calc(calc(100% - 16.52px) / 2);

@@ -13,7 +13,7 @@
     <result column="content"  property="content"/>
     <result column="photo_file"       property="photoFile"/>
     <result column="main_photo"    property="mainPhoto"/>
-        <result column="place"    property="placeName"/>
+        <result column="place_name"    property="placeName"/>
     <result column="start_date"    property="startDate"/>
     <result column="last_date"    property="endDate"/>
     <result column="place_basic_address"    property="basicAddr"/>
@@ -26,11 +26,11 @@
     create_date,
     title,
     content,
-    place,
+    place_name,
     start_date,
     last_date,
     place_basic_address,
-    place_basic_address,
+    place_detail_address,
     main_photo
     from 
       infos
@@ -43,11 +43,11 @@
      create_date,
     title,
     content,
-    place,
+    place_name,
     start_date,
     last_date,
     place_basic_address,
-    place_basic_address,
+    place_detail_address,
     main_photo
     from 
      infos
