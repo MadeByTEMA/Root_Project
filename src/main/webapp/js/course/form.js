@@ -1,5 +1,7 @@
+  var course = new Array();
+  
   {
-  var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+  var mapContainer = document.getElementById('map'), // 지도를 표시할 div
   mapOption = { 
     center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
     level: 3 // 지도의 확대 레벨
@@ -12,7 +14,7 @@
   // 지도에 컨트롤을 추가해야 지도위에 표시됩니다
   // kakao.maps.ControlPosition은 컨트롤이 표시될 위치를 정의하는데 TOPRIGHT는 오른쪽 위를 의미합니다
   map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
-  // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+  // 지도 확대 축소를 제어할 수 있는 줌 컨트롤을 생성합니다
   var zoomControl = new kakao.maps.ZoomControl();
   map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
   }
@@ -29,11 +31,14 @@
   }
   
   {
-  var dragDropData = new Object();
+  var placeNameDragDropData = new Object();
+  var courseDateDragDropData = null;
   }
   
+  $('.ui.sidebar').sidebar('setting', 'transition', 'overlay');
+  
   function sidebarToggle() {
-   $('.ui.sidebar').sidebar('setting', 'transition', 'overlay').sidebar('toggle');
+   $('.ui.sidebar').sidebar('toggle');
   }
   
   $('.ui.dropdown').dropdown({
@@ -84,7 +89,6 @@
     .calendar({
       type: 'date',
       today: true,
-      minDate: new Date(),
       text: {
       days: ['일', '월', '화', '수', '목', '금', '토'],
       months: ['1월', '2월', '3월', '4월', '5월', '6월', '7월', '8월', '9월', '10월', '11월', '12월'],
@@ -111,51 +115,310 @@
     })
   ;
 
-  function calculateDate(date, addDays) {
-    if (typeof addDays == "number") {
-    date.setDate(date.getDate() + addDays);
+  function submitForm() {
+    $('.ui.modal').modal({
+      onApprove: function (e) {
+        console.log("시작?");
+        console.log(e);
+        if (e.hasClass('ok')) {
+          test2();
+          // 테스트중이라 잠시 막아둠.
+          // submit();
+        }
+      },
+    }).modal('show')
+  }
+  
+  function setDateLocalStorage(obj) {
+    console.log("setDateLocalStorage() 호출 완료");
+    console.log(obj.dayDate);
+    console.log("setDateLocalStorage() 호출 끝");
+  }
+  
+  function test2() {
+    console.log("시작!");
+    console.log(document.querySelectorAll('.placeName')[0].value);
+    var testHTML1 = document.querySelectorAll('.leftContent')[0].innerHTML;
+    localStorage.setItem('testHTML1', testHTML1);
+    console.log(localStorage);
+    console.log("구분1------------------------------------");
+    var testHTML2 = `     <div id="placeForm">
+        장소명: <input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text"><br>
+        기본주소:<input type="text" class="basicAddr" name="basicAddrs" style="width:240px;" readonly/> 
+        <input type="button" onChange="getGeoLocation();" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
+        상세주소:<input type="text" class="detailAddr" name="detailAddrs" style="width:240px;"/> <br/>
+        비고: <input class="etc" name="etcs" type="text"><br>
+      </div>
+      <div id="leftField"></div>
+        <button type="button" onclick="addForm()"> 코스 추가</button> <br>
+        <button type="button" onclick="submitForm()">등록</button> <br>`;
+    document.querySelectorAll('.leftContent')[0].innerHTML = testHTML2
+    console.log(document.querySelectorAll('.innerlineDate')[0].innerHTML);
+    console.log("구분2------------------------------------");
+    
+    localStorage.setItem('test1', 'test1');
+    localStorage.setItem('test2', 123);
+    localStorage.setItem('test3', 'test3');
+    localStorage.setItem('test3', 'test4');
+    console.log(localStorage);
+    console.log(localStorage.getItem('test3'));
+    localStorage.removeItem('test3');
+    console.log(localStorage.getItem('test3'));
+    console.log(localStorage);
+  }
+  
+  function submit() {
+    document.getElementById('addForm').submit();
+  }
+  
+  function courseDataInit(courseData) {
+    getNewForm();
+    if (courseData.length != 0) {
+      course = courseData;
+      $('#button_calendar').calendar('set date', new Date(course[0].dayDate));
+      courseDataReload();
     }
-    var day = date.getDate();
-    var month = date.getMonth() + 1;
+  }
+  
+  function courseDataSave() {
+    for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+      if (calculateDate(course[0].dayDate, i) == calculateDate((document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML).substring(55))) {   
+        var courseDay = new Array();
+        for (var j = 0; j < document.querySelectorAll('.placeName').length; j++) {
+          var coursePlace = new Object();
+          coursePlace.placeName = document.querySelectorAll('.placeName')[j].value;
+          coursePlace.basicAddr = document.querySelectorAll('.basicAddr')[j].value;
+          coursePlace.detailAddr = document.querySelectorAll('.detailAddr')[j].value;
+          coursePlace.etc = document.querySelectorAll('.etc')[j].value;
+          courseDay.push(coursePlace);
+        }
+        courseDay.no = course[i].no;
+        courseDay.title = document.getElementsByName('title')[0].value;
+        courseDay.dayDate = calculateDate((document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML).substring(55));
+        course[i] = courseDay; 
+        break;
+      }
+    }
+  }
+  
+  function courseDataReload(obj) {
+    if (obj != null) {
+      console.log(obj);
+      console.log(obj.parentNode);
+    }
+    if (obj == null) {
+      for (var i = 0; i < course.length; i++) {
+        if (i == 0) {
+          insertDayData(0);
+        } else {
+          addDate();
+        }
+      }
+    } else {
+      for (var i = 0; i < course.length; i++) {
+        if (obj.innerHTML == document.querySelectorAll('.innerlineDate')[0].innerHTML) {
+          if (i == 0) {
+            courseDataSave();
+            insertDayData(0);
+            insertInnerDate(obj);
+            break;
+          }
+        } 
+        if (obj.innerHTML == course[i].dayDate) {
+          courseDataSave();
+          insertDayData(i);
+          insertInnerDate(obj);
+          dropdownInit();
+          break;
+        }
+        if (i + 1 == course.length && obj.innerHTML != course[i].dayDate) {
+          courseDataSave();
+          getNewForm();
+          insertInnerDate(obj);
+          dropdownInit();
+          break;
+        }
+      }
+      if (document.querySelectorAll('.menu.transition.visible')[0] != null) {
+        document.querySelectorAll('.menu.transition.visible')[0].className = 'menu transition hidden';
+      }
+    }
+    inputPlaceName();
+    getGeoLocation();
+  }
+  
+  function insertInnerDate(obj) {
+    document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">' + obj.parentNode.childNodes[0].innerHTML + '</div>';
+    document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ obj.parentNode.childNodes[1].innerHTML + '">' + obj.parentNode.childNodes[1].innerHTML + '</div>';
+    document.getElementById('dropdown').className = 'ui selection dropdown';
+  }
+  
+  function insertDayData(i) {
+    getNewForm();
+    document.getElementsByName('title')[0].value = course[i].title;
+    for (var j = 0; j < course[i].length; j++) {
+      if (j != 0) {
+        addForm();
+      }
+      document.querySelectorAll('.placeName')[j].value = course[i][j].placeName;
+      document.querySelectorAll('.basicAddr')[j].value = course[i][j].basicAddr;
+      document.querySelectorAll('.detailAddr')[j].value = course[i][j].detailAddr;
+      document.querySelectorAll('.etc')[j].value = course[i][j].etc;
+    }
+    if (i != 0) {
+      inputPlaceName();
+      getGeoLocation();
+    }
+  }
+  
+  function getNewForm() {
+    document.getElementsByName('title')[0].value = "";
+    var nullDataHTML = `     <div id="placeForm">
+    장소명: <input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text"><br>
+    기본주소:<input type="text" class="basicAddr" name="basicAddrs" style="width:240px;" readonly/> 
+    <input type="button" onChange="getGeoLocation();" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
+    상세주소:<input type="text" class="detailAddr" name="detailAddrs" style="width:240px;"/> <br/>
+    비고: <input class="etc" name="etcs" type="text"><br>
+    </div>
+    <div id="leftField"></div>
+    <button type="button" onclick="addForm()"> 코스 추가</button> <br>
+    <button type="button" onclick="submitForm()">등록</button> <br>`;
+    document.querySelectorAll('.leftContent')[0].innerHTML = nullDataHTML;
+    document.getElementById('rightField').innerHTML = "";
+  }
+    
+  function calculateDate(date, addDays) {
+    var dateFormData = new Date(date);
+    if (typeof addDays == "number") {
+      dateFormData.setDate(dateFormData.getDate() + addDays);
+    }
+    var day = dateFormData.getDate();
+    var month = dateFormData.getMonth() + 1;
     month = month >= 10 ? month : '0' + month;
-    var year = date.getFullYear();
+    var year = dateFormData.getFullYear();
     day = day >= 10 ? day : '0' + day;
     
     return year + '-' + month + '-' + day;
   }
     
   function startDateLoad(obj) {
-    var date = calculateDate(obj);
+    var newFirstdate = calculateDate(obj);
+    if (newFirstdate != course[0].dayDate) {
+      courseDataSave();
+      changeCourseDate(obj);
+    }
+    console.log(((document.getElementById('dropdown').childNodes[5].innerHTML).trim()).substring(16));
+    if (((document.getElementById('dropdown').childNodes[5].innerHTML).trim()).substring(16) == 'class="innerDate"></div>' || 
+        ((document.getElementById('dropdown').childNodes[5].innerHTML).trim()).substring(19) == 'class="innerDate"></div>' ) {
     document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day1</div>';
-    document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate">' + date + '</div>';
+    document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ newFirstdate + '">' + newFirstdate + '</div>';
     document.getElementById('dropdown').className = 'ui selection dropdown';
+    } else if (document.querySelectorAll('.dayCount')[0].innerHTML != 'Day1') {
+        var index = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3);
+        document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day' + index + '</div>';
+        document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ course[index - 1].dayDate + '">' + course[index - 1].dayDate + '</div>';
+        document.getElementById('dropdown').className = 'ui selection dropdown';
+        insertDayData(index - 1);
+    }
     dropdownInit(obj);
+  }
+  
+  function changeCourseDate(obj) {
+    if (obj != null) {
+      for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+        course[i].dayDate = calculateDate(obj, i);
+      }
+    } else {
+      for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+        if (course[i] == null) {
+          var coursePlace = new Object();
+          coursePlace.placeName = "";
+          coursePlace.basicAddr = "";
+          coursePlace.detailAddr = "";
+          coursePlace.etc = "";
+          var courseDay = new Array();
+          courseDay.push(coursePlace);
+          courseDay.title = "";
+          course[i] = courseDay;
+        }
+        course[i].dayDate = calculateDate(document.querySelectorAll('.innerlineDate')[0].innerHTML, i);
+      }
+    }
   }
     
   function dropdownInit(obj) {
      for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
        var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
-       var firstDate = new Date(document.getElementById('dropdown').childNodes[5].childNodes[1].innerHTML);
-       var calculDate = calculateDate(firstDate, i)
-       str += '<div class="innerlineDate" onclick="test();">' + calculDate + '</div></div>';
-       if (i == 0) {
-       str += '<div class="minusArea"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+       var firstDate = new Object();
+       if (obj != null) {
+         firstDate = calculateDate(obj);
        } else {
-       str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+         firstDate = document.querySelectorAll('.innerlineDate')[0].innerHTML;
        }
+       var calculDate = calculateDate(firstDate, i);
+       str += '<div class="innerlineDate" onclick="courseDataReload(this);">' + calculDate + '</div></div>';
+//       if (i == 0) {
+//         str += '<div class="minusArea"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+//       } else {
+       str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+//     }
        document.querySelectorAll('.item')[i].innerHTML = str;
        (document.querySelectorAll('.item')[i]).setAttribute('data-text', calculDate);
     }
   }
   
-  function test() {
-    console.log("test 호출");
-  }
-    
-  
   function removeDate(obj) {
-    (obj.parentNode.parentNode).removeChild(obj.parentNode);
-    dropdownInit();
+    console.log("removeDate 호출됨");
+    if (document.querySelectorAll('.item').length == 1) {
+      console.log("마지막 하나는 지울 수 없습니다.");
+    } else {
+      //(obj.parentNode.parentNode).removeChild(obj.parentNode);
+      var newFirstDay = null;
+      if (obj.parentNode.getAttribute('data-text') == course[0].dayDate) {
+        newFirstDay = course[0].dayDate;
+      }
+      newCourse = new Array();
+      for (var i = 0; i < course.length; i++) {
+        if (obj.parentNode.getAttribute('data-text') != course[i].dayDate) {
+          newCourse.push(course[i]); 
+        }
+      }
+      course = newCourse;
+      if (newFirstDay != null) {
+        getNewDropdown();
+        $('#button_calendar').calendar('set date', new Date(newFirstDay));
+        insertDayData(0);
+      } else {
+        getNewDropdown();
+        $('#button_calendar').calendar('set date', course[0].dayDate);
+        insertDayData(0);
+      }
+      courseDataReload();
+    }
+  }
+  
+  function getNewDropdown() {
+    var newInnerHTML = `        <input type="hidden" name="selectDate" class="noselection">
+        <i class="dropdown icon"></i>
+        <div class="default text">Day
+          <div class="innerDate"></div>
+        </div>
+          <div class="menu" tabindex="-1">
+            <div class="item" draggable="true" ondragstart="courseDateDrag(event)" ondrop="courseDateDrop(event)" ondragover="allowDrop(event)" data-text="2020-05-02" style="padding:11px 5px 11px 14px !important">
+              <div class="innerline">
+                <div class="innerlineDay">Day1</div>
+                <div class="innerlineDate" onclick="courseDataReload(this);">2020-05-04</div>
+              </div>
+              <div class="minusArea">
+                <i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i>
+              </div>
+            </div>
+            <div class="plus"><i class="plus icon" onclick="addDate();"></i></div>
+        </div>`;
+    document.getElementById('dropdown').innerHTML = newInnerHTML
+    $('.ui.dropdown').dropdown({
+      action:'nothing'
+    });
   }
   
   function addDate() {
@@ -163,6 +426,10 @@
     var datadiv = document.querySelectorAll('.plus')[0];
     datadiv.className = 'item';
     $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+    $('.item').attr('draggable', 'true');
+    $('.item').attr('ondragstart', 'courseDateDrag(event)');
+    $('.item').attr('ondrop', 'courseDateDrop(event)');
+    $('.item').attr('ondragover', 'allowDrop(event)');
     
     var plusdiv = document.createElement('div');
     plusdiv.className = 'plus';
@@ -172,6 +439,7 @@
     document.getElementById('dropdown').childNodes[7].appendChild(plusdiv);
     
     dropdownInit();
+    changeCourseDate();
   }
   
   function scrapDataOnCourse(obj) {
@@ -186,7 +454,8 @@
             } else {
               placeNames[0].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(23);
             }
-            input(placeNames[0]);
+            // input(placeNames[0]);
+            inputPlaceName();
           }
         }
         var basicAddrs = document.querySelectorAll('.basicAddr');
@@ -208,7 +477,8 @@
           } else {
             placeNames[placeNames.length-1].value = (obj.parentNode.parentNode.childNodes[i-2].childNodes[2].textContent).substring(23);
           }
-          input(placeNames[placeNames.length-1]);
+          // input(placeNames[placeNames.length-1]);
+          inputPlaceName();
         }
       }
         var basicAddrs = document.querySelectorAll('.basicAddr');
@@ -225,24 +495,9 @@
     getGeoLocation();
   }
     
-  function input(obj) {
-    if (obj.parentNode.id=="placeForm") {
-      document.getElementById("showPlaceName").value = (obj.value);
-      /*
-      console.log($(obj.parentNode).index());
-      console.log(obj.value);
-      console.log(obj.parentNode.parentNode.parentNode);
-      console.log($(obj.parentNode).children('.placeName').value);
-      */
-    } else if (obj.parentNode.id==""){
-      var rightFieldDiv = document.getElementById("rightField");
-      var rightFieldChildDiv = null;
-      for (var i = 0; i < rightFieldDiv.childNodes.length; i++) {
-        if (i == $(obj.parentNode).index()) {
-          $(rightFieldDiv.childNodes[i]).find('.showPlaceName').val(obj.value);
-          break;
-        }
-      }
+  function inputPlaceName() {
+    for (var i = 0; i < document.querySelectorAll('.placeName').length; i++) {
+    document.querySelectorAll('.showPlaceName')[i].value = document.querySelectorAll('.placeName')[i].value;
     }
   }
   
@@ -250,46 +505,124 @@
     ev.preventDefault();
   }
 
-  function drag(ev) {
+  function courseDateDrag(ev) {
+    for (var i = 0; i < course.length; i++) {
+      if (course[i].dayDate == ev.target.childNodes[0].childNodes[1].innerHTML) {
+        courseDateDragDropData = new Object();
+        var courseDay = new Array();
+        for (var j = 0; j < course[i].length; j++) {
+          courseDateDragDropData.index = i;
+          var coursePlace = new Object();
+          coursePlace.placeName = course[i][j].placeName;
+          coursePlace.basicAddr = course[i][j].basicAddr;
+          coursePlace.detailAddr = course[i][j].detailAddr;
+          coursePlace.etc = course[i][j].etc;
+          courseDay.push(coursePlace);
+        }
+        courseDay.dayDate = course[i].dayDate;
+        courseDay.title = course[i].title;
+        courseDay.no = course[i].no;
+        courseDateDragDropData.courseDay = courseDay;
+      }
+    }
+  }
+
+  function courseDateDrop(ev) {
+    ev.preventDefault();
+    if (ev.target.parentNode.parentNode.className == 'item') {
+      for (var i = 0; i < course.length; i++) {
+        if (course[i].dayDate == ev.target.parentNode.childNodes[1].innerHTML) {
+          var courseDay = new Array();
+          for (var j = 0; j < course[i].length; j++) {
+            var coursePlace = new Object();
+            coursePlace.placeName = course[i][j].placeName;
+            coursePlace.basicAddr = course[i][j].basicAddr;
+            coursePlace.detailAddr = course[i][j].detailAddr;
+            coursePlace.etc = course[i][j].etc;
+            courseDay.push(coursePlace);
+          }
+          courseDay.title = course[i].title;
+          
+          courseDay.no = courseDateDragDropData.courseDay.no;
+          courseDay.dayDate = courseDateDragDropData.courseDay.dayDate;
+          course[courseDateDragDropData.index] = courseDay;
+          
+          courseDateDragDropData.courseDay.no = course[i].no;
+          courseDateDragDropData.courseDay.dayDate = course[i].dayDate;
+          course[i] = courseDateDragDropData.courseDay;
+          
+          }
+        }
+      for (var x = 0; x < course.length; x++) {
+        if (ev.target.parentNode.childNodes[1].innerHTML == document.querySelectorAll('.innerlineDate')[0].innerHTML) {
+          if (i == 0) {
+            insertDayData(0);
+            insertInnerDate(ev.target.parentNode.childNodes[1]);
+            break;
+          }
+        } 
+        if (ev.target.parentNode.childNodes[1].innerHTML == course[x].dayDate) {
+          insertDayData(x);
+          insertInnerDate(ev.target.parentNode.childNodes[1]);
+          dropdownInit();
+          break;
+        }
+        if (x + 1 == course.length && ev.target.parentNode.childNodes[1].innerHTML != course[x].dayDate) {
+          getNewForm();
+          insertInnerDate(ev.target.parentNode.childNodes[1]);
+          dropdownInit();
+          break;
+        }
+      }
+      if (document.querySelectorAll('.menu.transition.visible')[0] != null) {
+        document.querySelectorAll('.menu.transition.visible')[0].className = 'menu transition hidden';
+      }
+    } else {
+      console.log("courseDateDrop에서 문제 생겼다!");
+    }
+    
+  }
+  
+  function placeNameDrag(ev) {
     dragEvent = ev.target;
     if (ev.target.parentNode.parentNode.id == "rightField") {
-      dragDropData.index = $(ev.target.parentNode).index();
+      placeNameDragDropData.index = $(ev.target.parentNode).index();
       var leftFieldDiv = document.getElementById("leftField");
       for (var i = 0; i < leftFieldDiv.childNodes.length; i++) {
-        if (i == dragDropData.index) {
-          dragDropData.placeName = $(leftFieldDiv.childNodes[dragDropData.index]).find('.placeName').val();
-          dragDropData.basicAddr = $(leftFieldDiv.childNodes[dragDropData.index]).find('.basicAddr').val();
-          dragDropData.detailAddr = $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val();
-          dragDropData.etc = $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val();
+        if (i == placeNameDragDropData.index) {
+          placeNameDragDropData.placeName = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.placeName').val();
+          placeNameDragDropData.basicAddr = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.basicAddr').val();
+          placeNameDragDropData.detailAddr = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.detailAddr').val();
+          placeNameDragDropData.etc = $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.etc').val();
           break;
         }
       }
     } else { // 가장 첫번째 place
-      dragDropData.index = "first";
+      placeNameDragDropData.index = "first";
       var placeFormDiv = document.getElementById("placeForm");
-      dragDropData.placeName = $(placeFormDiv).find('.placeName').val();
-      dragDropData.basicAddr = $(placeFormDiv).find('.basicAddr').val();
-      dragDropData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
-      dragDropData.etc = $(placeFormDiv).find('.etc').val();
+      placeNameDragDropData.placeName = $(placeFormDiv).find('.placeName').val();
+      placeNameDragDropData.basicAddr = $(placeFormDiv).find('.basicAddr').val();
+      placeNameDragDropData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
+      placeNameDragDropData.etc = $(placeFormDiv).find('.etc').val();
     }
   }
 
-  function drop(ev) {
+  function placeNameDrop(ev) {
     ev.preventDefault();
     var tempData = new Object();
     tempData.index = $(ev.target.parentNode).index();
     drawingFlag = false;
-    if (dragDropData.index == "first") { // drag가 가장 첫번째 place인지 확인
+    if (placeNameDragDropData.index == "first") { // drag가 가장 첫번째 place인지 확인
       var leftFieldDiv = document.getElementById("leftField");
       tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
       tempData.basicAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val();
       tempData.detailAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val();
       tempData.etc = $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val();
       
-      $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(dragDropData.placeName);
-      $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(dragDropData.basicAddr);
-      $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(dragDropData.detailAddr);
-      $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(dragDropData.etc);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(placeNameDragDropData.placeName);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(placeNameDragDropData.basicAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(placeNameDragDropData.detailAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(placeNameDragDropData.etc);
       
       var placeFormDiv = document.getElementById("placeForm");
       $(placeFormDiv).find('.placeName').val(tempData.placeName);
@@ -297,28 +630,34 @@
       $(placeFormDiv).find('.detailAddr').val(tempData.detailAddr);
       $(placeFormDiv).find('.etc').val(tempData.etc);
       
-      input(placeFormDiv.childNodes[1]);
-      input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
+      // input(placeFormDiv.childNodes[1]);
+      // input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
+      inputPlaceName();
       
-    } else if (ev.target.parentNode.parentNode.id == "rightField") { // drag & drop 둘다 first place 아님.
+    } else if (ev.target.parentNode.parentNode.id == "rightField") { // drag &
+                                                                      // drop 둘다
+                                                                      // first
+                                                                      // place
+                                                                      // 아님.
       var leftFieldDiv = document.getElementById("leftField");
       tempData.placeName = $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val();
       tempData.basicAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val();
       tempData.detailAddr = $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val();
       tempData.etc = $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val();
       
-      $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(dragDropData.placeName);
-      $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(dragDropData.basicAddr);
-      $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(dragDropData.detailAddr);
-      $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(dragDropData.etc);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.placeName').val(placeNameDragDropData.placeName);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.basicAddr').val(placeNameDragDropData.basicAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.detailAddr').val(placeNameDragDropData.detailAddr);
+      $(leftFieldDiv.childNodes[tempData.index]).find('.etc').val(placeNameDragDropData.etc);
       
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.placeName').val(tempData.placeName);
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val(tempData.etc);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.placeName').val(tempData.placeName);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.etc').val(tempData.etc);
       
-      input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
-      input(leftFieldDiv.childNodes[dragDropData.index].childNodes[1]);
+      // input(leftFieldDiv.childNodes[tempData.index].childNodes[1]);
+      // input(leftFieldDiv.childNodes[placeNameDragDropData.index].childNodes[1]);
+      inputPlaceName();
       
     } else { // drop이 first place.
       var placeFormDiv = document.getElementById("placeForm");
@@ -327,25 +666,54 @@
       tempData.detailAddr = $(placeFormDiv).find('.detailAddr').val();
       tempData.etc = $(placeFormDiv).find('.etc').val();
       
-      $(placeFormDiv).find('.placeName').val(dragDropData.placeName);
-      $(placeFormDiv).find('.basicAddr').val(dragDropData.basicAddr);
-      $(placeFormDiv).find('.detailAddr').val(dragDropData.detailAddr);
-      $(placeFormDiv).find('.etc').val(dragDropData.etc);
+      $(placeFormDiv).find('.placeName').val(placeNameDragDropData.placeName);
+      $(placeFormDiv).find('.basicAddr').val(placeNameDragDropData.basicAddr);
+      $(placeFormDiv).find('.detailAddr').val(placeNameDragDropData.detailAddr);
+      $(placeFormDiv).find('.etc').val(placeNameDragDropData.etc);
       
       var leftFieldDiv = document.getElementById("leftField");
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.placeName').val(tempData.placeName);
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
-      $(leftFieldDiv.childNodes[dragDropData.index]).find('.etc').val(tempData.etc);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.placeName').val(tempData.placeName);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.basicAddr').val(tempData.basicAddr);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.detailAddr').val(tempData.detailAddr);
+      $(leftFieldDiv.childNodes[placeNameDragDropData.index]).find('.etc').val(tempData.etc);
       
-      input(leftFieldDiv.childNodes[dragDropData.index].childNodes[1]);
-      input(placeFormDiv.childNodes[1]);
+      // input();leftFieldDiv.childNodes[placeNameDragDropData.index].childNodes[1]);
+      // input(placeFormDiv.childNodes[1]);
+      inputPlaceName();
       
     }
     
     getGeoLocation();
   }
   
+  function addForm(){
+    var div = document.createElement('div');
+    var str = document.getElementById('placeForm').innerHTML;
+    str +=  '<button type="button" onclick="removeForm(this)"> 코스 삭제</button>';
+    div.innerHTML = str;
+    document.getElementById('leftField').appendChild(div);
+    
+    var div2 = document.createElement('div');
+    var str2 = '<input class="showPlaceName" draggable="true" ondragstart="placeNameDrag(event)" ondrop="placeNameDrop(event)" ondragover="allowDrop(event)" type="text" readonly>';
+    div2.innerHTML = str2;
+    document.getElementById('rightField').appendChild(div2);
+  }
+  
+  function removeForm(obj){
+    document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
+    document.getElementById('leftField').removeChild(obj.parentNode);
+    getGeoLocation();
+  }
+  
+  function openDaumZipAddress(btn) { // 주소 API 연결
+    new daum.Postcode({
+      oncomplete:function(data) {
+        $(btn.parentNode).find('.basicAddr').val(data.address);
+        $(btn.parentNode).find('.detailAddr').focus(); // 상세주소에 focus 주기
+        getGeoLocation();
+      }
+    }).open();
+  }
   function getGeoLocation() {
     drawingFlag = false;
     deleteClickLine();
@@ -388,35 +756,6 @@
       map.panTo(markerPosition);
     }
     map.setBounds(bounds);
-  }
-  
-  function addForm(){
-    var div = document.createElement('div');
-    var str = document.getElementById('placeForm').innerHTML;
-    str +=  '<button type="button" onclick="remove_div(this)"> 코스 삭제</button>';
-    div.innerHTML = str;
-    document.getElementById('leftField').appendChild(div);
-    
-    var div2 = document.createElement('div');
-    var str2 = '<input class="showPlaceName" draggable="true" ondragstart="drag(event)" ondrop="drop(event)" ondragover="allowDrop(event)" type="text" readonly>';
-    div2.innerHTML = str2;
-    document.getElementById('rightField').appendChild(div2);
-  }
-  
-  function remove_div(obj){
-    document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
-    document.getElementById('leftField').removeChild(obj.parentNode);
-    getGeoLocation();
-  }
-  
-  function openDaumZipAddress(btn) { // 주소 API 연결
-    new daum.Postcode({
-      oncomplete:function(data) {
-        $(btn.parentNode).find('.basicAddr').val(data.address);
-        $(btn.parentNode).find('.detailAddr').focus(); // 상세주소에 focus 주기
-        getGeoLocation();
-      }
-    }).open();
   }
   
   function getLocation(address) {
@@ -474,9 +813,9 @@
       deleteCircleDot();
       deleteDistnce();
       clickLine = new kakao.maps.Polyline({
-        map: map, // 선을 표시할 지도입니다 
+        map: map, // 선을 표시할 지도입니다
         path: [points], // 선을 구성하는 좌표 배열입니다 클릭한 위치를 넣어줍니다
-        strokeWeight: 3, // 선의 두께입니다 
+        strokeWeight: 3, // 선의 두께입니다
         strokeColor: '#db4040', // 선의 색깔입니다
         strokeOpacity: 1, // 선의 불투명도입니다 0에서 1 사이값이며 0에 가까울수록 투명합니다
         strokeStyle: 'solid' // 선의 스타일입니다
@@ -526,7 +865,6 @@
             dots[i].distance.setMap(null);
         }
     }
-
     dots = [];
 }
   

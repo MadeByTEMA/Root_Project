@@ -77,3 +77,12 @@ div.innerlineDate {
 .distanceInfo:after {content:none;}
 
 .ui.left.sidebar,.ui.right.sidebar{width:25%}
+
+
+.modal {
+    height: auto;
+    top: auto;
+    left: auto;
+    bottom: auto;
+    right: auto;
+}

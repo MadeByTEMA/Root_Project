@@ -42,11 +42,16 @@ public class CourseController {
   UserService userService;
 
   @GetMapping("form")
-  public void form(HttpSession session, Model model) throws Exception {
+  public void form(String no, HttpSession session, Model model) throws Exception {
     User user = (User) session.getAttribute("loginUser");
     if (user == null) {
       throw new Exception("로그인이 필요합니다.");
     }
+    if (!no.equals("newForm")) {
+      int courseNo = Integer.parseInt(no);
+      model.addAttribute("course", courseService.get(courseNo));
+    }
+
     model.addAttribute("scrapDays", scrapDayService.list(user.getNo()));
     model.addAttribute("scrapPlaces", scrapPlaceService.list(user.getNo()));
   }
@@ -93,11 +98,10 @@ public class CourseController {
     }
     model.addAttribute("list", courseService.list(user.getNo()));
   }
-
-  @GetMapping("detail")
-  public void detail(int no, Model model) throws Exception {
-    model.addAttribute("course", courseService.get(no));
-  }
+  /*
+   * @GetMapping("detail") public void detail(int no, Model model) throws
+   * Exception { model.addAttribute("course", courseService.get(no)); }
+   */
 
   @GetMapping("delete")
   public String delete(int no, int userNo) throws Exception {
