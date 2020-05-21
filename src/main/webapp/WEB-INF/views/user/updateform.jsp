@@ -10,11 +10,11 @@
 <img src='${pageContext.servletContext.contextPath}/upload/user/${loginUser.photo}' height='100' width='100' vspace=30 hspace=20 >
 <input name='no' hidden value='${loginUser.no}'>
 <input name='photoFile' type='file'><br>
-별명: <input name='nickName' type='text' value='${loginUser.nickName}'><br>  
-이메일: <input name='email' type='text' readonly value='${loginUser.email}'><br>
-비밀번호: <input name='password' type="password"><br>
-이름: <input name='name' type='text' value='${loginUser.name}'><br>
-생일: <input name='birth' type="date" value='${loginUser.birth}'><br>
+<input  name='nickName'  type="text" value='${loginUser.nickName}' class="search-query form-control" placeholder="별명" />
+<input  name='email'  type="text" readonly value='${loginUser.email}' class="search-query form-control" placeholder="이메일" />
+<input  name='password'  type="password" class="search-query form-control" placeholder="비밀번호" />
+<input  name='name'  type="text" value='${loginUser.name}' class="search-query form-control" placeholder="이름" />
+<input  name='birth'  type="date" value='${loginUser.birth}' class="search-query form-control" placeholder="생일" />
 <c:choose>
   <c:when test="${loginUser.gender == 1}">
 성별: 남 <input name='gender' type='radio' value=1 checked> 여 <input name='gender' type='radio' value=2><br>
@@ -23,10 +23,10 @@
 성별: 남 <input name='gender' type='radio' value=1> 여 <input name='gender' type='radio' value=2 checked><br>
   </c:when>
 </c:choose>
-전화번호: <input name='tel' type="tel" value='${loginUser.tel}'><br>
-우편번호: <input name='zipCode' type='text' value='${loginUser.zipCode}'><br>
-기본주소: <input name='basicAddr' type='text' value='${loginUser.basicAddr}'><br>
-상세주소: <input name='detailAddr' type='text' value='${loginUser.detailAddr}'><br>
+<input  name='tel'  type="tel" value='${loginUser.tel}' class="search-query form-control" placeholder="전화번호" />
+<input  name='zipCode'  type="text" value='${loginUser.zipCode}' class="search-query form-control" placeholder="우편번호" />
+<input  name='basicAddr'  type="text" value='${loginUser.basicAddr}' class="search-query form-control" placeholder="기본주소" />
+<input  name='detailAddr'  type="text" value='${loginUser.detailAddr}' class="search-query form-control" placeholder="상세주소" />
 <button id="btn2">등록</button>
 </div>
 </form>

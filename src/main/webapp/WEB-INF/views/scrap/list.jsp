@@ -3,10 +3,12 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>스크랩 리스트</h1>
+<h3>스크랩 리스트</h3>
 <h5>데이 스크랩</h5>
-  <table border='1'>
-  <tr>
+<body>
+  <table class="table table-hover" >
+  <thead>
+  <tr align="center">
     <th>제목</th>
     <th>여행일</th>
     <th>메인후기</th>
@@ -21,10 +23,12 @@
         <td><button type="button" onclick="location.href='delete?no=${scrap.reviewDay.no}'">삭제</button></td>
       </tr>
   </c:forEach>
+   </thead>
 </table>
 
- <table border='1'>
-  <tr>
+<table class="table table-hover" >
+ <thead>
+ <tr align="center">
     <th>장소</th>
     <th>메인사진</th>
     <th>리뷰</th>
@@ -44,5 +48,6 @@
         <td><button type="button" onclick="location.href='delete?no=${scrap.reviewPlace.no}'">삭제</button></td>
       </tr>
   </c:forEach>
+   </thead>
 </table>
 

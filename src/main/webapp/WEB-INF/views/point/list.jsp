@@ -3,19 +3,23 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-  <h1>리스트</h1>
-  <table border='1'>
-  <tr>
+  <h3>리스트</h3>
+  <body>
+  <table class="table table-hover" >
+  <thead>
+  <tr align="center">
     <th>포인트 번호</th>
     <th>유저 번호</th>
     <th>상대 번호</th>
     <th>포인트 분류</th>
     <th>입출금 내용</th>
     <th>포인트 금액</th>
-  </tr>
+  </tr> 
+  </thead>
+    <tbody>
   
 <c:forEach items="${list}" var="item">
-  <tr>
+   <tr align="center">
   <!-- <a href='output?no=${item.no}'> -->
     <td>${item.no}</td> 
     <td>${item.userNo}</td> 
@@ -25,6 +29,7 @@
     <td>${item.price}</td>
   </tr>
 </c:forEach>
+  </tbody>
 
 <%--
 <c:if test="${userNo == traderNo}">
@@ -34,4 +39,5 @@
  
  <%-- --%>
 </table>
+</body>
 

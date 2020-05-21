@@ -26,12 +26,11 @@
   // - 아임포트, 부트페이, 이니시스 
  -->
 <p> ${user.name} 의 보유 포인트는 ${point.price} 포인트 입니다.  </p>
-
-예금주 : <input name="name" type="text" value="${user.name}" > <br> 
-전화번호 : <input name="tel" type="text" value='${user.tel}' > <br> <!-- 인증 -->
-은행명 : <input name="bank" type="text" value="${user.bank}" > <br>
-계좌번호 : <input name="account" type="text" value="${user.account}" > <br>
-출금 포인트 : <input name="price" type="text"><br>
+예금주 : <input  name='name'  type="text" value='${user.name}' class="search-query form-control" placeholder="예금주"/><br>
+전화번호 : <input  name='tel'  type="text" value='${user.tel}' class="search-query form-control" placeholder="전화번호"/><br> <!-- 인증 -->
+은행명 : <input  name='bank'  type="text" value='${user.bank}' class="search-query form-control" placeholder="은행명"/><br>
+계좌번호 : <input  name='account'  type="text" value='${user.account}' class="search-query form-control" placeholder="계좌번호"/><br>
+출금 포인트 : <input  name='price'  type="text" class="search-query form-control" placeholder="출금 포인트"/><br>
  
 <form action='add' method='post'>
 <script type="text/javascript">
