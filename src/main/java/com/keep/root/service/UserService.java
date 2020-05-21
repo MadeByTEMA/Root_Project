@@ -19,9 +19,16 @@ public interface UserService {
 
   int update(User member) throws Exception;
 
+  Integer nickNameSearch(String nickName) throws Exception;
+
+  Integer emailSearch(String email) throws Exception;
+
+  Integer telSearch(String tel) throws Exception;
+
   // withdraw
   List<User> list(int userNo) throws Exception;
 
   User get(String name, String tel, String account, String bank) throws Exception;
+
 
 }

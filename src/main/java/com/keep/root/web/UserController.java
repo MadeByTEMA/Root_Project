@@ -1,11 +1,10 @@
 package com.keep.root.web;
 
 import java.io.File;
+import java.sql.Date;
 import java.util.UUID;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,8 +13,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
 
@@ -31,15 +31,26 @@ public class UserController {
   UserService userService;
 
   @GetMapping("form")
-  public void form() {
-  }
+  public void form() {}
 
   @GetMapping("updateform")
-  public void updateform() {
-  }
+  public void updateform() {}
 
   @PostMapping("add")
-  public String add(User user, MultipartFile photoFile) throws Exception {
+  public String add(//
+      String email, //
+      String password, //
+      String name, //
+      Date birth, //
+      int gender, //
+      String tel, //
+      int zipCode, //
+      String basicAddr, //
+      String detailAddr, //
+      String nickName, //
+      MultipartFile photoFile) throws Exception {
+    User user = new User(email, password, name, birth, gender, tel, zipCode, basicAddr, detailAddr,
+        nickName);
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
       String filename = UUID.randomUUID().toString();
@@ -47,7 +58,7 @@ public class UserController {
       user.setPhoto(filename);
     }
     if (userService.add(user) > 0) {
-      return "redirect:list";
+      return "redirect:../../app/auth/form";
     } else {
       throw new Exception("회원을 추가할 수 없습니다.");
     }
@@ -69,6 +80,7 @@ public class UserController {
 
   @GetMapping("list")
   public void list(Model model) throws Exception {
+
     model.addAttribute("list", userService.list());
   }
 
@@ -83,19 +95,40 @@ public class UserController {
       MultipartFile photoFile, //
       HttpSession session //
   ) throws Exception {
+
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
       String filename = UUID.randomUUID().toString();
       photoFile.transferTo(new File(dirPath + "/" + filename));
       user.setPhoto(filename);
     }
-    User temp = (User) session.getAttribute("loginUser");
-    user.setNo(temp.getNo());
+    session.setAttribute("loginUser", user);
     if (userService.update(user) > 0) {
-      session.setAttribute("loginUser", user);
-      return "redirect:../mypage/form?no=" + user.getNo();
+      return "redirect:../mypage/form";
     } else {
       throw new Exception("변경할 회원 번호가 유효하지 않습니다.");
     }
   }
+
+  @ResponseBody
+  @RequestMapping(value = "nickNameSearch", method = RequestMethod.POST)
+  public int nickNameSearch(String nickName) throws Exception {
+    int count = userService.nickNameSearch(nickName);
+    return count;
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "emailSearch", method = RequestMethod.POST)
+  public int emailSearch(String email) throws Exception {
+    int count = userService.emailSearch(email);
+    return count;
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "telSearch", method = RequestMethod.POST)
+  public int telSearch(String tel) throws Exception {
+    int count = userService.telSearch(tel);
+    return count;
+  }
+
 }

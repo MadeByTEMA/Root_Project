@@ -174,6 +174,20 @@
       and password=password(#{password})
   </select>
 
+  
+  <select id="nickNameSearch" resultType="int" parameterType="string">
+    select count(nickname) from users
+     where nickname = #{nickName}
+</select>
+
+<select id="emailSearch" resultType="int" parameterType="string">
+    select count(email) from users
+     where email = #{email}
+</select>
+<select id="telSearch" resultType="int" parameterType="string">
+    select count(phone_number) from users
+     where phone_number = #{tel}
+</select>
 </mapper>
 
 

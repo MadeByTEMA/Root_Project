@@ -56,6 +56,21 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public Integer nickNameSearch(String nickName) throws Exception {
+    return userDao.nickNameSearch(nickName);
+  }
+
+  @Override
+  public Integer emailSearch(String email) throws Exception {
+    return userDao.emailSearch(email);
+  }
+
+  @Override
+  public Integer telSearch(String tel) throws Exception {
+    return userDao.telSearch(tel);
+  }
+
+  @Override
   public int update(User user) throws Exception {
     return userDao.update(user);
   }

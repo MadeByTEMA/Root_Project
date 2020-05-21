@@ -4,7 +4,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <h3>코스 리스트</h3>
-<a href='form'>새 코스 등록</a><br>
+<a href='form?no=newForm'>새 코스 등록</a><br>
 <body>
   <table class="table table-hover" >
   <thead>
@@ -21,7 +21,7 @@
       <c:forEach items="${course.courseDay}" var="courseday" varStatus="status">
         <c:if test="${status.first}">
           <c:set var="startDate" value="${courseday.dayDate}"/>
-          <td><a href='detail?no=${course.no}'>${courseday.title}</a></td>
+          <td><a href='form?no=${course.no}'>${courseday.title}</a></td>
         </c:if>
         <c:if test="${status.last}">
           <c:set var="endDate" value="${courseday.dayDate}"/>
