@@ -59,6 +59,8 @@ CREATE TABLE users (
   nickname       VARCHAR(30)  NOT NULL COMMENT '별명', -- 별명
   account        INTEGER(30)  NULL     COMMENT '계좌번호', -- 계좌번호
   bank           VARCHAR(30)  NULL     COMMENT '은행' -- 은행
+  authkey        VARCHAR(50)  NULL     COMMENT '권한키',
+  auth_status    INTEGER(30)  NULL DEFAULT 0  COMMENT '권한상태'
 )
 COMMENT '유저';
 
