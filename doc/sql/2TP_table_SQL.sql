@@ -47,7 +47,7 @@ DROP TABLE IF EXISTS info_photo RESTRICT;
 CREATE TABLE users (
   user_no        INTEGER      NOT NULL COMMENT '유저번호', -- 유저번호
   user_name      VARCHAR(30)  NOT NULL COMMENT '이름', -- 이름
-  birthday       DATE         NOT NULL COMMENT '생년월일', -- 생년월일
+  birthday       VARCHAR(30)         NOT NULL COMMENT '생년월일', -- 생년월일
   gender         INTEGER      NOT NULL COMMENT '성별', -- 성별
   email          VARCHAR(50)  NOT NULL COMMENT '이메일', -- 이메일
   password       VARCHAR(255) NOT NULL COMMENT '비밀번호', -- 비밀번호
