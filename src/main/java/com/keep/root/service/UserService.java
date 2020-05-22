@@ -13,11 +13,13 @@ public interface UserService {
 
   User get(int no) throws Exception;
 
+  User get(String email) throws Exception;
+
   User get(String email, String password) throws Exception;
 
   List<User> search(String keyword) throws Exception;
 
-  int update(User member) throws Exception;
+  int update(User user) throws Exception;
 
   Integer nickNameSearch(String nickName) throws Exception;
 
@@ -25,10 +27,13 @@ public interface UserService {
 
   Integer telSearch(String tel) throws Exception;
 
+  int updateAuthStatus(User user);
+
   // withdraw
   List<User> list(int userNo) throws Exception;
 
   User get(String name, String tel, String account, String bank) throws Exception;
+
 
 
 }

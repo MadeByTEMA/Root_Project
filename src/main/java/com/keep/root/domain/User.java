@@ -1,14 +1,12 @@
 package com.keep.root.domain;
 
-import java.sql.Date;
-
 public class User {
 
   int no;
   String email;
   String password;
   String name;
-  Date birth;
+  String birth;
   int gender;
   String tel;
   int zipCode;
@@ -19,13 +17,15 @@ public class User {
   int account;
   String bank;
   int point; // setter 아직 정의 안함.
+  String authKey;
+  int authStatus;
 
   public User() {}
 
   public User(String email, //
       String password, //
       String name, //
-      Date birth, //
+      String birth, //
       int gender, //
       String tel, //
       int zipCode, //
@@ -44,13 +44,13 @@ public class User {
     this.nickName = nickName;
   }
 
-
   @Override
   public String toString() {
-    return "User [no=" + no + ", name=" + name + ", birth=" + birth + ", gender=" + gender
-        + ", email=" + email + ", password=" + password + ", tel=" + tel + ", zipCode=" + zipCode
+    return "User [no=" + no + ", email=" + email + ", password=" + password + ", name=" + name
+        + ", birth=" + birth + ", gender=" + gender + ", tel=" + tel + ", zipCode=" + zipCode
         + ", basicAddr=" + basicAddr + ", detailAddr=" + detailAddr + ", photo=" + photo
-        + ", nickName=" + nickName + ", account=" + account + ", bank=" + bank + "]";
+        + ", nickName=" + nickName + ", account=" + account + ", bank=" + bank + ", point=" + point
+        + ", authKey=" + authKey + ", authStatus=" + authStatus + "]";
   }
 
   public int getNo() {
@@ -69,11 +69,11 @@ public class User {
     this.name = name;
   }
 
-  public Date getBirth() {
+  public String getBirth() {
     return birth;
   }
 
-  public void setBirth(Date birth) {
+  public void setBirth(String birth) {
     this.birth = birth;
   }
 
@@ -167,6 +167,22 @@ public class User {
 
   public int getPoint() {
     return point;
+  }
+
+  public String getAuthKey() {
+    return authKey;
+  }
+
+  public void setAuthKey(String authKey) {
+    this.authKey = authKey;
+  }
+
+  public int getAuthStatus() {
+    return authStatus;
+  }
+
+  public void setAuthStatus(int authStatus) {
+    this.authStatus = authStatus;
   }
 
   public void setPoint(int point) {}

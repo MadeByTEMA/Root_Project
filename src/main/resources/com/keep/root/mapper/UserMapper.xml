@@ -20,9 +20,12 @@
     <result column="nickname" property="nickName"/>
     <result column="account" property="account"/>
     <result column="bank" property="bank"/>
+    <result column="authKey" property="authKey"/>
+    <result column="auth_status" property="authStatus"/>
   </resultMap>
   
-  <insert id="insert" parameterType="User">
+  <insert id="insert" parameterType="User"
+  useGeneratedKeys="true" keyColumn="user_no" keyProperty="no">
     insert into users(
     email,
     password,
@@ -36,7 +39,8 @@
     photo,
     nickname,
     account,
-    bank
+    bank,
+    authKey
     ) values(
       #{email},
       password(#{password}),
@@ -50,7 +54,8 @@
       #{photo},
       #{nickName},
       #{account},
-      #{bank}
+      #{bank},
+      #{authKey}
     )
   </insert>
   
@@ -94,6 +99,28 @@
     from 
       users
     where 
+      email=#{email}
+  </select>
+  
+  <select id="findByEmail" resultMap="UserMap" parameterType="string">
+    select 
+    user_no,
+    email,
+    password,
+    user_name,
+    birthday,
+    gender,
+    phone_number,
+    zip_code,
+    basic_address,
+    detail_address,
+    photo,
+    nickname,
+    account,
+    bank
+    from 
+      users
+    where 
       user_no=#{no}
   </select>
   
@@ -116,6 +143,13 @@
     </set>
     where 
       user_no=#{no}
+  </update>
+  
+  <update id="updateAuthStatus" parameterType="User">
+    update users
+    set auth_status=1
+    where 
+      email=#{email}
   </update>
   
   <delete id="delete" parameterType="int">
@@ -173,7 +207,6 @@
       email=#{email} 
       and password=password(#{password})
   </select>
-
   
   <select id="nickNameSearch" resultType="int" parameterType="string">
     select count(nickname) from users
@@ -189,10 +222,3 @@
      where phone_number = #{tel}
 </select>
 </mapper>
-
-
-
-
-
-
-

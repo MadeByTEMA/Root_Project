@@ -16,6 +16,8 @@ public interface UserDao {
 
   User findByNo(int no) throws Exception;
 
+  User findByEmail(String email) throws Exception;
+
   int update(User user) throws Exception;
 
   int delete(int no) throws Exception;
@@ -29,6 +31,8 @@ public interface UserDao {
   int emailSearch(String email) throws Exception;
 
   int telSearch(String tel) throws Exception;
+
+  int updateAuthStatus(User user);
 
   // withdraw
   List<User> findAll(int userNo) throws Exception;
