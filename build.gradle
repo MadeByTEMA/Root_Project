@@ -84,6 +84,10 @@ dependencies {
   // 
   // => apache의 multipart 처리기 등록
   implementation 'commons-fileupload:commons-fileupload:1.4'
+
+ // email 인증
+  implementation 'com.sun.mail:javax.mail:1.6.2'
+  implementation 'org.springframework:spring-context-support:5.2.6.RELEASE'
   
   // Tiles 라이브러리 
   implementation 'org.apache.tiles:tiles-jsp:3.0.8'
