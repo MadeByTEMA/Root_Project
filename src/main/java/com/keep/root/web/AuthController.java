@@ -13,6 +13,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestTemplate;
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
@@ -108,5 +110,14 @@ public class AuthController {
     model.addAttribute("refreshUrl", "2;url=../../index.html");
 
     return "auth/login";
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "epSearch", method = RequestMethod.POST)
+  public int epSearch(String email, String password) throws Exception {
+    int count = userService.epSearch(email, password);
+    System.out.println("리턴 값" + count);
+    return count;
+
   }
 }

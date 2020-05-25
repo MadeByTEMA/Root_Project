@@ -1,5 +1,6 @@
 package com.keep.root.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import com.keep.root.domain.User;
@@ -26,17 +27,26 @@ public interface UserDao {
 
   User findByEmailAndPassword(Map<String, Object> params) throws Exception;
 
+  int epSearch(Map<String, Object> params) throws Exception;
+
+  int enSearch(HashMap<String, Object> params);
+
   int nickNameSearch(String nickName) throws Exception;
 
   int emailSearch(String email) throws Exception;
 
   int telSearch(String tel) throws Exception;
 
+  int nameSearch(String name) throws Exception;
+
   int updateAuthStatus(User user);
+
+  int updatePassword(User user) throws Exception;
 
   // withdraw
   List<User> findAll(int userNo) throws Exception;
 
   User findForWithdraw(Map<String, Object> params) throws Exception;
+
 
 }

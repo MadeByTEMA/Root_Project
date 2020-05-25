@@ -27,13 +27,20 @@ public interface UserService {
 
   Integer telSearch(String tel) throws Exception;
 
+  Integer nameSearch(String name) throws Exception;
+
+  Integer epSearch(String email, String password) throws Exception;
+
+  Integer enSearch(String email, String name) throws Exception;
+
   int updateAuthStatus(User user);
+
+  int updatePassword(User user) throws Exception;
 
   // withdraw
   List<User> list(int userNo) throws Exception;
 
   User get(String name, String tel, String account, String bank) throws Exception;
-
 
 
 }

@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import com.keep.root.TempKey;
+import com.keep.root.TempPass;
 import com.keep.root.dao.UserDao;
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
@@ -66,6 +67,25 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
+  public int updatePassword(User user) throws Exception {
+    String randomPass = new TempPass().getKey(8);
+    user.setPassword(randomPass);
+    System.out.println(randomPass);
+    // mail 작성 관련
+    MimeMessage mail = mailSender.createMimeMessage();
+    String mailContent = "<h1>[비밀번호 변경]</h1><br><p>아래의 비밀변경으로 로그인해주세요.</p> <br>" + randomPass;
+    try {
+      mail.setSubject("비밀번호 변경 인증 ", "utf-8");
+      mail.setText(mailContent, "utf-8", "html");
+      mail.addRecipient(Message.RecipientType.TO, new InternetAddress(user.getEmail()));
+      mailSender.send(mail);
+    } catch (MessagingException e) {
+      e.printStackTrace();
+    }
+    return userDao.updatePassword(user);
+  }
+
+  @Override
   public User get(int no) throws Exception {
     return userDao.findByNo(no);
   }
@@ -101,6 +121,27 @@ public class UserServiceImpl implements UserService {
   @Override
   public Integer telSearch(String tel) throws Exception {
     return userDao.telSearch(tel);
+  }
+
+  @Override
+  public Integer nameSearch(String name) throws Exception {
+    return userDao.nameSearch(name);
+  }
+
+  @Override
+  public Integer epSearch(String email, String password) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("email", email);
+    params.put("password", password);
+    return userDao.epSearch(params);
+  }
+
+  @Override
+  public Integer enSearch(String email, String name) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("email", email);
+    params.put("name", name);
+    return userDao.enSearch(params);
   }
 
   @Override

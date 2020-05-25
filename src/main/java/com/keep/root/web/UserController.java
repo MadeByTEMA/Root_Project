@@ -33,6 +33,9 @@ public class UserController {
   @GetMapping("form")
   public void form() {}
 
+  @GetMapping("findinfoform")
+  public void findinfoform() {}
+
   @GetMapping("updateform")
   public void updateform() {}
 
@@ -68,7 +71,6 @@ public class UserController {
 
   @RequestMapping(value = "joinConfirm")
   public String emailConfirm(@ModelAttribute("user") User user, Model model) throws Exception {
-    logger.info(user.getEmail() + ": auth confirmed");
     userService.updateAuthStatus(user);
     return "redirect:../auth/signSuccess";
   }
@@ -113,6 +115,12 @@ public class UserController {
     }
   }
 
+  @PostMapping("findPass")
+  public String findPass(User user) throws Exception {
+    userService.updatePassword(user);
+    return "redirect:../auth/form";
+  }
+
 
   @ResponseBody
   @RequestMapping(value = "nickNameSearch", method = RequestMethod.POST)
@@ -133,6 +141,22 @@ public class UserController {
   public int telSearch(String tel) throws Exception {
     int count = userService.telSearch(tel);
     return count;
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "nameSearch", method = RequestMethod.POST)
+  public int nameSearch(String name) throws Exception {
+    int count = userService.nameSearch(name);
+    return count;
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "enSearch", method = RequestMethod.POST)
+  public int enSearch(String email, String name) throws Exception {
+    int count = userService.enSearch(email, name);
+    System.out.println("리턴 값" + count);
+    return count;
+
   }
 
 }

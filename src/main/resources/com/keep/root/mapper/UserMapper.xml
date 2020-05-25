@@ -152,6 +152,13 @@
       email=#{email}
   </update>
   
+   <update id="updatePassword" parameterType="User" >
+    update users
+    set password=password(#{password})
+    where 
+      email=#{email}
+  </update>
+  
   <delete id="delete" parameterType="int">
     delete from users
     where user_no=#{no}
@@ -206,6 +213,22 @@
     where 
       email=#{email} 
       and password=password(#{password})
+  </select>  
+
+<select id="epSearch" resultType="int" parameterType="map">
+    select count(*)from users
+    where email=#{email} and password=password(#{password})
+  </select> 
+   
+  <select id="enSearch" resultType="int" parameterType="map">
+    select count(*)from users
+    where email=#{email} and user_name=#{name}
+  </select> 
+
+
+  <select id="nameSearch" resultType="int" parameterType="string">
+    select count(user_name) from users 
+      where user_name= #{name}
   </select>
   
   <select id="nickNameSearch" resultType="int" parameterType="string">
