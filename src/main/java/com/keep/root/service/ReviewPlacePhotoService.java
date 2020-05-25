@@ -2,6 +2,8 @@ package com.keep.root.service;
 
 import java.util.List;
 
+import com.keep.root.domain.ReviewDay;
+import com.keep.root.domain.ReviewPlace;
 import com.keep.root.domain.ReviewPlacePhoto;
 
 public interface ReviewPlacePhotoService {
@@ -15,4 +17,10 @@ public interface ReviewPlacePhotoService {
   int update(ReviewPlacePhoto reviewPlacePhoto) throws Exception;
 
   int delete(int no) throws Exception;
+
+  //search
+  List<ReviewPlacePhoto> listGet(int no) throws Exception;
+  
+  ReviewPlacePhoto searchPhotoGet(int no) throws Exception;
+  
 }

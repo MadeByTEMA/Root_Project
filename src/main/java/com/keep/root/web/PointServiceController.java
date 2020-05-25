@@ -1,6 +1,7 @@
 package com.keep.root.web;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +28,11 @@ public class PointServiceController {
   UserService userService;
 
   @GetMapping("form")
-  public void form(int userNo, Model model) throws Exception {
+  public void form(int userNo, HttpSession session, Model model) throws Exception {
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      throw new Exception("로그인이 필요합니다.");
+    }
     model.addAttribute("user", userService.get(userNo));
     model.addAttribute("point", pointService.get(userNo));
 
@@ -39,56 +44,25 @@ public class PointServiceController {
     return "/point/payment";
   }
 
-  @PostMapping("add")
+  @RequestMapping("add")
   public String add(//
       int userNo, //
-      int tarderNo, //
+      int reviewUserNo, //
       int pointType, //
       int content, //
-      int price) throws Exception {
-    User user = userService.get(userNo);
-    if (user == null) {
-      throw new Exception("없음");
+      int price, HttpSession session, Model model) throws Exception {
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      throw new Exception("로그인이 필요합니다.");
     }
-
-    // tarderNo은 Scarp을 당할때 저장되는 번호
-    //
-    Point point = new Point();
-    point.setTraderNo(tarderNo);
-    point.setContent(content);
-    point.setPointType(pointType);
-    point.setPrice(price);
-    point.setUser(user);
-
-    return "redirect:list?userNo=" + userNo;
+    if (pointService.scrapAdd(loginUser.getNo(), reviewUserNo, pointType, content, price) > 0) {
+      return "redirect:userlist?userNo=" + loginUser.getNo();
+    } else {
+      throw new Exception("스크랩을 실패했습니다.");
+    }
   }
 
-  // @PostMapping("withdraw")
-  // public String withdraw(//
-  // String name, //
-  // String tel, //
-  // String account, //
-  // String bank, //
-  // int price, //
-  // int no, //
-  // HttpServletResponse response, //
-  // HttpSession session, //
-  // Model model) throws Exception {
-  //
-  // User user = userService.get(name, tel, account, bank);
-  // if (user == null) {
-  // throw new Exception("정보가 일치하지 않습니다.");
-  // }
-  // model.addAttribute("user", user);
-  //
-  // Point point = (Point) session.getAttribute("point");
-  // point.setPrice(price);
-  //
-  // pointService.update(point);
-  //
-  // return "/WEB-INF/jsp/point/form.jsp";
-  // // return "/WEB-INF/view/point/withdraw.jsp";
-  // }
+  // http://localhost:8080/Root_Project/app/point/add?userNo=51&reviewUserNo=54&pointType=1&content=2&price=30
 
   @GetMapping("outputdetail")
   public void getUser(int userNo, Model model) throws Exception {
@@ -124,18 +98,6 @@ public class PointServiceController {
     model.addAttribute("output", pointService.findOutputByUserNo());
   }
 
-  // @GetMapping
-  // public ModelAndView listOutput(//
-  // HttpServletRequest request, //
-  // @RequestParam("user") User user) throws Exception {
-  // ModelAndView mv = new ModelAndView();
-  // mv.addObject("out", pointService.findOutputByUserNo());
-  // mv.addObject("user", user);
-  // mv.setViewName("output");
-  // return mv;
-  // }
-  // model
-
   @GetMapping("trader")
   public void getTrader(Model model, int traderNo) throws Exception {
     model.addAttribute("tarder", pointService.getTrader(traderNo));
@@ -151,9 +113,13 @@ public class PointServiceController {
   }
 
   @GetMapping("delete")
-  public String delete(int no) throws Exception {
+  public String delete(int no, HttpSession session) throws Exception {
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      throw new Exception("로그인이 필요합니다.");
+    }
     if (pointService.delete(no) > 0) {
-      return "redirect:list";
+      return "redirect:userlist?userNo=" + loginUser.getNo();
     } else {
       throw new Exception("삭제할 게시물 번호가 유효하지 않습니다.");
     }

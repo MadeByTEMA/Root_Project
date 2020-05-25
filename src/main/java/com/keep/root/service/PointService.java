@@ -5,7 +5,12 @@ import com.keep.root.domain.Point;
 
 public interface PointService {
 
-  int add(Point point) throws Exception;
+  int scrapAdd(//
+      int userNo, //
+      int reviewUserNo, //
+      int pointType, //
+      int content, //
+      int price) throws Exception;
 
   void withdraw(Point point) throws Exception;
 

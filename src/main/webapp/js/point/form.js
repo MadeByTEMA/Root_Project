@@ -1,9 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-    trimDirectiveWhitespaces="true"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<!-- 
   // 
   // 본인 인증 API
   // - 부트페이, 아임포트, 이니시스
@@ -12,11 +7,8 @@
   //
   // 결제 시스템 연동 API
   // - 아임포트, 부트페이, 이니시스 
- -->
 
 
-</script>
-<script>
 //실제 복사하여 사용시에는 모든 주석을 지운 후 사용하세요
 BootPay.request({
   price: '1000', //실제 결제되는 가격
@@ -78,9 +70,8 @@ BootPay.request({
   //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
   console.log(data);
 });
-</script>
 
-<!-- 출금할 수 있는 보유 잔량(유저 번호를 통해서 모든 값을 더한다.)  -->
-<!-- 입출금 분류, 입출금 내용 제어문-->
-<!-- 출금 가능한 default 값 -->
+//<!-- 출금할 수 있는 보유 잔량(유저 번호를 통해서 모든 값을 더한다.)  -->
+//<!-- 입출금 분류, 입출금 내용 제어문-->
+//<!-- 출금 가능한 default 값 -->
 

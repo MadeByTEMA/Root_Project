@@ -22,6 +22,17 @@
   </resultMap>
   
   
+  
+  <select id="insert" parameterType="ScrapPlace">
+    insert into place_scraps(
+      user_no,
+      review_place_no
+    )values(
+      #{user.no},
+      #{reviewPlace.no}
+    )
+  </select>
+  
   <select id="findAll" resultMap="ScrapPlaceMap" parameterType="map">
       select 
       s.user_no,

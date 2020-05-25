@@ -1,14 +1,13 @@
 package com.keep.root.service.impl;
 
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-
 import com.keep.root.dao.ReviewPlaceDao;
 import com.keep.root.dao.ReviewPlacePhotoDao;
+import com.keep.root.domain.ReviewDay;
 import com.keep.root.domain.ReviewPlace;
 import com.keep.root.domain.ReviewPlacePhoto;
 import com.keep.root.service.ReviewPlaceService;
@@ -53,7 +52,8 @@ public class ReviewPlaceServiceImpl implements ReviewPlaceService {
   public List<ReviewPlace> list(int reviewDayNo) throws Exception {
     List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDayNo);
     for (ReviewPlace reviewPlace : reviewPlaces) {
-      reviewPlace.setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
+      reviewPlace
+          .setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
     }
     return reviewPlaces;
   }
@@ -62,7 +62,8 @@ public class ReviewPlaceServiceImpl implements ReviewPlaceService {
   @Override
   public ReviewPlace get(int no) throws Exception {
     ReviewPlace reviewPlace = reviewPlaceDao.findByNo(no);
-    reviewPlace.setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
+    reviewPlace
+        .setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
     return reviewPlaceDao.findByNo(no);
   }
 
@@ -81,4 +82,34 @@ public class ReviewPlaceServiceImpl implements ReviewPlaceService {
     }
     return reviewPlaceDao.delete(no);
   }
+
+  
+  // search
+//  @Transactional
+//  @Override
+//  public List<ReviewPlace> list() throws Exception {
+//    List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAll();
+//    for (ReviewPlace reviewPlace : reviewPlaces) {
+//      reviewPlace
+//          .setReviewPlacePhotos(reviewPlacePhotoDao.findAll());
+//    }
+//    return reviewPlaces;
+//  }
+  
+  @Override
+  public List<ReviewPlace> search(String keyword) throws Exception {
+    return reviewPlaceDao.findByKeyword(keyword);
+  }
+  
+  @Override
+  public ReviewPlace searchPlaceGet(int no) throws Exception {
+    return reviewPlaceDao.find(no);
+  }
+
+@Override
+public List<ReviewPlace> list() throws Exception {
+	// TODO Auto-generated method stub
+	return null;
+}
+
 }

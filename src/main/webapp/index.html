@@ -78,14 +78,12 @@
 	<div class="row">
            <div id="custom-search-input">
                             <div class="input-group col-md-12">
-                                <input type="text" class="search-query form-control" placeholder="Search" />
-                                <span class="input-group-btn">
-                                    <button class="btn btn-danger" type="button">
-                                    
+                                <form action='http://localhost:9999/Root_Project/app/review/search' method='get'>
+                                <input type="text" name='keyword' class="search-query form-control" placeholder="Search" />
+                                    <button class="btn btn-danger">
                                         <span class=" glyphicon glyphicon-search"></span>
                                     </button>
-                                </span>
-                                
+                                </form>
                             </div>
                         </div>
 	</div>

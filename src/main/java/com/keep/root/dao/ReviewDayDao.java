@@ -1,7 +1,6 @@
 package com.keep.root.dao;
 
 import java.util.List;
-
 import com.keep.root.domain.ReviewDay;
 
 // 데이터를 저장하고 꺼내는 방식(파일, 클라우드저장소, DB 등)에 상관없이
@@ -19,4 +18,11 @@ public interface ReviewDayDao {
   int update(ReviewDay reviewDay) throws Exception;
 
   int delete(int no) throws Exception;
+
+  //search
+  List<ReviewDay> findAll() throws Exception;
+  
+  ReviewDay find(int no) throws Exception;
+
+  List<ReviewDay> findByKeyword(String keyword) throws Exception;
 }

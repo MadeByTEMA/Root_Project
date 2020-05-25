@@ -26,15 +26,31 @@
       
     </resultMap>
    
-   <select id="insert" parameterType="Point">
-     insert into points
-       user_no, trader_no, point_type, content, price
-     values(#{userNo}, #{traderNo}, #{pointType}, #{content}, #{price})
+   <insert id="insert" parameterType="Map">
+    insert into points (
+       user_no, 
+       trader_no, 
+       point_type, 
+       content, 
+       price
+    ) values(
+      #{userNo}, 
+      #{reviewUserNo}, 
+      #{pointType}, 
+      #{content}, 
+      #{price}
+    )
      <!-- 
+     // 1. 포인트 적립
+     // 2. 포인트 사용
+     // 3. 충전 결제 
+     // 4. 출금 (계좌 출금)
+     userNo : 로그인 세션에 저장된 no
+     traderNo.: 세션에 저장된 no 이외로, 
     insert into points (user_no, trader_no, point_type, content,  price )
        values( 4, 3, 3, 2, 20000);
       -->
-   </select>
+   </insert>
    
    <select id="findAll" resultMap="PointMap" parameterType="map">
      select 

@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+    
+<script src="https://cdn.bootpay.co.kr/js/bootpay-3.0.2.min.js" type="application/javascript"></script>
 
 <!-- 
 - 자바스크립트로 addForm으로 입력을 받고 session에 저장한다. (price만 업데이트)
@@ -25,31 +27,54 @@
   // 결제 시스템 연동 API
   // - 아임포트, 부트페이, 이니시스 
  -->
-<p> ${user.name} 의 보유 포인트는 ${point.price} 포인트 입니다.  </p>
-예금주 : <input  name='name'  type="text" value='${user.name}' class="search-query form-control" placeholder="예금주"/><br>
-전화번호 : <input  name='tel'  type="text" value='${user.tel}' class="search-query form-control" placeholder="전화번호"/><br> <!-- 인증 -->
-은행명 : <input  name='bank'  type="text" value='${user.bank}' class="search-query form-control" placeholder="은행명"/><br>
-계좌번호 : <input  name='account'  type="text" value='${user.account}' class="search-query form-control" placeholder="계좌번호"/><br>
-출금 포인트 : <input  name='price'  type="text" class="search-query form-control" placeholder="출금 포인트"/><br>
- 
-<form action='add' method='post'>
-<script type="text/javascript">
- <input name="userNo" type="text" value='${point.userNo}' readonly}><br>\
-<!-- 유저 번호 : users에 no값과 비교  -->
-상대 번호 : <input name="traderNo" type="text"><br>
-<!-- 
-- 스크랩시 카운팅된 번호일때는 상대방 번호를 사용하고, 
-- price 값이 증가되지 않을 때는 0을 만든다.
--->
-입출금 분류 : <input name="pointType" type="text" > <br>
+<p> ${loginUser.name} 의 보유 포인트는 ${point.price} 포인트 입니다.  </p>
+예금주 : <input  name='name'  type="text" value='${loginUser.name}' class="search-query form-control" placeholder="예금주"/><br>
+전화번호 : <input  name='tel'  type="text" value='${loginUser.tel}' class="search-query form-control" placeholder="전화번호"/><br> <!-- 인증 -->
+은행명 : <input  name='bank'  type="text" value='${loginUser.bank}' class="search-query form-control" placeholder="은행명"/><br>
+계좌번호 : <input  name='account'  type="text" value='${loginUser.account}' class="search-query form-control" placeholder="계좌번호"/><br>
+출금 포인트 : <input id="data-price"  name='price'  type="text" class="search-query form-control" placeholder="출금 포인트"/><br>
+    <input id="data-user-no" type="hidden" value="${loginUser.no}">
+    <input id="data-trader-no" type="hidden" value="0">
+    <!-- 출금시에는 사용하지 않는 0번을 사용하여 출금했는지 알수 있도록 한다 -->
+    <input id="data-pointType" type="hidden" value="1">
+    <input id="data-content" type="hidden" value="4">
+    <button id='point_withdraw_button'>출금하기</button>
+    
+<script>
+"use strict"
+var a = document.querySelector("#data-user-no");
+var b = document.querySelector('#data-trader-no');
+var c = document.querySelector('#data-pointType');
+var d = document.querySelector('#data-content');
+var e = document.querySelector('#data-price');
+console.log(a);
+console.log(b);
+console.log(c);
+console.log(d);
+console.log(e);
 
-입출금 내용 : <input name="content" type="text"> <br>
-출금 포인트 : <input name="price" type="text"><br>
+document.querySelector("#point_withdraw_button").onclick = () => {
+    var xhr = new XMLHttpRequest();
+    xhr.open("GET", 
+        "http://localhost:9999/Root_Project/app/point/add?userNo=" + a.value 
+        + "&reviewUserNo=" + b.value
+        + "&pointType=" + c.value
+        + "&content=" + d.value
+        + "&price=" + e.value, true);
+    xhr.send();
+    console.log("send() 리턴함.");
+    console.log(xhr);
+    console.log(e.value);
+};
 </script>
-</form>
-<body>
-<button type="button" onclick="location.href='payment.jsp' ">충전하기</button>
-</body>
-<!-- 충전을 취소했을 때 되돌아가기(미구현) -->
+
+<!-- 
+1.port번호
+
+<script type="text/JavaScript" src="../../js/point/form.js"></script>
+충전을 취소했을 때 되돌아가기(미구현) 
+
+-->
+
 
 

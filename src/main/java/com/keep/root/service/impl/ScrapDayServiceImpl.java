@@ -1,11 +1,10 @@
 package com.keep.root.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.support.TransactionTemplate;
-
 import com.keep.root.dao.ReviewPlaceDao;
 import com.keep.root.dao.ReviewPlacePhotoDao;
 import com.keep.root.dao.ScrapDayDao;
@@ -35,8 +34,11 @@ public class ScrapDayServiceImpl implements ScrapDayService {
   }
 
   @Override
-  public int add(ScrapDay scrapDay) throws Exception {
-    return scrapDayDao.insert(scrapDay);
+  public int add(int userNo, int reviewDayNo) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("userNo", userNo);
+    params.put("reviewDayNo", reviewDayNo);
+    return scrapDayDao.insert(params);
   }
 
   @Override
@@ -46,7 +48,8 @@ public class ScrapDayServiceImpl implements ScrapDayService {
       ReviewDay reviewDay = scrapday.getReviewDay();
       List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
       for (ReviewPlace reviewPlace : reviewPlaces) {
-        reviewPlace.setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
+        reviewPlace
+            .setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
       }
       reviewDay.setReviewPlace(reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo()));
       scrapday.setReviewDay(reviewDay);

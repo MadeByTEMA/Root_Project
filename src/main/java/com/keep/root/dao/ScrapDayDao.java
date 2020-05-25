@@ -1,6 +1,7 @@
 package com.keep.root.dao;
 
 import java.util.List;
+import java.util.Map;
 import com.keep.root.domain.ScrapDay;
 
 // 데이터를 저장하고 꺼내는 방식(파일, 클라우드저장소, DB 등)에 상관없이
@@ -9,7 +10,7 @@ import com.keep.root.domain.ScrapDay;
 //
 public interface ScrapDayDao {
 
-  int insert(ScrapDay scrapDay) throws Exception;
+  int insert(Map<String, Object> scrap) throws Exception;
 
   List<ScrapDay> findAll(int userNo) throws Exception;
 

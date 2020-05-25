@@ -1,8 +1,8 @@
 package com.keep.root.dao;
 
 import java.util.List;
-
 import com.keep.root.domain.Review;
+import com.keep.root.domain.ReviewDay;
 
 // 데이터를 저장하고 꺼내는 방식(파일, 클라우드저장소, DB 등)에 상관없이
 // DAO 사용법을 통일하기 위해
@@ -19,4 +19,9 @@ public interface ReviewDao {
   int update(Review review) throws Exception;
 
   int delete(int no) throws Exception;
+
+  //search
+  List<Review> findAll() throws Exception;
+  
+  Review find(int no) throws Exception;
 }

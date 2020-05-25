@@ -1,7 +1,6 @@
 package com.keep.root.service;
 
 import java.util.List;
-
 import com.keep.root.domain.ReviewDay;
 
 public interface ReviewDayService {
@@ -15,4 +14,11 @@ public interface ReviewDayService {
   int update(ReviewDay reviewDay) throws Exception;
 
   int delete(int no) throws Exception;
+
+  // search day
+  List<ReviewDay> search(String keyword) throws Exception;
+  
+  ReviewDay searchDayGet(int no) throws Exception;
+
+  List<ReviewDay> list() throws Exception;
 }

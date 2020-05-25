@@ -5,7 +5,7 @@ import com.keep.root.domain.ScrapDay;
 
 public interface ScrapDayService {
 
-  int add(ScrapDay scrapDay) throws Exception;
+  int add(int userNo, int reviewDayNo) throws Exception;
 
   List<ScrapDay> list(int userNo) throws Exception;
 

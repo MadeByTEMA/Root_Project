@@ -25,6 +25,16 @@
     
   </resultMap>
   
+  <insert id="insert" parameterType="Map">
+    insert into day_scraps (
+      user_no,
+      review_day_no
+    ) values(
+      #{userNo},
+      #{reviewDayNo}
+    )
+  </insert>
+  
   
   <select id="findAll" resultMap="ScrapDayMap" parameterType="map">
       select 

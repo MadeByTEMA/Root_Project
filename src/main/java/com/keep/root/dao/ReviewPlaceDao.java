@@ -19,4 +19,12 @@ public interface ReviewPlaceDao {
   int update(ReviewPlace reviewPlace) throws Exception;
 
   int delete(int no) throws Exception;
+
+  //search
+  List<ReviewPlace> findAll() throws Exception;
+  
+  ReviewPlace find(int no) throws Exception;
+  
+  // searchlist
+  List<ReviewPlace> findByKeyword(String keyword) throws Exception;
 }

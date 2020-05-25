@@ -1,15 +1,14 @@
 package com.keep.root.service.impl;
 
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-
 import com.keep.root.dao.ReviewDayDao;
 import com.keep.root.dao.ReviewPlaceDao;
 import com.keep.root.dao.ReviewPlacePhotoDao;
+import com.keep.root.domain.Review;
 import com.keep.root.domain.ReviewDay;
 import com.keep.root.domain.ReviewPlace;
 import com.keep.root.domain.ReviewPlacePhoto;
@@ -68,7 +67,8 @@ public class ReviewDayServiceImpl implements ReviewDayService {
     for (ReviewDay reviewDay : reviewDays) {
       List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
       for (ReviewPlace reviewPlace : reviewPlaces) {
-        reviewPlace.setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
+        reviewPlace
+            .setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
       }
       reviewDay.setReviewPlace(reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo()));
     }
@@ -81,7 +81,8 @@ public class ReviewDayServiceImpl implements ReviewDayService {
     ReviewDay reviewDay = reviewDayDao.findByNo(no);
     List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
     for (ReviewPlace reviewPlace : reviewPlaces) {
-      reviewPlace.setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
+      reviewPlace
+          .setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
     }
     return reviewDay;
   }
@@ -97,7 +98,8 @@ public class ReviewDayServiceImpl implements ReviewDayService {
   public int delete(int no) throws Exception {
     List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(no);
     for (ReviewPlace reviewPlace : reviewPlaces) {
-      List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
+      List<ReviewPlacePhoto> reviewPlacePhotos =
+          reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
       for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
         reviewPlacePhotoDao.delete(reviewPlacePhoto.getNo());
       }
@@ -105,4 +107,20 @@ public class ReviewDayServiceImpl implements ReviewDayService {
     }
     return reviewDayDao.delete(no);
   }
+
+  @Override
+  public List<ReviewDay> search(String keyword) throws Exception {
+    return reviewDayDao.findByKeyword(keyword);
+  }
+  
+  @Override
+  public ReviewDay searchDayGet(int no) throws Exception {
+    return reviewDayDao.find(no);
+  }
+
+@Override
+public List<ReviewDay> list() throws Exception {
+	// TODO Auto-generated method stub
+	return null;
+}
 }

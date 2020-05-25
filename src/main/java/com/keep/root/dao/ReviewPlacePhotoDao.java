@@ -1,7 +1,7 @@
 package com.keep.root.dao;
 
 import java.util.List;
-
+import com.keep.root.domain.ReviewPlace;
 import com.keep.root.domain.ReviewPlacePhoto;
 
 // 데이터를 저장하고 꺼내는 방식(파일, 클라우드저장소, DB 등)에 상관없이
@@ -19,4 +19,10 @@ public interface ReviewPlacePhotoDao {
   int update(ReviewPlacePhoto reviewPlacePhoto) throws Exception;
 
   int delete(int no) throws Exception;
+
+  //search
+  List<ReviewPlacePhoto> findAll(int no) throws Exception;
+  
+  ReviewPlacePhoto find(int no) throws Exception;
+  
 }

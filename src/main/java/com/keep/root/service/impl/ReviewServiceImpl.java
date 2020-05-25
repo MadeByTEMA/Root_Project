@@ -1,12 +1,10 @@
 package com.keep.root.service.impl;
 
 import java.util.List;
-
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.TransactionTemplate;
-
 import com.keep.root.dao.ReviewDao;
 import com.keep.root.dao.ReviewDayDao;
 import com.keep.root.dao.ReviewPlaceDao;
@@ -83,7 +81,8 @@ public class ReviewServiceImpl implements ReviewService {
       for (ReviewDay reviewDay : reviewDays) {
         List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
         for (ReviewPlace reviewPlace : reviewPlaces) {
-          reviewPlace.setReviewPlacePhotos(reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
+          reviewPlace.setReviewPlacePhotos(
+              reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo()));
         }
         reviewDay.setReviewPlace(reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo()));
       }
@@ -100,7 +99,8 @@ public class ReviewServiceImpl implements ReviewService {
     for (ReviewDay reviewDay : reviewDays) {
       List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
       for (ReviewPlace reviewPlace : reviewPlaces) {
-        List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
+        List<ReviewPlacePhoto> reviewPlacePhotos =
+            reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
         for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
         }
         reviewPlace.setReviewPlacePhotos(reviewPlacePhotos);
@@ -124,7 +124,8 @@ public class ReviewServiceImpl implements ReviewService {
     for (ReviewDay reviewDay : reviewDays) {
       List<ReviewPlace> reviewPlaces = reviewPlaceDao.findAllByReviewDayNo(reviewDay.getNo());
       for (ReviewPlace reviewPlace : reviewPlaces) {
-        List<ReviewPlacePhoto> reviewPlacePhotos = reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
+        List<ReviewPlacePhoto> reviewPlacePhotos =
+            reviewPlacePhotoDao.findAllByReviewPlaceNo(reviewPlace.getNo());
         for (ReviewPlacePhoto reviewPlacePhoto : reviewPlacePhotos) {
           reviewPlacePhotoDao.delete(reviewPlacePhoto.getNo());
         }
@@ -134,4 +135,16 @@ public class ReviewServiceImpl implements ReviewService {
     }
     return reviewDao.delete(no);
   }
+
+	@Override
+	public List<Review> list() throws Exception {
+		return null;
+	}
+
+	@Override
+	public Review getByPlaceNo(int no) throws Exception {
+		return reviewDao.find(no);
+	}
+
+
 }

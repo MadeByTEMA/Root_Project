@@ -9,6 +9,8 @@ import java.util.UUID;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,12 +23,17 @@ import com.keep.root.domain.ReviewDay;
 import com.keep.root.domain.ReviewPlace;
 import com.keep.root.domain.ReviewPlacePhoto;
 import com.keep.root.domain.User;
+import com.keep.root.service.ReviewDayService;
+import com.keep.root.service.ReviewPlacePhotoService;
+import com.keep.root.service.ReviewPlaceService;
 import com.keep.root.service.ReviewService;
 import com.keep.root.service.UserService;
 
 @Controller
 @RequestMapping("/review")
 public class ReviewController {
+	
+	static Logger logger = LogManager.getLogger(ReviewController.class);
 
   @Autowired
   ServletContext servletContext;
@@ -35,11 +42,20 @@ public class ReviewController {
   ReviewService reviewService;
 
   @Autowired
+  ReviewDayService reviewDayService;
+
+  @Autowired
+  ReviewPlaceService reviewPlaceService;
+  
+  @Autowired
+  ReviewPlacePhotoService reviewPlacePhotoService;
+
+
+  @Autowired
   UserService userService;
 
   @GetMapping("form")
-  public void form() {
-  }
+  public void form() {}
 
   @RequestMapping("add")
   public String add(//
@@ -82,7 +98,8 @@ public class ReviewController {
       System.out.printf("저장 된 파일 이름이야 !! %s \n", reviewPlacePhoto.getPhoto());
     }
 
-    ReviewPlace reviewplace = new ReviewPlace(name, basicAddr, detailAddr, placeReview, placeStatus, reviewPlacePhotos);
+    ReviewPlace reviewplace =
+        new ReviewPlace(name, basicAddr, detailAddr, placeReview, placeStatus, reviewPlacePhotos);
     if (mainPlacePhoto.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/review");
       String filename = UUID.randomUUID().toString();
@@ -127,5 +144,41 @@ public class ReviewController {
   public String delete(int no, int userNo) throws Exception {
     reviewService.delete(no);
     return "redirect:list?userNo=" + userNo;
+  }
+
+  // 로그인 공개 or 모두 공개 
+  // 초안 : 디테일은 로그인 공개
+  @GetMapping("search")
+  public void search(String keyword, HttpSession session, Model model) throws Exception {
+    model.addAttribute("searchDayList", reviewDayService.search(keyword));
+    model.addAttribute("searchPlaceList", reviewPlaceService.search(keyword));
+    logger.info(model);
+    logger.debug(model);
+  }
+  
+  @GetMapping("searchDayDetail")
+  public void searchDayDetail(int no, HttpSession session, Model model) throws Exception {
+	User loginUser = (User) session.getAttribute("loginUser");
+	if (loginUser == null) {
+	  throw new Exception("로그인이 필요합니다.");
+	}
+	model.addAttribute("review", reviewService.get(no));
+    logger.info(model);
+    logger.debug(model);
+  }
+  
+  @GetMapping("searchPlaceDetail")
+  public void searchPlaceDetail(int no,  HttpSession session, Model model) throws Exception {
+	User loginUser = (User) session.getAttribute("loginUser");
+	if (loginUser == null) {
+		  throw new Exception("로그인이 필요합니다.");
+	}
+	
+	model.addAttribute("loginUser",loginUser);
+	model.addAttribute("review", reviewService.getByPlaceNo(no));
+    model.addAttribute("placeDetail", reviewPlaceService.searchPlaceGet(no));
+    model.addAttribute("placePhotoDetail", reviewPlacePhotoService.listGet(no));
+    logger.info(model);
+    logger.debug(model);
   }
 }

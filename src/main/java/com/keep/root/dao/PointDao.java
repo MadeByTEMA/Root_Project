@@ -1,11 +1,12 @@
 package com.keep.root.dao;
 
 import java.util.List;
+import java.util.Map;
 import com.keep.root.domain.Point;
 
 public interface PointDao {
   // output add form : session
-  int insert(Point point) throws Exception;
+  int insert(Map<String, Object> point) throws Exception;
 
   // 관리자를 위한 전체 포인트 리스트
   List<Point> findAll() throws Exception;
