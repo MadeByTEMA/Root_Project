@@ -57,7 +57,7 @@ CREATE TABLE users (
   detail_address VARCHAR(50)  NULL     COMMENT '상세주소', -- 상세주소
   photo          VARCHAR(255) NULL     COMMENT '사진', -- 사진
   nickname       VARCHAR(30)  NOT NULL COMMENT '별명', -- 별명
-  account        INTEGER(30)  NULL     COMMENT '계좌번호', -- 계좌번호
+  account        INTEGER      NULL     COMMENT '계좌번호', -- 계좌번호
   bank           VARCHAR(30)  NULL     COMMENT '은행', -- 은행
   authkey        VARCHAR(50)  NULL     COMMENT '권한키',
   auth_status    INTEGER(30)  NULL DEFAULT 0  COMMENT '권한상태'
@@ -80,8 +80,9 @@ CREATE TABLE points (
   user_no    INTEGER NOT NULL COMMENT '소유주번호', -- 소유주번호
   trader_no  INTEGER NOT NULL COMMENT '상대편번호', -- 상대편번호
   point_type INTEGER NULL     COMMENT '입출금', -- 입출금
-  content    INTEGER NOT NULL COMMENT '입출금내용', -- 입출금내용
-  price      INTEGER NOT NULL COMMENT '금액' -- 금액
+　content    INTEGER NOT NULL COMMENT '입출금내용', -- 입출금내용
+　price      INTEGER NOT NULL COMMENT '금액', -- 금액
+　create_date DATETIME NULL DEFAULT now() COMMENT '작성일' -- 작성일
 )
 COMMENT '포인트내역';
 
@@ -133,17 +134,8 @@ ALTER TABLE reviews
   MODIFY COLUMN review_no INTEGER NOT NULL AUTO_INCREMENT COMMENT '리뷰번호';
 
 -- 인포
-CREATE TABLE infos (
-  info_no     INTEGER      NOT NULL COMMENT '인포번호', -- 인포번호
-  create_date DATETIME     NULL     COMMENT '작성일', -- 작성일
-  category    INTEGER      NOT NULL COMMENT '카테고리', -- 카테고리
-  title       VARCHAR(50)  NOT NULL COMMENT '제목', -- 제목
-  content     TEXT         NOT NULL COMMENT '내용', -- 내용
-  main_photo  VARCHAR(255) NULL     COMMENT '대표사진', -- 대표사진
-  place_no    INTEGER      NULL     COMMENT '인포장소번호' -- 인포장소번호
-)
-COMMENT '인포';
 
+CREATE TABLE infos (info_no INTEGER NOT NULL COMMENT '인포번호', create_date DATETIME NULL COMMENT '작성일', category INTEGER NOT NULL COMMENT '카테고리', title VARCHAR(30) NOT NULL COMMENT '제목', content TEXT NOT NULL COMMENT '내용', place VARCHAR(30) NULL COMMENT '장소명', photo_file VARCHAR(255) NULL COMMENT '사진파일모음', main_photo VARCHAR(255) NULL COMMENT '대표사진',  place_name VARCHAR(30) NULL COMMENT '장소명', start_date DATETIME NULL COMMENT '시작일', last_date DATETIME NULL COMMENT '종료일', place_basic_address VARCHAR(50) NULL COMMENT '기본주소', place_detail_address VARCHAR(50) NULL COMMENT '상세주소');
 -- 인포
 ALTER TABLE infos
   ADD CONSTRAINT PK_infos -- 인포 기본키
@@ -239,26 +231,6 @@ ALTER TABLE review_place
 ALTER TABLE review_place
   MODIFY COLUMN review_place_no INTEGER NOT NULL AUTO_INCREMENT COMMENT '장소리뷰번호';
 
--- 인포장소
-CREATE TABLE info_places (
-  place_no             INTEGER     NOT NULL COMMENT '인포장소번호', -- 인포장소번호
-  start_date           DATETIME    NOT NULL COMMENT '시작일', -- 시작일
-  last_date            DATETIME    NOT NULL COMMENT '종료일', -- 종료일
-  place_name           VARCHAR(30) NOT NULL COMMENT '장소명', -- 장소명
-  place_basic_address  VARCHAR(50) NOT NULL COMMENT '기본주소', -- 기본주소
-  place_detail_address VARCHAR(50) NULL     COMMENT '상세주소' -- 상세주소
-)
-COMMENT '인포장소';
-
--- 인포장소
-ALTER TABLE info_places
-  ADD CONSTRAINT PK_info_places -- 인포장소 기본키
-    PRIMARY KEY (
-      place_no -- 인포장소번호
-    );
-
-ALTER TABLE info_places
-  MODIFY COLUMN place_no INTEGER NOT NULL AUTO_INCREMENT COMMENT '인포장소번호';
 
 -- 유저장소스크랩
 CREATE TABLE place_scraps (
@@ -327,7 +299,7 @@ ALTER TABLE review_place_photo
 -- 인포사진모음
 CREATE TABLE info_photo (
   photo_no   INTEGER      NOT NULL COMMENT '사진번호', -- 사진번호
-  place_no   INTEGER      NOT NULL COMMENT '인포장소번호', -- 인포장소번호
+  info_no    INTEGER      NOT NULL COMMENT '인포번호', -- 인포번호
   photo_file VARCHAR(255) NOT NULL COMMENT '사진파일' -- 사진파일
 )
 COMMENT '인포사진모음';
@@ -337,7 +309,7 @@ ALTER TABLE info_photo
   ADD CONSTRAINT PK_info_photo -- 인포사진모음 기본키
     PRIMARY KEY (
       photo_no, -- 사진번호
-      place_no  -- 인포장소번호
+      info_no   -- 인포번호
     );
 
 ALTER TABLE info_photo
@@ -383,15 +355,6 @@ ALTER TABLE reviews
       user_no -- 유저번호
     );
 
--- 인포
-ALTER TABLE infos
-  ADD CONSTRAINT FK_info_places_TO_infos -- 인포장소 -> 인포
-    FOREIGN KEY (
-      place_no -- 인포장소번호
-    )
-    REFERENCES info_places ( -- 인포장소
-      place_no -- 인포장소번호
-    );
 
 -- 방문장소
 ALTER TABLE course_places
@@ -483,16 +446,6 @@ ALTER TABLE info_scraps
       user_no -- 유저번호
     );
 
--- 유저 인포장소 스크랩
-ALTER TABLE info_scraps
-  ADD CONSTRAINT FK_info_places_TO_info_scraps -- 인포장소 -> 유저 인포장소 스크랩
-    FOREIGN KEY (
-      place_no -- 장소인포번호
-    )
-    REFERENCES info_places ( -- 인포장소
-      place_no -- 인포장소번호
-    );
-
 -- 장소리뷰사진모음
 ALTER TABLE review_place_photo
   ADD CONSTRAINT FK_review_place_TO_review_place_photo -- 장소리뷰 -> 장소리뷰사진모음
@@ -501,15 +454,4 @@ ALTER TABLE review_place_photo
     )
     REFERENCES review_place ( -- 장소리뷰
       review_place_no -- 장소리뷰번호
-    );
-
--- 인포사진모음
-ALTER TABLE info_photo
-  ADD CONSTRAINT FK_info_places_TO_info_photo -- 인포장소 -> 인포사진모음
-    FOREIGN KEY (
-      place_no -- 인포장소번호
-    )
-    REFERENCES info_places ( -- 인포장소
-      place_no -- 인포장소번호
-    );
-    
+    ); 

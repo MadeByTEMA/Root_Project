@@ -12,9 +12,13 @@ public class CoursePlace {
   public CoursePlace() {
   }
 
-  public CoursePlace(String placeName, String basicAddr, String detailAddr, String etc) {
+  public CoursePlace(String placeName, String basicAddr) {
     this.placeName = placeName;
     this.basicAddr = basicAddr;
+  }
+
+  public CoursePlace(String placeName, String basicAddr, String detailAddr, String etc) {
+    this(placeName, basicAddr);
     this.detailAddr = detailAddr;
     this.etc = etc;
   }

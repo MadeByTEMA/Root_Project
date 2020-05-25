@@ -92,7 +92,33 @@ public class CourseServiceImpl implements CourseService {
   @Transactional
   @Override
   public int update(Course course) throws Exception {
-    return courseDao.update(course);
+    int result = courseDao.update(course);
+    if (result == 0) {
+      throw new Exception("코스 업데이트에 실패했습니다.");
+    } else {
+      List<CourseDay> courseDays = course.getCourseDay();
+      for (CourseDay courseDay : courseDays) {
+        courseDay.setCourse(course);
+        System.out.println(courseDay.getTitle());
+        if (courseDay.getNo() == 0 && courseDayDao.insert(courseDay) == 0) {
+          throw new Exception("일정 추가에 실패했습니다.");
+        } else if (courseDayDao.update(courseDay) == 0) {
+          throw new Exception("일정 업데이트에 실패했습니다.");
+        } else {
+          List<CoursePlace> coursePlaces = courseDay.getCoursePlace();
+          for (CoursePlace coursePlace : coursePlaces) {
+            System.out.println(coursePlace.getPlaceName());
+            coursePlace.setCourseDay(courseDay);
+            if (coursePlace.getNo() == 0 && coursePlaceDao.insert(coursePlace) == 0) {
+              throw new Exception("장소 추가에 실패했습니다.");
+            } else if (coursePlaceDao.update(coursePlace) == 0) {
+              throw new Exception("장소 업데이트에 실패했습니다.");
+            }
+          }
+        }
+      }
+    }
+    return result;
   }
 
   @Transactional

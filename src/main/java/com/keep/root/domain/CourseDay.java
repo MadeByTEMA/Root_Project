@@ -16,11 +16,18 @@ public class CourseDay {
 
   public CourseDay( //
       String title, //
-      Date dayDate, //
-      List<CoursePlace> coursePlace //
+      Date dayDate //
   ) {
     this.title = title;
     this.dayDate = dayDate;
+  }
+
+  public CourseDay( //
+      String title, //
+      Date dayDate, //
+      List<CoursePlace> coursePlace //
+  ) {
+    this(title, dayDate);
     this.coursePlace = coursePlace;
   }
 

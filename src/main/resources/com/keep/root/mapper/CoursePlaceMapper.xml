@@ -55,10 +55,10 @@
   <update id="update" parameterType="CoursePlace">
     update course_places
     <set>
-      <if test="placeName != null and placeName != ''">place_name=#{placeName},</if> 
-      <if test="basicAddr != null and basicAddr != ''">place_basic_address=#{basicAddr},</if>
+      place_name=#{placeName},
+      place_basic_address=#{basicAddr},
       <if test="detailAddr != null and detailAddr != ''">place_detail_address=#{detailAddr},</if>
-      <if test="etc != null and etc != ''">etc=#{etc},</if>
+      <if test="etc != null and etc != ''">etc=#{etc}</if>
     </set>
     where 
       place_no=#{no}
