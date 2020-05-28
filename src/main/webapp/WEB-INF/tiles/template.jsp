@@ -34,9 +34,6 @@
   <!-- Template Main CSS File -->
   <link href="${pageContext.getServletContext().getContextPath()}/css/style.css" rel="stylesheet">
   
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
- 
   <!-- Vendor JS Files -->
   <script src="${pageContext.getServletContext().getContextPath()}/vendor/jquery/jquery.min.js"></script>
   <script src="${pageContext.getServletContext().getContextPath()}/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>

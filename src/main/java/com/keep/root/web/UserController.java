@@ -2,8 +2,10 @@ package com.keep.root.web;
 
 import java.io.File;
 import java.util.UUID;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
 
@@ -31,13 +34,16 @@ public class UserController {
   UserService userService;
 
   @GetMapping("form")
-  public void form() {}
+  public void form() {
+  }
 
   @GetMapping("findinfoform")
-  public void findinfoform() {}
+  public void findinfoform() {
+  }
 
   @GetMapping("updateform")
-  public void updateform() {}
+  public void updateform() {
+  }
 
   @RequestMapping("add")
   public String add(//
@@ -52,8 +58,7 @@ public class UserController {
       String detailAddr, //
       String nickName, //
       MultipartFile photoFile) throws Exception {
-    User user = new User(email, password, name, birth, gender, tel, zipCode, basicAddr, detailAddr,
-        nickName);
+    User user = new User(email, password, name, birth, gender, tel, zipCode, basicAddr, detailAddr, nickName);
 
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
@@ -100,16 +105,21 @@ public class UserController {
   }
 
   @PostMapping("update")
-  public String update(User user, MultipartFile photoFile, HttpSession session) throws Exception {
+  public String update( //
+      User user, //
+      MultipartFile photoFile, //
+      HttpSession session //
+  ) throws Exception {
+    User updateUser = (User) session.getAttribute("loginUser");
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
       String filename = UUID.randomUUID().toString();
       photoFile.transferTo(new File(dirPath + "/" + filename));
-      user.setPhoto(filename);
+      updateUser.setPhoto(filename);
     }
-    session.setAttribute("loginUser", user);
-    if (userService.update(user) > 0) {
-      return "redirect:../mypage/form";
+    if (userService.update(updateUser) > 0) {
+      session.setAttribute("loginUser", updateUser);
+      return "redirect:../mypage/form?no=" + updateUser.getNo();
     } else {
       throw new Exception("변경할 회원 번호가 유효하지 않습니다.");
     }
@@ -120,7 +130,6 @@ public class UserController {
     userService.updatePassword(user);
     return "redirect:../auth/form";
   }
-
 
   @ResponseBody
   @RequestMapping(value = "nickNameSearch", method = RequestMethod.POST)

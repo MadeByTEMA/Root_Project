@@ -9,7 +9,7 @@
 <div class="form-group" style="line-height:170%; font-size:12px; font-family:돋움;">
 <img src='${pageContext.servletContext.contextPath}/upload/user/${loginUser.photo}' height='100' width='100' vspace=30 hspace=20 >
 <input name='no' hidden value='${loginUser.no}'>
-<input name='photoFile' type='file'><br>
+<input  name='photoFile' type='file'><br>
 <input  name='nickName'  type="text" value='${loginUser.nickName}' class="search-query form-control" placeholder="별명" />
 <input  name='email'  type="text" readonly value='${loginUser.email}' class="search-query form-control" placeholder="이메일" />
 <input  name='password'  type="password" class="search-query form-control" placeholder="비밀번호" />

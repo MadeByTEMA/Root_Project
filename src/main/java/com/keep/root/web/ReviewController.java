@@ -32,8 +32,8 @@ import com.keep.root.service.UserService;
 @Controller
 @RequestMapping("/review")
 public class ReviewController {
-	
-	static Logger logger = LogManager.getLogger(ReviewController.class);
+
+  static Logger logger = LogManager.getLogger(ReviewController.class);
 
   @Autowired
   ServletContext servletContext;
@@ -46,16 +46,26 @@ public class ReviewController {
 
   @Autowired
   ReviewPlaceService reviewPlaceService;
-  
+
   @Autowired
   ReviewPlacePhotoService reviewPlacePhotoService;
-
 
   @Autowired
   UserService userService;
 
   @GetMapping("form")
-  public void form() {}
+  public void form(String no, HttpSession session, Model model) throws Exception {
+    User user = (User) session.getAttribute("loginUser");
+    if (user == null) {
+      throw new Exception("로그인이 필요합니다.");
+    }
+    if (!no.equals("newForm")) {
+      int reviewNo = Integer.parseInt(no);
+      session.setAttribute("review", reviewService.get(reviewNo));
+    } else {
+      session.removeAttribute("review");
+    }
+  }
 
   @RequestMapping("add")
   public String add(//
@@ -98,8 +108,7 @@ public class ReviewController {
       System.out.printf("저장 된 파일 이름이야 !! %s \n", reviewPlacePhoto.getPhoto());
     }
 
-    ReviewPlace reviewplace =
-        new ReviewPlace(name, basicAddr, detailAddr, placeReview, placeStatus, reviewPlacePhotos);
+    ReviewPlace reviewplace = new ReviewPlace(name, basicAddr, detailAddr, placeReview, placeStatus, reviewPlacePhotos);
     if (mainPlacePhoto.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/review");
       String filename = UUID.randomUUID().toString();
@@ -135,10 +144,10 @@ public class ReviewController {
     model.addAttribute("list", reviewService.list(user.getNo()));
   }
 
-  @GetMapping("detail")
-  public void detail(int no, Model model) throws Exception {
-    model.addAttribute("review", reviewService.get(no));
-  }
+  /*
+   * @GetMapping("detail") public void detail(int no, Model model) throws
+   * Exception { model.addAttribute("review", reviewService.get(no)); }
+   */
 
   @GetMapping("delete")
   public String delete(int no, int userNo) throws Exception {
@@ -146,7 +155,7 @@ public class ReviewController {
     return "redirect:list?userNo=" + userNo;
   }
 
-  // 로그인 공개 or 모두 공개 
+  // 로그인 공개 or 모두 공개
   // 초안 : 디테일은 로그인 공개
   @GetMapping("search")
   public void search(String keyword, HttpSession session, Model model) throws Exception {
@@ -155,27 +164,27 @@ public class ReviewController {
     logger.info(model);
     logger.debug(model);
   }
-  
+
   @GetMapping("searchDayDetail")
   public void searchDayDetail(int no, HttpSession session, Model model) throws Exception {
-	User loginUser = (User) session.getAttribute("loginUser");
-	if (loginUser == null) {
-	  throw new Exception("로그인이 필요합니다.");
-	}
-	model.addAttribute("review", reviewService.get(no));
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      throw new Exception("로그인이 필요합니다.");
+    }
+    model.addAttribute("review", reviewService.get(no));
     logger.info(model);
     logger.debug(model);
   }
-  
+
   @GetMapping("searchPlaceDetail")
-  public void searchPlaceDetail(int no,  HttpSession session, Model model) throws Exception {
-	User loginUser = (User) session.getAttribute("loginUser");
-	if (loginUser == null) {
-		  throw new Exception("로그인이 필요합니다.");
-	}
-	
-	model.addAttribute("loginUser",loginUser);
-	model.addAttribute("review", reviewService.getByPlaceNo(no));
+  public void searchPlaceDetail(int no, HttpSession session, Model model) throws Exception {
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      throw new Exception("로그인이 필요합니다.");
+    }
+
+    model.addAttribute("loginUser", loginUser);
+    model.addAttribute("review", reviewService.getByPlaceNo(no));
     model.addAttribute("placeDetail", reviewPlaceService.searchPlaceGet(no));
     model.addAttribute("placePhotoDetail", reviewPlacePhotoService.listGet(no));
     logger.info(model);

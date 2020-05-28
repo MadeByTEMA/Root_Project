@@ -1,39 +1,138 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"
     trimDirectiveWhitespaces="true"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>후기 추가</h1>
 <form action='add' method='post' enctype='multipart/form-data'>
-전체상태: <input name='status' type='text' readonly value='1'><br>
+	<div class="reviewAddForm">
+		<div class="topAreaDiv">
+		  <div class="topStatusbar">
+		    <div class="topStatusLeftStatusbar">
+	        <div class="ui calendar" id="button_calendar">
+	          <div class="ui button">여행시작일</div>
+	        </div>
+		      <div id="dropdown" class="ui disabled dropdown">
+		        <input type="hidden" name="selectDate">
+		        <i class="dropdown icon"></i>
+		        <div class="default text">Day
+		          <div class="innerDate"></div>
+		        </div>
+		          <div class="menu">
+		            <div class="item" draggable="true" ondragstart="courseDateDrag(event)" ondrop="courseDateDrop(event)" ondragover="allowDrop(event)" data-text="2020-05-02">
+		              <div class="innerline">
+		                <div class="innerlineDay">Day1</div>
+		                <div class="innerlineDate" onclick="courseDataReload(this);">2020-05-04</div>
+		              </div>
+		              <div class="minusArea">
+		                <i class="minus icon"></i>
+		              </div>
+		            </div>
+		            <div class="plus">
+		              <i class="plus icon"></i>
+		            </div>
+		        </div>
+		      </div>
+		    </div>
+		    <div class="topStatusRightStatusbar">
+		      <div class="myCourseLoadDiv">
+		        <i class="big cloud download alternate icon"></i>
+		        <div class="myCourseLoadText">내 코스 불러오기</div>
+		      </div>
+		      <div class="MainPictureUploadDiv">
+		        <i class="big camera retro icon"></i>
+		      </div>
+		    </div>
+		  </div>
+		  <div class='topTitlebar'> 
+		    <h1> <input class="title" name="title" type="text" placeholder="제목"></h1>
+		  </div>
+		  <div class='topMainReviewbar'> 
+		    <p> <input class="mainReview" name="mainReview" type="text" placeholder="메인 후기"></p>
+		  </div>
+		</div>
+		<div class='courseNameDiv'>
+		  <h1>Course</h1>
+		</div>
+		<div id="map" style="width:100%; height:350px;"></div>
+		<div class="reviewPlaceNamebar">
+		  <div class="showReviewPlaceNameArea"><div class="showReviewPlaceName">1</div></div>
+		</div>
+		<div class="mainContentArea"> 
+		  <div class="reviewPlaceArea">
+			  <div class="reviewPlace">
+			    <div class="placeBasicbar">
+				    <div class="revicePlaceName">
+				      <input class="placeName" name="placeNames" type="text" value="" placeholder="장소명">
+				    </div>
+				    <div class="placeRemove">
+				      <i id="placeRemoveMinusButtonIcon" class="big minus circle icon"></i>
+				    </div>
+				    <div class="reviewPlacePhotoArea">
+				      <i id="placeMainPhoto" class="big camera icon"></i>
+				    </div>
+			    </div>
+				  <div class="placeAddrbar">
+				    <div class="reviceBasicAddr">
+		          <input class="basicAddr" name="basicAddrs" type="text" value="">
+		        </div>
+		        <div class="reviceDetailAddr">
+		          <input class="detailAddr" name="detailAddrs" type="text" value="">
+		        </div>
+		      </div>
+	        <div class="reviewPlaceReview">
+	          <input class="placeReview" name="placeReviews" type="text" value="">
+	        </div>
 
-<br>
-메인사진: <input name='mainPhoto' type='file'><br>
-제목: <input name='title' type='text'><br>
-여행일: <input name='dayDate' type='date'><br>
-메인후기: <input name='mainReview' type='text'><br>
-데이상태: <input name='dayStatus' type='text' readonly value='1'><br>
-<br>
-
-장소명: <input name='name' type='text'><br>
-기본주소: <input name='basicAddr' type='text'><br>
-상세주소: <input name='detailAddr' type='text'><br>
-장소후기: <input name='placeReview' type='text'><br>
-장소대표사진: <input name='mainPlacePhoto' type='file'><br>
-장소상태: <input name='placeStatus' type='text' readonly value='1'><br>
-
-메인사진: <input name='PlacePhotos' type='file'><br>
-메인사진: <input name='PlacePhotos' type='file'><br>
-메인사진: <input name='PlacePhotos' type='file'><br>
-메인사진: <input name='PlacePhotos' type='file'><br>
-메인사진: <input name='PlacePhotos' type='file'><br>
-메인사진: <input name='PlacePhotos' type='file'><br>
-
-<button>등록</button>
-
-
-  <script type="text/javascript">
-    document.write('Hello World!');
-  </script>
-
+			  </div>
+		  </div>
+		  <script>
+      window.onload = function () {
+        var reviewData = new Array();
+        <c:forEach items="${review.reviewDay}" var="reviewDay" varStatus="dayStatus">
+          var reviewDays = new Array();
+          <c:forEach items="${reviewDay.reviewPlace}" var="reviewPlace" varStatus="placeStatus">
+	          var reviewPlaces = new Array();
+	          <c:forEach items="${reviewPlace.reviewPlacePhotos}" var="reviewPlacePhoto" varStatus="placePhotoStatus">
+	            var reviewPlacePhoto = new Object();
+	            reviewPlacePhoto.no = ${reviewPlacePhoto.no};
+	            reviewPlacePhoto.photo = '${reviewPlacePhoto.photo}'
+	            reviewPlaces.push(reviewPlacePhoto);
+	          </c:forEach>
+	          reviewPlaces.no = ${reviewPlace.no};
+	          reviewPlaces.name = '${reviewPlace.name}'
+	          reviewPlaces.basicAddr = '${reviewPlace.basicAddr}'
+            reviewPlaces.detailAddr = '${reviewPlace.detailAddr};'
+            reviewPlaces.mainPhoto = '${reviewPlace.mainPhoto}'
+            reviewPlaces.status = ${reviewPlace.status}
+            reviewDays.push(reviewPlaces);
+          </c:forEach>
+          reviewDays.no = ${reviewDay.no};
+          reviewDays.title = '${reviewDay.title}'
+          reviewDays.dayDate = '${reviewDay.dayDate}'
+          reviewDays.mainReview = '${reviewDay.mainReview}'
+          reviewDays.mainPhoto = '${reviewDay.mainPhoto}'
+          reviewDays.status = ${reviewDay.status};
+          reviewData.push(reviewDays);
+        </c:forEach>
+        reviewDataInit(reviewData);
+        }
+      </script>
+		  <div class="reviewPlacePlusArea">
+		    <div class="placePlus">
+		      <i id="placeAddPlusButtonIcon" class="big plus circle icon"></i>
+		    </div>
+		  </div>
+			<div class="buttonArea">
+			  <button type="button" onclick="addForm()">임시저장</button>
+			  <button type="button" onclick="addForm()">게시하기</button>
+			</div>
+		</div>
+	</div>
 </form>
+
+
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24cdf736c8b9797f29a0e35af3b6773a&libraries=services,clusterer,drawing"></script>
+<script type="text/JavaScript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/JavaScript" src="../../js/review/form.js">  </script>
+
 
