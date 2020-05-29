@@ -99,7 +99,7 @@
     from 
       users
     where 
-      email=#{email}
+      user_no=#{no}
   </select>
   
   <select id="findByEmail" resultMap="UserMap" parameterType="string">

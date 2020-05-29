@@ -2,10 +2,8 @@ package com.keep.root.web;
 
 import java.io.File;
 import java.util.UUID;
-
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
 
@@ -106,11 +103,11 @@ public class UserController {
 
   @PostMapping("update")
   public String update( //
-      User user, //
+      User updateUser, //
       MultipartFile photoFile, //
       HttpSession session //
-  ) throws Exception {
-    User updateUser = (User) session.getAttribute("loginUser");
+      ) throws Exception {
+    session.getAttribute("loginUser");
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
       String filename = UUID.randomUUID().toString();
