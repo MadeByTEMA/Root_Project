@@ -80,9 +80,9 @@ CREATE TABLE points (
   user_no    INTEGER NOT NULL COMMENT '소유주번호', -- 소유주번호
   trader_no  INTEGER NOT NULL COMMENT '상대편번호', -- 상대편번호
   point_type INTEGER NULL     COMMENT '입출금', -- 입출금
-　content    INTEGER NOT NULL COMMENT '입출금내용', -- 입출금내용
-　price      INTEGER NOT NULL COMMENT '금액', -- 금액
-　create_date DATETIME NULL DEFAULT now() COMMENT '작성일' -- 작성일
+  content    INTEGER NOT NULL COMMENT '입출금내용', -- 입출금내용
+  price      INTEGER NOT NULL COMMENT '금액', -- 금액
+  create_date DATETIME NULL DEFAULT now() COMMENT '작성일' -- 작성일
 )
 COMMENT '포인트내역';
 
