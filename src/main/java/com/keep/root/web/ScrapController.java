@@ -31,15 +31,29 @@ public class ScrapController {
   // 검색 결과를 데이, 장소 구분하여 실행
   // userNo, reviewNo를 받기 위해서 map 객체를 사용하여 두개의 파라미터를 받는다
   // 스크랩을 눌렀을 때
-  // http://localhost:9999/Root_Project/app/scrap/add?reviewDayNo=53 으로 바로 리턴할 수 있도록 만들어야 한다.
-  @RequestMapping("add")
-  public String add(int reviewDayNo, HttpSession session, Model model) throws Exception {
+  // http://localhost:9999/Root_Project/app/scrap/addReviewDay?reviewDayNo=53 으로 바로 리턴할 수 있도록 만들어야 한다.
+  @RequestMapping("addReviewDay")
+  public String addReviewDay(int reviewDayNo, HttpSession session, Model model) throws Exception {
     User loginUser = (User) session.getAttribute("loginUser");
     if (loginUser == null) {
       throw new Exception("로그인이 필요합니다.");
     }
-    if (scrapDayService.add(loginUser.getNo(), reviewDayNo) > 0) {
-      return "redirect:list";
+    if (scrapDayService.addReviewDay(loginUser.getNo(), reviewDayNo) > 0) {
+      return "redirect:list?userNo" + loginUser.getNo();
+    } else {
+      throw new Exception("스크랩을 실패했습니다.");
+    }
+  }
+  
+  @RequestMapping("addReviewPlace")
+  public String addReviewPlace(int reviewPlaceNo, HttpSession session, Model model) throws Exception {
+    User loginUser = (User) session.getAttribute("loginUser");
+    if (loginUser == null) {
+      throw new Exception("로그인이 필요합니다.");
+    } 
+
+    if (scrapPlaceService.addReviewPlace(loginUser.getNo(), reviewPlaceNo) > 0) {
+      return "redirect:list?userNo" + loginUser.getNo();
     } else {
       throw new Exception("스크랩을 실패했습니다.");
     }

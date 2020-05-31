@@ -4,8 +4,7 @@ import java.util.List;
 import com.keep.root.domain.ScrapPlace;
 
 public interface ScrapPlaceService {
-
-  int add(ScrapPlace scrapPlace) throws Exception;
+  int addReviewPlace(int userNo, int reviewPlaceNo) throws Exception;
 
   List<ScrapPlace> list(int userNo) throws Exception;
 

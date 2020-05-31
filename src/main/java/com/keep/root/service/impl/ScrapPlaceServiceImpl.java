@@ -1,5 +1,6 @@
 package com.keep.root.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -20,9 +21,12 @@ public class ScrapPlaceServiceImpl implements ScrapPlaceService {
   }
 
   @Override
-  public int add(ScrapPlace scrapPlace) throws Exception {
-    return scrapPlaceDao.insert(scrapPlace);
-  }
+  public int addReviewPlace(int userNo, int reviewPlaceNo) throws Exception {
+	    HashMap<String, Object> params = new HashMap<>();
+	    params.put("userNo", userNo);
+	    params.put("reviewPlaceNo", reviewPlaceNo);
+	    return scrapPlaceDao.insert(params);
+	  }
 
   @Override
   public List<ScrapPlace> list(int scrapDayNo) throws Exception {

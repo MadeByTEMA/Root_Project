@@ -4,8 +4,7 @@ import java.util.List;
 import com.keep.root.domain.ScrapDay;
 
 public interface ScrapDayService {
-
-  int add(int userNo, int reviewDayNo) throws Exception;
+  int addReviewDay(int userNo, int reviewDayNo) throws Exception;
 
   List<ScrapDay> list(int userNo) throws Exception;
 

@@ -34,7 +34,7 @@ public class ScrapDayServiceImpl implements ScrapDayService {
   }
 
   @Override
-  public int add(int userNo, int reviewDayNo) throws Exception {
+  public int addReviewDay(int userNo, int reviewDayNo) throws Exception {
     HashMap<String, Object> params = new HashMap<>();
     params.put("userNo", userNo);
     params.put("reviewDayNo", reviewDayNo);

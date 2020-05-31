@@ -23,13 +23,13 @@
   
   
   
-  <select id="insert" parameterType="ScrapPlace">
+  <select id="insert" parameterType="Map">
     insert into place_scraps(
       user_no,
       review_place_no
-    )values(
-      #{user.no},
-      #{reviewPlace.no}
+     )values(
+      #{userNo},
+      #{reviewPlaceNo}
     )
   </select>
   
@@ -57,10 +57,3 @@
   </delete>
   
 </mapper>
-
-
-
-
-
-
-
