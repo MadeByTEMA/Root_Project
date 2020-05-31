@@ -4,97 +4,74 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 
-<style>
-div.search_Place_Detail {
-  width :1000px;
-  height: 600px;
-}
+ <div class="container">
+    <div class="row">
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+        <!-- Title -->
+        <h1 class="mt-4"># 데이 스크랩 상세 </h1>
+        <!-- Author -->
+        <p class="lead">
+        </p>
+        <hr>
+        <!-- Date/Time -->
+        <p><span>장소 이름 : </span><strong>${placeDetail.name}</strong></p> 
+            <p> 주소 : ${placeDetail.basicAddr} ${placeDetail.detailAddr}</p>
+        <button id='place_scrop_button'>스크랩</button>
+        <hr>
+        <!-- Preview Image -->
+        <img alt="${placeDetail.mainPhoto}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg">
+        <!-- Post Content -->
+        <blockquote class="blockquote">
+          <p>${placeDetail.placeReview} <br></p>
+        </blockquote>
 
-div.main_control {
-  width : 1000px;
-  height: 180px;
-  border-bottom: 1px solid;
-}
-
-p {
-  border-bottom: 2px solid #0bd;
-}
- 
-div.search_place_Detail_Photo {
-  width : 100%;
-  overflow:auto;
-  height:1000px;
-  align-content:center;
-  text-align: center;
-} 
-div.search_place_Detail_textarea{
-  height: 100;
-  border: 1px solid;
-  float: left;
-}
-
-div.Detail_mainPhoto {
-  width: 200px;
-  height: 100px;
-  float: left;
-}
-
-div.Detail_text {
-  width:500px;
-  height: 10px;
-  float: left;
-  border: 1px solid white;
-}
-
-div.search_place_Detail_Photo {
-  width: 100%;
-  height : 200px;
-  margin-top: 50px;
-}
-div.search_place_Detail_textarea {
-  width: 100%;
-  height : 200px;
-  margin-top: 50px;
-  
-}
-
-</style>
-
-<h1>#장소 검색 상세</h1>
-<div class="search_Place_Detail">
-   <div class="search_place_Detail_text">
-      <div class="main_control">
-         <div class="Detail_mainPhoto">
-            <img alt="${placeDetail.mainPhoto}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg"
-            style="width:150px; height: 100px; margin:30px 30px 30px 30px;"> 
-         </div>
-         <div class="Detail_text" style="margin-top: 35px;">
-            <p><span>장소 이름 : </span>${placeDetail.name}</p> 
-            <p>상세 주소 : ${placeDetail.basicAddr}</p>
-            <p>기본 주소 : ${placeDetail.detailAddr}</p>
-            <button id='place_scrop_button'>스크랩</button>
-        </div>
-         </div>
-       </div>
-        <div class="search_place_Detail_Photo">
-            <c:forEach items="${placePhotoDetail}" var="placePhoto">
-             <img alt="${placePhoto.photo}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg"> 
-            </c:forEach>
-        </div>
-             <h5>#장소후기</h5>
-            <div class="search_place_Detail_textarea">
-              ${placeDetail.placeReview} <br>
-            </div>
-              <div class="search_place_Detail_P.ScrapAndPoint">
               <input id="data-reviewPlace-no" type="hidden" value="${placeDetail.no}">
               <input id="data-user-no" type="hidden" value="${loginUser.no}">
               <input id="data-trader-no" type="hidden" value="${review.user.no}">
               <input id="data-pointType" type="hidden" value="1">
               <input id="data-content" type="hidden" value="2">
               <input id="data-price" type="hidden" value="30">
+        <hr>
+         <c:forEach items="${placePhotoDetail}" var="placePhoto">
+            <img alt="${placePhoto.photo}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg" 
+            style="width:600px; text-align: center; border-bottom: 2px solid gray;"> 
+         </c:forEach>
+       </div>
+ 
+      <!-- Sidebar Widgets Column -->
+      <div class="float_sidebar col-md-4" style="width:200px; float: left">
+        <!-- Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <form action='http://localhost:9999/Root_Project/app/review/search' method='get'>
+              <input type="text" name="keyword" placeholder="Search for...">
+              <button class="btn btn-secondary">Go!</button>
+            </div>
+          </div>
+        </div>
+        <div class="card my-4">
+          <h5 class="card-header">Categories</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                  <li>
+                    <a href="#">${placeDetail.name}</a>
+                  </li>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+    <!-- /.row -->
   </div>
-</div>
+  <!-- /.container -->
+ </div>
+
+
 
 <script>
 "use strict"

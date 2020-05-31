@@ -3,49 +3,260 @@
     trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<h1>데이 검색 상세 </h1>
+ <!-- Page Content -->
+  <div class="container">
+    <div class="row">
+      <!-- Post Content Column -->
+      <div class="col-lg-8">
+			  <c:forEach items="${review.reviewDay}" var="reviewDay">
+        <!-- Title -->
+        <h1 class="mt-4"># 데이 스크랩 상세 </h1>
+        <!-- Author -->
+        <p class="lead">
+        </p>
+        <hr>
+        <!-- Date/Time -->
+        <p>여행 일짜 : ${reviewDay.dayDate}</p>
+        <strong>${reviewDay.title}</strong>
+        <td><button id="total_scrap_butoon" >전체 스크랩</button></td> <br>
+        <hr>
+        <!-- Preview Image -->
+        <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' style="width:750; "><br>
+        <hr>
+        <!-- Post Content -->
+        <p class="lead">${reviewDay.mainReview}</p>
+         <input id="data-reviewDay-no" type="hidden" value="${reviewDay.no}">
+         <input id="data-trader-no" type="hidden" value="${review.user.no}">
+         
+        <c:forEach items="${reviewDay.reviewPlace}" var="reviewPlace" varStatus="place_status">
+           <c:forEach items="${reviewPlace.reviewPlacePhotos}" var="reviewPlacePhoto" varStatus="status">
+           <c:if test="${status.first}">
+        <blockquote class="blockquote">
+        <div class="main_img" style="border-top: 3px solid gray; padding-top: 30px;">
+              장소대표사진 : <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' width='360'><br>
+        </div>
+        <button id="place_scrap_butoon">스크랩</button><br>
+          <footer class="blockquote-footer"> 
+                    대표 장소 : <cite title="Source Title">${reviewPlace.name}</cite> <br>
+           -  주소   : <cite title="Source Title"> ${reviewPlace.basicAddr} ${reviewPlace.detailAddr}</cite>
+          </footer>
+        </blockquote>
 
-<c:if test="${not empty review}">
-  <td><button>전체 스크랩</button></td>
-  <table border='1'>
-  <tr>
-    <th>제목</th>
-    <th>여행일</th>
-    <th>후기</th>
-    <th>장소명</th>
-    <th>기본주소</th>
-    <th>상세주소</th>
-    <th>장소후기</th>
-    <th>스크랩</th>
-  </tr>
-  
-  <c:forEach items="${review.reviewDay}" var="reviewDay">
-      메인사진 : <img src='${pageContext.servletContext.contextPath}/upload/review/${reviewDay.mainPhoto}' width='360'><br>
-    <c:forEach items="${reviewDay.reviewPlace}" var="reviewPlace">
-      장소대표사진 : <img src='${pageContext.servletContext.contextPath}/upload/review/${reviewPlace.mainPhoto}' width='360'><br>
-      <c:forEach items="${reviewPlace.reviewPlacePhotos}" var="reviewPlacePhoto" varStatus="status">
-      <c:if test="${status.first}">
-      <tr>
-        <td>${reviewDay.title}</td> 
-        <td>${reviewDay.dayDate}</td>
-        <td>${reviewDay.mainReview}</td>  
-        <td>${reviewPlace.name}</td> 
-        <td>${reviewPlace.basicAddr}</td> 
-        <td>${reviewPlace.detailAddr}</td> 
-        <td>${reviewPlace.placeReview}</td>
-        <td><button>스크랩</button></td>
+        <p>${reviewPlace.placeReview}<br></p>
         </c:if>
-        장소사진 : <img src='${pageContext.servletContext.contextPath}/upload/review/${reviewPlacePhoto.photo}' width='360'><br>
-      </tr>
-     </c:forEach>
-   </c:forEach>
+        <hr>
+              장소사진 : <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' width='600'><br>
+      </c:forEach>
+    </c:forEach>
   </c:forEach>
-</table>
+  </div>
+   <input id="data-user-no" type="hidden" value="${loginUser.no}">
+        <input id="data-pointType" type="hidden" value="1">
+        <input id="data-content" type="hidden" value="2">
+        <input id="data-DayPrice" type="hidden" value="150">
+        <input id="data-PlacePrice" type="hidden" value="30">
+              
+ 
+      <!-- Sidebar Widgets Column -->
+      <div class="float_sidebar col-md-4" style="width:200px; float: left">
 
-  <a href='delete?no=${review.no}&userNo=${review.user.no}'>삭제</a>
-</c:if>
+        <!-- Search Widget -->
+        <div class="card my-4">
+          <h5 class="card-header">Search</h5>
+          <div class="card-body">
+            <div class="input-group">
+              <form action='http://localhost:9999/Root_Project/app/review/search' method='get'>
+              <input type="text" name="keyword" placeholder="Search for...">
+              <button class="btn btn-secondary">Go!</button>
+            </div>
+          </div>
+        </div>
+        <div class="card my-4">
+          <h5 class="card-header">Categories</h5>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-lg-6">
+                <ul class="list-unstyled mb-0">
+                <c:forEach items="${review.reviewDay}" var="reviewDay">
+                  <c:forEach items="${reviewDay.reviewPlace}" var="reviewPlace" varStatus="place_status">
+                  <li>
+                    <a href="#">${reviewPlace.name}</a>
+                  </li>
+                  </c:forEach>
+               </c:forEach>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- /.row -->
+  </div>
+  <!-- /.container -->
+ </div>
 
-<c:if test="${empty review}">
-<p>해당 후기가 없습니다.</p>
-</c:if>
+ <!--  -->
 
+
+<script src="../node_modules/jquery/dist/jquery.min.js"></script>
+<script>
+$(function(){
+    var $win = $(window);
+    var top = $(window).scrollTop(); 
+    var speed          = "normal";    
+    var easing         = 'linear';
+    var $layer         = $('.float_sidebar'); 
+    var layerTopOffset = 0;   
+    $layer.css('position', 'relative').css('z-index', '1');
+    if (top > 0 )
+        $win.scrollTop(layerTopOffset+top);
+    else
+        $win.scrollTop(0);
+    $(window).scroll(function(){
+        yPosition = $win.scrollTop(); 
+        if (yPosition < 0)  {
+            yPosition = 0;  }
+        $layer.animate({"top":yPosition }, {duration:speed, easing:easing, queue:false});
+    });
+});
+</script>
+<script>
+$(document).ready(function() {
+    $(window).scroll(function() {
+        $(this).scrollTop() > 1000 ? $(".float_sidebar").fadeIn() : $(".float_sidebar").fadeOut()
+    })
+});
+</script>
+
+<script>
+"use strict"
+
+// scrap Day value
+var da = document.querySelector("#data-reviewDay-no");
+console.log(da);
+
+//scrap place value
+var pa = document.querySelector("#data-reviewPlace-no");
+console.log(pa);
+
+// point total Data value
+var a = document.querySelector("#data-user-no");
+var b = document.querySelector('#data-trader-no');
+var c = document.querySelector('#data-pointType');
+var d = document.querySelector('#data-content');
+
+// point price value
+var e1 = document.querySelector('#data-DayPrice');
+var e2 = document.querySelector('#data-PlacePrice');
+
+// tag data
+var button_tag1 = ${'total_scrap_butoon'};
+// var button_tag1 = ${'total_scrap_butoon'};
+console.log(a);
+console.log(b);
+console.log(c);
+console.log(d);
+
+console.log(e1);
+console.log(e2);
+
+// 동일 게시물 비교
+var co1 = document.querySelector("#data-reviewDay-no");
+var co2 = document.querySelector("#data-user-no");
+var co3 = document.querySelector('#data-trader-no');
+console.log(co1);
+console.log(co2);
+console.log(co3);
+
+document.querySelector("#total_scrap_butoon").onclick = () => {
+     if (confirm(" 해당 게시물을 스크랩을 하시겠습니까? ") == true){    
+        sendScrapDayData();
+        sendPointDayData();
+     }else{ 
+        console.log("error");
+     }
+}
+
+document.querySelector("#place_scrap_butoon").onclick = () => {
+    if (confirm(" 해당 게시물을 스크랩을 하시겠습니까? ") == true){    
+        sendScrapPlaceData();
+        sendPointPlaceData();
+     }else{ 
+        console.log("error");
+     }
+}
+
+function sendScrapDayData() {
+     var xhr = new XMLHttpRequest();
+     xhr.onreadystatechange = () => {
+       if (xhr.readyState != 4 || xhr.status != 200){  
+               console.log("scrapDay send() 리턴함.");
+         } else {
+             console.log("Scrap 요청 완료");
+           }
+     };         
+      xhr.open("GET", 
+          "http://localhost:9999/Root_Project/app/scrap/addReviewDay?userNo=" 
+          + a.value + "&reviewDayNo="+ da.value , true);
+      xhr.send();
+  }
+  
+  function sendScrapPlaceData() {
+       var xhr = new XMLHttpRequest();
+       xhr.onreadystatechange = () => {
+         if (xhr.readyState != 4 || xhr.status != 200){  
+                 console.log("scrapPlace send() 리턴함.");
+           } else {
+               console.log("Scrap 요청 완료");
+             }
+       };         
+        xhr.open("GET", 
+            "http://localhost:9999/Root_Project/app/scrap/addReviewPlace?userNo=" 
+            + a.value + "&reviewPlaceNo="+ pa.value , true);
+        xhr.send();
+    }
+  
+
+  function sendPointDayData() {
+       var xhr = new XMLHttpRequest();
+       xhr.onreadystatechange = () => {
+         if (xhr.readyState != 4 || xhr.status != 200){  
+                  console.log("DayPoint send() 리턴함.");
+         } else {
+             console.log("withdraw 요청 완료");
+           }
+        };       
+        xhr.open("GET", 
+            "http://localhost:9999/Root_Project/app/point/add?userNo=" + a.value 
+            + "&reviewUserNo=" + b.value
+            + "&pointType=" + c.value
+            + "&content=" + d.value
+            + "&price=" + e1.value, true);
+        xhr.send();
+    }
+
+
+  function sendPointPlaceData() {
+       var xhr = new XMLHttpRequest();
+       xhr.onreadystatechange = () => {
+         if (xhr.readyState != 4 || xhr.status != 200){  
+                  console.log("PlacePoint send() 리턴함.");
+           } else {
+               console.log("withdraw 요청 완료");
+             }
+        };       
+        xhr.open("GET", 
+            "http://localhost:9999/Root_Project/app/point/add?userNo=" + a.value 
+            + "&reviewUserNo=" + b.value
+            + "&pointType=" + c.value
+            + "&content=" + d.value
+            + "&price=" + e2.value, true);
+        xhr.send();
+    }
+  
+
+</script>
+
+    <!-- Bootstrap core JavaScript -->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
