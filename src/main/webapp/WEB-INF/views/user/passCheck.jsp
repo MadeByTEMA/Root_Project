@@ -4,7 +4,7 @@
     
 <h3 style="text-align:center;">비밀번호 확인</h3>
 <div class="pC" style="margin-left:450px;">
-비밀번호&nbsp; <input type="text" name="passCheck" id="passCheck"><br>
+비밀번호&nbsp; <input type="password" name="passCheck" id="passCheck"><br>
 <input name="email" id="email" hidden value="${loginUser.email}"><br>
 </div>
 <input type="button" value="확인" onclick="epCheck()" style="margin-left:570px;">
