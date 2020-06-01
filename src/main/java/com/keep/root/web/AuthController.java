@@ -95,7 +95,7 @@ public class AuthController {
       user.setBirth("");
       user.setTel("");
       user.setGender(0);
-      user.setZipCode(0);
+      user.setZipCode("");
       user.setBasicAddr("");
       user.setDetailAddr("");
       user.setNickName("");

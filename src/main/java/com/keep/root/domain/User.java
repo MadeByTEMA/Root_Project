@@ -9,7 +9,7 @@ public class User {
   String birth;
   int gender;
   String tel;
-  int zipCode;
+  String zipCode;
   String basicAddr;
   String detailAddr;
   String photo;
@@ -28,7 +28,7 @@ public class User {
       String birth, //
       int gender, //
       String tel, //
-      int zipCode, //
+      String zipCode, //
       String basicAddr, //
       String detailAddr, //
       String nickName) {
@@ -109,12 +109,12 @@ public class User {
     this.tel = tel;
   }
 
-  public int getZipCode() {
+  public String getZipCode() {
     return zipCode;
   }
 
-  public void setZipCode(int zipCode) {
-    this.zipCode = zipCode;
+  public String setZipCode(String zipCode) {
+    return this.zipCode = zipCode;
   }
 
   public String getBasicAddr() {

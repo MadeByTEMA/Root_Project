@@ -54,7 +54,7 @@ public class UserController {
       String birth, //
       int gender, //
       String tel, //
-      int zipCode, //
+      String zipCode, //
       String basicAddr, //
       String detailAddr, //
       String nickName, //
