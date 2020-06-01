@@ -215,22 +215,21 @@
       and password=password(#{password})
   </select>  
 
-<select id="epSearch" resultType="int" parameterType="map">
-    select count(*)from users
+  <select id="epSearch" resultType="int" parameterType="map">
+    select count(*) from users
     where email=#{email} and password=password(#{password})
   </select> 
    
   <select id="enSearch" resultType="int" parameterType="map">
-    select count(*)from users
+    select count(*) from users
     where email=#{email} and user_name=#{name}
   </select> 
-
 
   <select id="nameSearch" resultType="int" parameterType="string">
     select count(user_name) from users 
       where user_name= #{name}
   </select>
-  
+
   <select id="nickNameSearch" resultType="int" parameterType="string">
     select count(nickname) from users
      where nickname = #{nickName}

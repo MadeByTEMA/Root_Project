@@ -29,7 +29,7 @@ public interface UserDao {
 
   int epSearch(Map<String, Object> params) throws Exception;
 
-  int enSearch(HashMap<String, Object> params);
+  int enSearch(HashMap<String, Object> params) throws Exception;
 
   int nickNameSearch(String nickName) throws Exception;
 
@@ -39,7 +39,7 @@ public interface UserDao {
 
   int nameSearch(String name) throws Exception;
 
-  int updateAuthStatus(User user);
+  int updateAuthStatus(User user) throws Exception;
 
   int updatePassword(User user) throws Exception;
 

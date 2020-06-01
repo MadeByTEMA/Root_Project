@@ -150,7 +150,7 @@ public class UserServiceImpl implements UserService {
   }
 
   @Override
-  public int updateAuthStatus(User user) {
+  public int updateAuthStatus(User user) throws Exception{
     return userDao.updateAuthStatus(user);
   }
 

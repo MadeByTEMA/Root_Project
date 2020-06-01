@@ -33,7 +33,7 @@ public interface UserService {
 
   Integer enSearch(String email, String name) throws Exception;
 
-  int updateAuthStatus(User user);
+  int updateAuthStatus(User user) throws Exception;
 
   int updatePassword(User user) throws Exception;
 

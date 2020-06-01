@@ -34,6 +34,10 @@ public class UserController {
   public void form() {
   }
 
+  @GetMapping("passCheck")
+  public void passCheck() {
+  }
+
   @GetMapping("findinfoform")
   public void findinfoform() {
   }
@@ -154,6 +158,17 @@ public class UserController {
   public int nameSearch(String name) throws Exception {
     int count = userService.nameSearch(name);
     return count;
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "epSearch", method = RequestMethod.POST)
+  public int epSearch(String email, String password) throws Exception {
+    System.out.println("email:"+email);
+    System.out.println("password:" + password);
+    int count = userService.epSearch(email, password);
+    System.out.println("리턴 값" + count);
+    return count;
+
   }
 
   @ResponseBody
