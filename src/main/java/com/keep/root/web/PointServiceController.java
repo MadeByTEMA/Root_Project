@@ -55,7 +55,7 @@ public class PointServiceController {
     if (loginUser == null) {
       throw new Exception("로그인이 필요합니다.");
     }
-    if (pointService.scrapAdd(loginUser.getNo(), reviewUserNo, pointType, content, price) > 0) {
+    if (pointService.scrapAdd(userNo, reviewUserNo, pointType, content, price) > 0) {
       return "redirect:userlist?userNo=" + loginUser.getNo();
     } else {
       throw new Exception("스크랩을 실패했습니다.");

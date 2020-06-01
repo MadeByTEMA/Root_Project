@@ -27,6 +27,7 @@
         <p class="lead">${reviewDay.mainReview}</p>
          <input id="data-reviewDay-no" type="hidden" value="${reviewDay.no}">
          <input id="data-trader-no" type="hidden" value="${review.user.no}">
+         <input id="data-reverse-user-no" type="hidden" value="${review.user.no}">
          
         <c:forEach items="${reviewDay.reviewPlace}" var="reviewPlace" varStatus="place_status">
            <c:forEach items="${reviewPlace.reviewPlacePhotos}" var="reviewPlacePhoto" varStatus="status">
@@ -51,8 +52,13 @@
   </c:forEach>
   </div>
    <input id="data-user-no" type="hidden" value="${loginUser.no}">
+   <input id="data-reverse-trader-no" type="hidden" value="${loginUser.no}">
         <input id="data-pointType" type="hidden" value="1">
         <input id="data-content" type="hidden" value="2">
+        
+        <input id="data-reverse-pointType" type="hidden" value="0">
+        <input id="data-reverse-content" type="hidden" value="1">
+        
         <input id="data-DayPrice" type="hidden" value="150">
         <input id="data-PlacePrice" type="hidden" value="30">
               
@@ -132,17 +138,23 @@ $(document).ready(function() {
 
 // scrap Day value
 var da = document.querySelector("#data-reviewDay-no");
-console.log(da);
 
 //scrap place value
 var pa = document.querySelector("#data-reviewPlace-no");
-console.log(pa);
 
 // point total Data value
 var a = document.querySelector("#data-user-no");
 var b = document.querySelector('#data-trader-no');
 var c = document.querySelector('#data-pointType');
 var d = document.querySelector('#data-content');
+
+// trader date value(reverse)
+
+var a1 = document.querySelector("#data-reverse-user-no");
+var b1 = document.querySelector("#data-reverse-trader-no");
+var c1 = document.querySelector('#data-reverse-pointType');
+var d1 = document.querySelector('#data-reverse-content');
+
 
 // point price value
 var e1 = document.querySelector('#data-DayPrice');
@@ -151,26 +163,21 @@ var e2 = document.querySelector('#data-PlacePrice');
 // tag data
 var button_tag1 = ${'total_scrap_butoon'};
 // var button_tag1 = ${'total_scrap_butoon'};
-console.log(a);
-console.log(b);
-console.log(c);
-console.log(d);
 
-console.log(e1);
-console.log(e2);
+console.log(a1);
+console.log(b1);
+
 
 // 동일 게시물 비교
 var co1 = document.querySelector("#data-reviewDay-no");
 var co2 = document.querySelector("#data-user-no");
 var co3 = document.querySelector('#data-trader-no');
-console.log(co1);
-console.log(co2);
-console.log(co3);
 
 document.querySelector("#total_scrap_butoon").onclick = () => {
      if (confirm(" 해당 게시물을 스크랩을 하시겠습니까? ") == true){    
         sendScrapDayData();
         sendPointDayData();
+        reverseSendPointDayData();
      }else{ 
         console.log("error");
      }
@@ -180,6 +187,7 @@ document.querySelector("#place_scrap_butoon").onclick = () => {
     if (confirm(" 해당 게시물을 스크랩을 하시겠습니까? ") == true){    
         sendScrapPlaceData();
         sendPointPlaceData();
+        reverseSendPointPlaceData();
      }else{ 
         console.log("error");
      }
@@ -215,6 +223,7 @@ function sendScrapDayData() {
         xhr.send();
     }
   
+  
 
   function sendPointDayData() {
        var xhr = new XMLHttpRequest();
@@ -234,6 +243,26 @@ function sendScrapDayData() {
         xhr.send();
     }
 
+  
+  function reverseSendPointDayData() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState != 4 || xhr.status != 200){  
+                 console.log("reverseDayPoint send() 리턴함.");
+        } else {
+          console.log("reverse withdraw 요청");
+        }
+       };       
+       xhr.open("GET", 
+           "http://localhost:9999/Root_Project/app/point/add?userNo=" + a1.value 
+           + "&reviewUserNo=" + b1.value
+           + "&pointType=" + c1.value
+           + "&content=" + d1.value
+           + "&price=" + e1.value, true);
+       console.log(b.value);
+       console.log(a.value);
+       xhr.send();
+   }
 
   function sendPointPlaceData() {
        var xhr = new XMLHttpRequest();
@@ -252,6 +281,25 @@ function sendScrapDayData() {
             + "&price=" + e2.value, true);
         xhr.send();
     }
+  
+  
+  function reverseSendPointPlaceData() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState != 4 || xhr.status != 200){  
+                 console.log("reverseDayPoint send() 리턴함.");
+        } else {
+            console.log("withdraw 요청 완료");
+          }
+       };       
+       xhr.open("GET", 
+    		   "http://localhost:9999/Root_Project/app/point/add?userNo=" + a1.value 
+    	     + "&reviewUserNo=" + b1.value
+           + "&pointType=" + c1.value
+           + "&content=" + d1.value
+           + "&price=" + e2.value, true);
+       xhr.send();
+   }
   
 
 </script>

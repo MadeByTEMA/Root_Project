@@ -48,7 +48,7 @@
      userNo : 로그인 세션에 저장된 no
      traderNo.: 세션에 저장된 no 이외로, 
     insert into points (user_no, trader_no, point_type, content,  price )
-       values( 4, 3, 3, 2, 20000);
+       values( 52, 51, 0, 1, 150);
       -->
    </insert>
    

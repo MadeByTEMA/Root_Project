@@ -23,17 +23,17 @@ public class PointServiceImpl implements PointService {
       int pointType, //
       int content, //
       int price//
-  ) throws Exception {
+      ) throws Exception {
     HashMap<String, Object> params = new HashMap<>();
     if (userNo == reviewUserNo) {
       throw new Exception("동일한 게시물은 스크랩 할 수 없습니다.");
     } else {
-    	params.put("userNo", userNo);
-    	params.put("reviewUserNo", reviewUserNo);
-    	params.put("pointType", pointType);
-    	params.put("content", content);
-    	params.put("price", price);
-    } 
+      params.put("userNo", userNo);
+      params.put("reviewUserNo", reviewUserNo);
+      params.put("pointType", pointType);
+      params.put("content", content);
+      params.put("price", price);
+    }
     return pointDao.insert(params) ;
   }
   // pointType : 입금 0 출금 1
@@ -43,8 +43,8 @@ public class PointServiceImpl implements PointService {
   // 2. 포인트 사용
   // 3. 충전 결제
   // 4. 출금 계좌 출금
-  
-  // pointNo에 대해서 userNo -30/ trader 30 
+
+  // pointNo에 대해서 userNo -30/ trader 30
 
   @Override
   public List<Point> list() throws Exception {

@@ -27,10 +27,19 @@
         </blockquote>
 
               <input id="data-reviewPlace-no" type="hidden" value="${placeDetail.no}">
+              
               <input id="data-user-no" type="hidden" value="${loginUser.no}">
               <input id="data-trader-no" type="hidden" value="${review.user.no}">
+              
+              <input id="data-reverse-trader-no" type="hidden" value="${loginUser.no}">
+              <input id="data-reverse-user-no" type="hidden" value="${review.user.no}">
+              
               <input id="data-pointType" type="hidden" value="1">
               <input id="data-content" type="hidden" value="2">
+              
+               <input id="data-reverse-pointType" type="hidden" value="0">
+              <input id="data-reverse-content" type="hidden" value="1">
+              
               <input id="data-price" type="hidden" value="30">
         <hr>
          <c:forEach items="${placePhotoDetail}" var="placePhoto">
@@ -84,7 +93,20 @@ var a = document.querySelector("#data-user-no");
 var b = document.querySelector('#data-trader-no');
 var c = document.querySelector('#data-pointType');
 var d = document.querySelector('#data-content');
-var e = document.querySelector('#data-price');
+
+// reverse point value
+var a1 = document.querySelector("#data-reverse-user-no");
+var b1 = document.querySelector("#data-reverse-trader-no");
+var c1 = document.querySelector('#data-reverse-pointType');
+var d1 = document.querySelector('#data-reverse-content');
+console.log(a1);
+console.log(b1);
+console.log(c1);
+console.log(d1);
+
+
+// common
+var e1 = document.querySelector('#data-price');
 
 // 동일 게시물 비교
 var co1 = document.querySelector("#data-reviewPlace-no");
@@ -94,12 +116,13 @@ console.log(a);
 console.log(b);
 console.log(c);
 console.log(d);
-console.log(e);
+console.log(e1);
 
 document.querySelector("#place_scrop_button").onclick = () => {
     if (confirm(" 해당 게시물을 스크랩을 하시겠습니까? ") == true){    
         sendScrapData();
         sendPointData();
+        reverseSendPointPlaceData();
      }else{ 
         console.log("스크랩을 취소했습니다.");
      }
@@ -132,9 +155,27 @@ function sendScrapData() {
             + "&reviewUserNo=" + b.value
             + "&pointType=" + c.value
             + "&content=" + d.value
-            + "&price=" + e.value, true);
+            + "&price=" + e1.value, true);
         xhr.send();
     }
+  
+  function reverseSendPointPlaceData() {
+      var xhr = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState != 4 || xhr.status != 200){  
+                 console.log("reverseDayPoint send() 리턴함.");
+        } else {
+            console.log("withdraw 요청 완료");
+          }
+       };       
+       xhr.open("GET", 
+           "http://localhost:9999/Root_Project/app/point/add?userNo=" + a1.value 
+           + "&reviewUserNo=" + b1.value
+           + "&pointType=" + c1.value
+           + "&content=" + d1.value
+           + "&price=" + e1.value, true);
+       xhr.send();
+   }
 
 </script>
 
