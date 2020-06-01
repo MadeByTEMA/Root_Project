@@ -33,8 +33,8 @@
         </fb:login-button>
 			</div>
 			<div class="etc">
-				<a href="../user/findinfoform"  class="search" >비밀번호 찾기</a><br>
-					<a href='../user/form'>회원가입</a><br>
+				<a href="../user/findinfoform"  class="search" >비밀번호 찾기</a>
+					<a href='../user/form'>회원가입</a>
 			</div>
 		</form>
 	</div>

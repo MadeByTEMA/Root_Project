@@ -21,7 +21,7 @@
           <li><a href="../info/list">공지</a></li>
          
           <c:if test="${not empty loginUser}">
-		       <span class='navbar-text'>${loginUser.nickName} ${loginUser.point} Point</span>
+		       <span class='navbar-text' style="margin-top:10px">${loginUser.nickName} ${loginUser.point} Point</span>
 		       <li class="get-started"><a href="../mypage/form?no=${loginUser.no}">MyPage</a>
 		       <li class="get-started"><a href="../auth/logout">Logout</a>
 		    </c:if>

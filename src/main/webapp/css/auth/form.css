@@ -1,7 +1,6 @@
 .all{
 border:10px;
-margin: 30px 200px 0px 250px;
-padding-bottom: 30px;
+margin: 150px 0px 300px 350px;
 border-radius: 10px;
 }
 
@@ -53,6 +52,7 @@ margin-bottom:10px;
 
 .etc{
 text-align:center;
+margin-top:30px;
 }
 
 .search {

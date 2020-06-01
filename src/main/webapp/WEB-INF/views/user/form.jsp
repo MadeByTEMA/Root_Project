@@ -1,64 +1,136 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"
-    trimDirectiveWhitespaces="true"%>
+	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 
-<h1>회원가입</h1>
-<form action='add' method='post' name="form" enctype='multipart/form-data'>
-<span style="color:red;">*</span>&nbsp;
-이메일: <input type='text' name='email' id="email" onkeyup="emailSearch()">
-        <span id="alert_email" style="color:grey;">예) bitcamp@naver.com</span><br>
-        
-<span style="color:red;">*</span>&nbsp;        
-비밀번호: <input type='password' name='password' id="password" onkeyup="passwordCheck()">
-          <span id="alert_password" style="color:grey;">영문자와 숫자 조합으로 8자 이상 입력해주세요.</span><br>
-          
-<span style="color:red;">*</span>&nbsp;  
-비밀번호 확인: <input type='password' id="password2" onkeyup="password2Check()" >
-                <span id="alert_password2" style="color:grey;"></span> <br>
-                
-<span style="color:red;">*</span>&nbsp;
-이름: <input type='text' name='name' id="name"  onkeyup="nameCheck()">
-      <span id="alert_name" style="color:grey;"></span> <br>
 
-<span style="color:red;">*</span>&nbsp;
-생년월일: <input type='text' name='birth' id="birth" onkeyup="birthCheck()">
-          <span id="alert_birth" style="color:grey;">예) 19930613</span><br>
+	<!-- For Demo Purpose -->
+	<header class="py-5">
+		<h1 class="display-4">Sign Up</h1>
+	</header>
 
-<span style="color:red;">*</span>&nbsp;
-성별: &nbsp; <input type='radio' name='gender' id="gender" value="2">여자 &nbsp; 
-      <input type='radio' name='gender' id="gender" value="1">남자
-      <span id="alert_gender" style="color:grey;"></span><br>
-     
-<span style="color:red;">*</span>&nbsp;
-전화번호: <input type='text' name='tel' id="tel" onkeyup="telSearch()" >
-          <span id="alert_tel" style="color:grey;">예) 010-1234-1234</span><br>
 
-<span style="color:red;">*</span>&nbsp;
-우편번호: <input type='text' name='zipCode' class="zipCodes"  id="zipCode" onkeyup="zipCodeCheck()" readonly>
+	<div class="row">
+		<div class="col-lg-8 mx-auto">
+			<form action='add' method='post' name="form" enctype='multipart/form-data'>
+			
+			<!--이메일-->
+				<div class="mb-4">
+					<input type='text' name='email' id="email"
+						onkeyup="emailSearch()" placeholder="EMAIL" size=30 maxlength=20>
+					<span id="alert_email" style="color: grey;">예)
+						bitcamp@naver.com</span><br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--비밀번호-->
+				<div class="mb-4">
+					<input type='password' name='password'
+						id="password" onkeyup="passwordCheck()" placeholder="PASSWORD"
+						size=30 maxlength=20> <span id="alert_password"
+						style="color: grey;">영문자와 숫자 조합으로 8자 이상 입력해주세요.</span><br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--비밀번호확인-->
+				<div class="mb-4">
+					<input type='password' id="password2"
+						onkeyup="password2Check()" placeholder="CONFIRM PASSWORD" size=30
+						maxlength=20> <span id="alert_password2"
+						style="color: grey;"></span> <br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--이름-->
+				<div class="mb-4">
+					<input type='text' name='name' id="name"
+						onkeyup="nameCheck()" placeholder="NAME" size=30 maxlength=20>
+					<span id="alert_name" style="color: grey;"></span> <br>
+
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--생년월일-->
+				<div class="mb-4">
+					<input type='text' name='birth' id="birth"
+						onkeyup="birthCheck()" placeholder="BIRTH" size=30 maxlength=20>
+					<span id="alert_birth" style="color: grey;">예) 19930613</span><br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--성별-->
+				<div class="mb-4">
+					&nbsp; <input type='radio' name='gender' id="gender" value="2">여자
+					&nbsp; <input type='radio' name='gender' id="gender" value="1">남자
+					<span id="alert_gender" style="color: grey;"></span><br>
+
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--전화번호-->
+				<div class="mb-4">
+					<input type='text' name='tel' id="tel" onkeyup="telSearch()" placeholder="TEL" size=30 maxlength=20>
+					<span id="alert_tel" style="color: grey;">예) 010-1234-1234</span><br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+
+				<!--우편번호-->
+				<div>
+					<input type='text' name='zipCode' class="zipCodes"  id="zipCode" onkeyup="zipCodeCheck()" readonly placeholder="우편번호" size=30 maxlength=20>
           <span id="alert_zipCode" style="color:grey;"></span>
-          <input type="button" onClick="openDaumZipAddress(this);" value ="주소 찾기" /><br/>
+          <input type="button" onClick="openDaumZipAddress(this);" value ="주소 찾기"/><br/>
+					<!-- Solid divider -->
+					<hr class="solid">
+				
+				<!--기본주소-->
+					<input type='text'name='basicAddr' class="basicAddrs" id="basicAddr" onkeyup="basicAddrCheck()" readonly placeholder="기본주소" size=30 maxlength=20>
+					<span id="alert_basicAddr" style="color: grey;"></span><br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				
+				<!--상세주소-->
+					 <input  type='text' class="detailAddrs" name='detailAddr' id="detailAddr" placeholder="상세주소" size=30 maxlength=20>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
+				
+				<!--사진-->				
+					<div class="mb-4">
+					<input  type='text' readonly placeholder="사진" size=30>
+					 <input type='file' name='photoFile' id="photoFile">
+					<!-- Solid dividder -->
+					<hr class="solid">
+				</div>
+				<!--별명-->
+					<div class="mb-4">
+					 <input type='text' name='nickName' id="nickName"
+		oninput="nickNameSearchh()"  placeholder="별명" size=30 maxlength=20>  <span id="alert_nickName"
+		style="color: grey;"></span><br> <input type="button"
+		onclick="checkForm()" value="등록"> <input type="button"
+		onclick="reset()" value="초기화">
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
 
-<span style="color:red;">*</span>&nbsp;
-기본주소: <input type='text' name='basicAddr' class="basicAddrs"  id="basicAddr" onkeyup="basicAddrCheck()" readonly>
-          <span id="alert_basicAddr" style="color:grey;"></span><br>
+			</form>
+		</div>
+	</div>
 
-&nbsp;&nbsp;&nbsp;상세주소: <input type='text' class="detailAddrs" name='detailAddr' id="detailAddr"><br>
 
-&nbsp;&nbsp;&nbsp;사진: <input type='file' name='photoFile' id="photoFile"><br>
-
-<span style="color:red;">*</span>&nbsp;
-별명: <input type='text' name='nickName' id="nickName" oninput="nickNameSearchh()" >
-      <span id="alert_nickName" style="color:grey;"></span><br>
-<input type="button" onclick="checkForm()" value="등록">
-<input type="button" onclick="reset()" value="초기화">
-</form>
 
 <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
 <script>
   var j = jQuery.noConflict();
 </script>
-<script type="text/JavaScript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24cdf736c8b9797f29a0e35af3b6773a&libraries=services,clusterer,drawing"></script>
+<script type="text/JavaScript"
+	src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script type="text/javascript"
+	src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24cdf736c8b9797f29a0e35af3b6773a&libraries=services,clusterer,drawing"></script>
 
 <script>
 var emailcheck = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/;
