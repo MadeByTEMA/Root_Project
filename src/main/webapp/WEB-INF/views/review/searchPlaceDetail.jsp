@@ -9,22 +9,20 @@
       <!-- Post Content Column -->
       <div class="col-lg-8">
         <!-- Title -->
-        <h1 class="mt-4"># 데이 스크랩 상세 </h1>
+        <h1 class="mt-4">#장소 스크랩 상세 </h1>
         <!-- Author -->
         <p class="lead">
         </p>
         <hr>
         <!-- Date/Time -->
-        <p><span>장소 이름 : </span><strong>${placeDetail.name}</strong></p> 
+        <p><span>장소 : </span><strong>${placeDetail.name}</strong></p> 
             <p> 주소 : ${placeDetail.basicAddr} ${placeDetail.detailAddr}</p>
-        <button id='place_scrop_button'>스크랩</button>
+         <td><button id='place_scrop_button' style="float: right;">스크랩</button></td> <br>
         <hr>
         <!-- Preview Image -->
         <img alt="${placeDetail.mainPhoto}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg">
         <!-- Post Content -->
-        <blockquote class="blockquote">
           <p>${placeDetail.placeReview} <br></p>
-        </blockquote>
 
               <input id="data-reviewPlace-no" type="hidden" value="${placeDetail.no}">
               
@@ -41,10 +39,9 @@
               <input id="data-reverse-content" type="hidden" value="1">
               
               <input id="data-price" type="hidden" value="30">
-        <hr>
+          <hr>
          <c:forEach items="${placePhotoDetail}" var="placePhoto">
-            <img alt="${placePhoto.photo}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg" 
-            style="width:600px; text-align: center; border-bottom: 2px solid gray;"> 
+            <img alt="${placePhoto.photo}" src="${pageContext.servletContext.contextPath}/img/search/testimg.jpg" style="width:600px; margin-left: 60px;"> 
          </c:forEach>
        </div>
  

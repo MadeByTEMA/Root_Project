@@ -8,23 +8,22 @@
     <div class="row">
       <!-- Post Content Column -->
       <div class="col-lg-8">
-			  <c:forEach items="${review.reviewDay}" var="reviewDay">
+        <c:forEach items="${review.reviewDay}" var="reviewDay">
         <!-- Title -->
         <h1 class="mt-4"># 데이 스크랩 상세 </h1>
         <!-- Author -->
-        <p class="lead">
-        </p>
+        <p class="lead"></p>
         <hr>
         <!-- Date/Time -->
         <p>여행 일짜 : ${reviewDay.dayDate}</p>
-        <strong>${reviewDay.title}</strong>
-        <td><button id="total_scrap_butoon" >전체 스크랩</button></td> <br>
+        <strong>${reviewDay.title}</strong> <br>
+        <td><button id="total_scrap_butoon" style="float: right;">전체 스크랩</button></td> <br>
         <hr>
         <!-- Preview Image -->
         <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' style="width:750; "><br>
         <hr>
         <!-- Post Content -->
-        <p class="lead">${reviewDay.mainReview}</p>
+        <p class="lead" style="font-size: 18px;">${reviewDay.mainReview}</p>
          <input id="data-reviewDay-no" type="hidden" value="${reviewDay.no}">
          <input id="data-trader-no" type="hidden" value="${review.user.no}">
          <input id="data-reverse-user-no" type="hidden" value="${review.user.no}">
@@ -34,19 +33,20 @@
            <c:if test="${status.first}">
         <blockquote class="blockquote">
         <div class="main_img" style="border-top: 3px solid gray; padding-top: 30px;">
-              장소대표사진 : <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' width='360'><br>
+          <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' style='width:360px; margin-left: 160px; margin-top: 50px;'><br>
         </div>
-        <button id="place_scrap_butoon">스크랩</button><br>
-          <footer class="blockquote-footer"> 
+          <footer class="blockquote-footer" style="margin-left: 160px;"> 
                     대표 장소 : <cite title="Source Title">${reviewPlace.name}</cite> <br>
-           -  주소   : <cite title="Source Title"> ${reviewPlace.basicAddr} ${reviewPlace.detailAddr}</cite>
+           &nbsp;&nbsp;&nbsp;&nbsp; 주소   : <cite title="Source Title"> ${reviewPlace.basicAddr} ${reviewPlace.detailAddr}</cite>
+            <button id="place_scrap_butoon" style="float: right;">스크랩</button><br>
           </footer>
         </blockquote>
 
         <p>${reviewPlace.placeReview}<br></p>
         </c:if>
         <hr>
-              장소사진 : <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' width='600'><br>
+              장소사진 : <br> 
+        <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' style="width: 20ox;"><br>
       </c:forEach>
     </c:forEach>
   </c:forEach>
@@ -293,8 +293,8 @@ function sendScrapDayData() {
           }
        };       
        xhr.open("GET", 
-    		   "http://localhost:9999/Root_Project/app/point/add?userNo=" + a1.value 
-    	     + "&reviewUserNo=" + b1.value
+           "http://localhost:9999/Root_Project/app/point/add?userNo=" + a1.value 
+           + "&reviewUserNo=" + b1.value
            + "&pointType=" + c1.value
            + "&content=" + d1.value
            + "&price=" + e2.value, true);
