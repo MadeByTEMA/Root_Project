@@ -29,7 +29,10 @@
   -->
   <link href="${pageContext.getServletContext().getContextPath()}/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
   <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.48.4/codemirror.min.css"
+  />
   
   <!-- Template Main CSS File -->
   <link href="${pageContext.getServletContext().getContextPath()}/css/style.css" rel="stylesheet">
@@ -47,6 +50,8 @@
   <!-- Template Main JS File -->
   <script src="${pageContext.getServletContext().getContextPath()}/js/main.js"></script>
   <script src='${pageContext.getServletContext().getContextPath()}/semantic/dist/semantic.min.js'></script>
+  
+  
   
 <title>나만의 루트를 만들다. 루트</title>
 </head>

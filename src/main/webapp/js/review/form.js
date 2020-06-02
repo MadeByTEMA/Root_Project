@@ -30,10 +30,14 @@ var distanceArray = new Array();
  var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
  var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
 }
+{
+var editor = new Object();
+}
 
 $('.ui.dropdown').dropdown({
   action:'nothing'
 });
+
 $('.minus.icon').css('margin', '0px');
 $('.minus.icon').css('padding-left', 'calc(100% - 144px)');
 $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
@@ -75,14 +79,22 @@ $('#button_calendar')
   }
 });
 
-function removeForm(event){
+function removeFormByIndex(index) { // index를 받으면 해당 Form을 지운다.
+  if (document.querySelectorAll('.showReviewPlaceNameArea')[0].childNodes.length != 1) {
+    document.querySelectorAll('.showReviewPlaceNameArea')[0].removeChild(document.querySelectorAll('.showReviewPlaceNameArea')[0].childNodes[index]);
+    document.querySelectorAll('.reviewPlaceArea')[0].removeChild(document.querySelectorAll('.reviewPlaceArea')[0].childNodes[index]);
+  }
+}
+
+
+function removeForm(event){ // minus icon 클릭시 해당 Form 삭제
   if (document.querySelectorAll('.reviewPlace').length != 1) {
   document.querySelectorAll('.showReviewPlaceNameArea')[0].removeChild(document.querySelectorAll('.showReviewPlaceNameArea')[0].childNodes[$(event.target.parentNode.parentNode.parentNode).index()]);
   document.querySelectorAll('.reviewPlaceArea')[0].removeChild(event.target.parentNode.parentNode.parentNode);
   }
 }
 
-function addForm(){
+function addForm(){ // plus icon 클릭시 해당 Form 추가
   var reviewPlaceDiv = document.createElement('div'); 
   reviewPlaceDiv.className = 'reviewPlace';
   reviewPlaceDiv.innerHTML = document.querySelectorAll('.reviewPlace')[0].innerHTML;
@@ -90,42 +102,136 @@ function addForm(){
   
   var showReviewPlaceNameDiv = document.createElement('div'); 
   showReviewPlaceNameDiv.className = 'showReviewPlaceName';
-  showReviewPlaceNameDiv.innerHTML =  document.querySelectorAll('.showReviewPlaceName')[0].innerHTML;
+  showReviewPlaceNameDiv.innerHTML =  "";
   document.querySelectorAll('.showReviewPlaceNameArea')[0].appendChild(showReviewPlaceNameDiv);
 }
 
-function matchShowReivewPlaceName() {
-  
+function matchShowReivewPlaceName() { // placeName을 Map 밑에 노출시킨다.
+  for (var i = 0; i < document.querySelectorAll('.placeName').length; i++) {
+    document.querySelectorAll('.showReviewPlaceName')[i].innerHTML = document.querySelectorAll('.placeName')[i].value;
+  }
+}
+
+function getSelectReviewDayForm(index) { // 해당한 index의 ReviewDayForm을 만든다.
+  var preDataLength = document.querySelectorAll('.placeName').length;
+  var postDataLength = review[index].length;
+  if (preDataLength < postDataLength) {
+    for (var i = preDataLength; i < postDataLength; i++) {
+      addForm();
+    }
+  }
+  if (preDataLength > postDataLength) {
+    for (var i = preDataLength; i > postDataLength; i--) {
+      removeFormByIndex(i - 1);
+    }
+  }
+}
+
+function displayReviewDayByIndex(index) { // 현재 review Array에 맞는 Page를 보여준다.
+  if (index != null) {
+    getSelectReviewDayForm(index);
+    if (review[index].title != null) {
+      document.querySelectorAll('.title')[0].value = review[index].title;
+      document.querySelectorAll('.mainReview')[0].value = review[index].mainReview;
+      for (var i = 0; i < review[index].length; i++) {
+        document.querySelectorAll('.placeName')[i].value = review[index][i].name;
+        document.querySelectorAll('.basicAddr')[i].value =  review[index][i].basicAddr;
+        document.querySelectorAll('.detailAddr')[i].value =  review[index][i].detailAddr;
+        document.querySelectorAll('.placeReview')[i].value = review[index][i].placeReview;
+      }
+    } else {
+      document.querySelectorAll('.title')[0].value = "";
+      document.querySelectorAll('.mainReview')[0].value = "";
+      document.querySelectorAll('.placeName')[0].value = "";
+      document.querySelectorAll('.basicAddr')[0].value =  "";
+      document.querySelectorAll('.detailAddr')[0].value =  "";
+      document.querySelectorAll('.placeReview')[0].value =  "";
+    }
+  }
+  matchShowReivewPlaceName();
+  getGeoLocation();
 }
 
 
-function getNewDayForm() {
-  var div = document.querySelectorAll('.reviewPlace')[0];
-  
-  
-  
-  
-  
-  
-  document.getElementsByName('title')[0].value = "";
-  document.getElementsByName('mainReview')[0].value = "";
-  document.getElementById("uploadCaptureInputFile").value = "";
-  var nullDataHTML = `     <div id="placeForm">
-  장소명: <input class="placeName"  onchange="inputPlaceName();" name="placeNames" type="text"><br>
-  기본주소:<input type="text" class="basicAddr" name="basicAddrs" style="width:240px;" readonly/> 
-  <input type="button" onChange="getGeoLocation();" onClick="openDaumZipAddress(this);" value = "주소 찾기" /><br/>
-  상세주소:<input type="text" class="detailAddr" name="detailAddrs" style="width:240px;"/> <br/>
-  비고: <input class="etc" name="etcs" type="text"><br>
-  </div>
-  <div id="leftField"></div>
-  <button type="button" onclick="addForm()"> 코스 추가</button> <br>
-  <button type="button" onclick="submitForm()">등록</button> <br>`;
-  document.querySelectorAll('.leftContent')[0].innerHTML = nullDataHTML;
-  document.getElementById('rightField').innerHTML = "";
+function removeDate(event) { // Dropdown에 Date 삭제 minus 버튼을 눌렀을 때,
+  if (document.querySelectorAll('.item').length == 1) {
+    console.log("마지막 하나는 지울 수 없습니다.");
+  } else {
+    var removeIndex = $(event.parentNode).index();
+    var tmpDate = review[removeIndex].dayDate;
+    
+    review.splice($(event.parentNode).index(), 1);
+    
+    if (review.length > removeIndex) {
+      var count = 0;
+      for (var i = removeIndex; i < review.length; i++) {
+        review[i].dayDate = calculateDate(tmpDate, count);
+      }
+    }
+    document.querySelectorAll('.menu')[0].removeChild(event.parentNode);
+    dropdownSort();
+    if ((document.querySelectorAll('.dayCount')[0].innerHTML).substring(3,4) == (removeIndex + 1)) {
+    var index = removeIndex;
+    if (review.length == removeIndex) {
+      --index;
+    }
+    displayReviewDayByIndex(index);
+    displayDropdownDate(index);
+    }
+  }
+
 }
 
-function displayReviewDayPage(index) { // 현재 review Array에 맞는 Page를 보여준다.
+function newReview() { // review에 새로운 Day를 추가함 dayDate 값만 넣는다.
+  var newReview = new Array();
+  newReview.dayDate = calculateDate(review[review.length-1].dayDate, 1)
+  return newReview;
+}
+
+function dropdownSort(index) { // review dayDate에 맞춰 dropdown을 정렬한다.
+  for (var i = 0; i < document.querySelectorAll('.item').length; i++) {
+    var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
+    str += '<div class="innerlineDate" onclick="displaySelectReviewDateData(this);">' + review[i].dayDate + '</div></div>';
+    str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+    document.querySelectorAll('.item')[i].innerHTML = str;
+    (document.querySelectorAll('.item')[i]).setAttribute('data-text', review[i].dayDate);
+  }
+}
+
+function displaySelectReviewDateData(event) { // 해당 date 선택 시 해당 Data를 보여준다.
+  var index = $(event.parentNode.parentNode).index();
+  displayReviewDayByIndex(index);
+  displayDropdownDate(index);
+}
+
+function displayDropdownDate(index) { // dropdown에서 index에 해당하는 날짜를 보여주는 역할
+  var str = 'Day' + (index + 1);
+  document.querySelectorAll('.dayCount')[0].innerHTML = str;
+  document.querySelectorAll('.innerDate')[0].innerHTML = '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ review[0].dayDate + '">' + review[index].dayDate + '</div>';
+  document.querySelectorAll('.menu.transition.visible')[0].className = 'menu transition hidden'
+    $('.menu.transition.hidden').attr('style', '');
+  document.getElementById('dropdown').className = 'ui selection dropdown';
+
+}
+
+function addDate(event) { // Dropdown에 Date 추가
+
+  var datediv = document.querySelectorAll('.datePlus')[0];
+  datediv.className = 'item';
+  $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+  $('.item').attr('draggable', 'true');
+  $('.item').attr('ondragstart', 'courseDateDrag(event)');
+  $('.item').attr('ondrop', 'courseDateDrop(event)');
+  $('.item').attr('ondragover', 'allowDrop(event)');
   
+  var plusdiv = document.createElement('div');
+  plusdiv.className = 'datePlus';
+  plusdiv.innerHTML += '<i class="plus icon" onclick="addDate(this);"></i>'
+  document.querySelectorAll('.menu')[0].appendChild(plusdiv);
+  if (event != null) {
+    review.push(newReview());
+    dropdownSort();
+  }
 }
 
 function calculateDate(date, addDays) { // date에 addDays를 넣어 date string 형식으로 리턴한다.
@@ -142,19 +248,42 @@ function calculateDate(date, addDays) { // date에 addDays를 넣어 date string
   return year + '-' + month + '-' + day;
 }
 
+function dropdownInit() { // 가장 처음에 dropdown 초기화
+  for (var i = 0; i < review.length; i++) {
+    if (i != 0) {
+    addDate();
+    }
+    var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
+    str += '<div class="innerlineDate" onclick="displaySelectReviewDateData(this);">' + review[i].dayDate + '</div></div>';
+    str += '<div class="minusArea" onclick="removeDate(this)"><i class="minus icon" style="margin: 0px; padding-left: calc(100% - 144px);"></i></div>'
+    document.querySelectorAll('.item')[i].innerHTML = str;
+    (document.querySelectorAll('.item')[i]).setAttribute('data-text', review[i].dayDate);
+  }
+}
+
 function startDateChange(date) { // startDate가 변동되면, Date dropdown에 적용한다.
-  if (calculateDate(date) != review[0].dayDate) {
+  var newFirstdate = calculateDate(date);
+  if (newFirstdate != review[0].dayDate) {
     for (var i = 0; i < review.length; i++) {
       review[i].dayDate = calculateDate(date, i);
     } 
   }
+  if (typeof (document.querySelectorAll('.default.text')[0].innerHTML).substring(3, 4) != "number") { 
+    document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day1</div>';
+    document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ newFirstdate + '">' + newFirstdate + '</div>';
+    document.getElementById('dropdown').className = 'ui selection dropdown';
+  } else {
+    document.querySelectorAll('.innerDate')[0].innerHTML = newFirstdate;
+    document.getElementById('dropdown').className = 'ui selection dropdown';
+  }
+  dropdownInit();
 }
 
 function reviewDataInit(reviewData) { // DB로 전달받은 reviewData를 review에 저장하고 첫번째 page를 준비한다.
   if (reviewData.length != 0) {
     review = reviewData;
     $('#button_calendar').calendar('set date', new Date(review[0].dayDate));
-    displayReviewDayPage(0);
+    displayReviewDayByIndex(0);
   }
 }
 
@@ -167,6 +296,7 @@ function openDaumZipAddress(btn) { // 주소 API 연결
     }
   }).open();
 }
+
 function getGeoLocation() {
   drawingFlag = false;
   deleteClickLine();

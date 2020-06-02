@@ -12,7 +12,6 @@
     "@popperjs/core": "^2.4.0",
     "bootstrap": "^4.5.0",
     "fomantic-ui": "^2.8.4",
-    "jquery": "^3.5.1",
-    "sweetalert": "^2.1.2"
+    "jquery": "^3.5.1"
   }
 }

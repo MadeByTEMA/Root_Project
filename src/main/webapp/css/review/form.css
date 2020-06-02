@@ -2,8 +2,6 @@ div.content {
   position:relative;
 }
 
-div.reviewAddForm {
-}
 div.topAreaDiv {
 	width:100%;
   height:600px;
@@ -107,6 +105,9 @@ div.reviceBasicAddr {
   height: 60px;
   float:left;
 }
+div.reviewAddrSearchIcon {
+	float:right;
+}
 div.reviceDetailAddr {
 	padding: 10px 25px 10px 25px;
   width: 50%;
@@ -124,6 +125,10 @@ div.reviewPlacePlusArea {
 	margin: 20px 0px 20px 0px;
   width: 100%;
   height: 600x;
+}
+
+div.datePlus {
+  padding:11px 16px;
 }
 
 #dropdown {
@@ -150,9 +155,7 @@ div.reviewPlacePlusArea {
 .ui.button {
   height: 40px;
 }
-.dropdown.icon {
-	
-}
+
 .title {
   padding: 10px 10px 10px 10px;
   height: 60px;
@@ -176,7 +179,7 @@ div.reviewPlacePlusArea {
 .basicAddr {
   padding: 0 10px 0 10px;
   height: 40px;
-  width: 100%;
+  width: calc(100% - 35.53px);
 }
 
 .detailAddr {

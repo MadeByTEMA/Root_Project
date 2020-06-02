@@ -14,20 +14,16 @@
 		      <div id="dropdown" class="ui disabled dropdown">
 		        <input type="hidden" name="selectDate">
 		        <i class="dropdown icon"></i>
-		        <div class="default text">Day
-		          <div class="innerDate"></div>
-		        </div>
+		        <div class="default text">Day<div class="innerDate">2020-05-04</div></div>
 		          <div class="menu">
 		            <div class="item" draggable="true" ondragstart="courseDateDrag(event)" ondrop="courseDateDrop(event)" ondragover="allowDrop(event)" data-text="2020-05-02">
 		              <div class="innerline">
-		                <div class="innerlineDay">Day1</div>
-		                <div class="innerlineDate" onclick="courseDataReload(this);">2020-05-04</div>
-		              </div>
+		                <div class="innerlineDay">Day1</div><div class="innerlineDate" onclick="displaySelectReviewDateData(this);">2020-05-04</div></div>
 		              <div class="minusArea">
 		                <i class="minus icon"></i>
 		              </div>
 		            </div>
-		            <div class="plus">
+		            <div class="datePlus">
 		              <i class="plus icon"></i>
 		            </div>
 		        </div>
@@ -58,11 +54,10 @@
 		  <div class="showReviewPlaceNameArea"><div class="showReviewPlaceName">1</div></div>
 		</div>
 		<div class="mainContentArea"> 
-		  <div class="reviewPlaceArea">
-			  <div class="reviewPlace">
+		  <div class="reviewPlaceArea"><div class="reviewPlace">
 			    <div class="placeBasicbar">
 				    <div class="revicePlaceName">
-				      <input class="placeName" name="placeNames" type="text" value="" placeholder="장소명">
+				      <input class="placeName" name="placeNames" type="text" onchange="matchShowReivewPlaceName();" value="" placeholder="장소명">
 				    </div>
 				    <div class="placeRemove">
 				      <i id="placeRemoveMinusButtonIcon" class="big minus circle icon"></i>
@@ -73,18 +68,21 @@
 			    </div>
 				  <div class="placeAddrbar">
 				    <div class="reviceBasicAddr">
-		          <input class="basicAddr" name="basicAddrs" type="text" value="">
+		          <input class="basicAddr" name="basicAddrs" onChange="getGeoLocation();" type="text" value="">
+		          <div class="reviewAddrSearchIcon" onClick="openDaumZipAddress(this);">
+		            <i id="placeRemoveMinusButtonIcon" class="big search icon"></i>
+		          </div>
 		        </div>
 		        <div class="reviceDetailAddr">
 		          <input class="detailAddr" name="detailAddrs" type="text" value="">
 		        </div>
 		      </div>
 	        <div class="reviewPlaceReview">
-	          <input class="placeReview" name="placeReviews" type="text" value="">
+	           <div id="editor" class="toastEditor">
+	           <input class="placeReview" name="placeReviews" type="text" value="">
+	           </div>
 	        </div>
-
-			  </div>
-		  </div>
+	      </div></div>
 		  <script>
       window.onload = function () {
         var reviewData = new Array();
@@ -94,19 +92,17 @@
 	          var reviewPlaces = new Array();
 	          <c:forEach items="${reviewPlace.reviewPlacePhotos}" var="reviewPlacePhoto" varStatus="placePhotoStatus">
 	            var reviewPlacePhoto = new Object();
-	            reviewPlacePhoto.no = ${reviewPlacePhoto.no};
 	            reviewPlacePhoto.photo = '${reviewPlacePhoto.photo}'
 	            reviewPlaces.push(reviewPlacePhoto);
 	          </c:forEach>
-	          reviewPlaces.no = ${reviewPlace.no};
 	          reviewPlaces.name = '${reviewPlace.name}'
 	          reviewPlaces.basicAddr = '${reviewPlace.basicAddr}'
-            reviewPlaces.detailAddr = '${reviewPlace.detailAddr};'
+            reviewPlaces.detailAddr = '${reviewPlace.detailAddr}'
+            reviewPlaces.placeReview = '${reviewPlace.placeReview}'
             reviewPlaces.mainPhoto = '${reviewPlace.mainPhoto}'
-            reviewPlaces.status = ${reviewPlace.status}
+            reviewPlaces.status = ${reviewPlace.status};
             reviewDays.push(reviewPlaces);
           </c:forEach>
-          reviewDays.no = ${reviewDay.no};
           reviewDays.title = '${reviewDay.title}'
           reviewDays.dayDate = '${reviewDay.dayDate}'
           reviewDays.mainReview = '${reviewDay.mainReview}'
@@ -114,6 +110,9 @@
           reviewDays.status = ${reviewDay.status};
           reviewData.push(reviewDays);
         </c:forEach>
+        reviewData.no = ${review.no};
+        reviewData.createdDate = '${review.createdDate}'
+        reviewData.status = ${review.status}
         reviewDataInit(reviewData);
         }
       </script>
@@ -130,9 +129,6 @@
 	</div>
 </form>
 
-
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24cdf736c8b9797f29a0e35af3b6773a&libraries=services,clusterer,drawing"></script>
 <script type="text/JavaScript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-<script type="text/JavaScript" src="../../js/review/form.js">  </script>
-
-
+<script type="text/JavaScript" src="../../js/review/form.js"></script>

@@ -102,13 +102,13 @@ $('.trigger .accordion')
     }
   });
   
-var starvalue = 0;
+var heartIconValue = 0;
 
   $('.ui.rating')
   .rating({
     maxRating: 1,
     onRate: function(value) {
-      starvalue = value;
+      heartIconValue = value;
     }
   })
 ;
@@ -354,18 +354,18 @@ function dropdownInit(obj) {
   }
 }
 
-function removeDate(obj) {
+function removeDate(event) {
   if (document.querySelectorAll('.item').length == 1) {
     console.log("마지막 하나는 지울 수 없습니다.");
   } else {
     //(obj.parentNode.parentNode).removeChild(obj.parentNode);
     var newFirstDay = null;
-    if (obj.parentNode.getAttribute('data-text') == course[0].dayDate) {
+    if (event.parentNode.getAttribute('data-text') == course[0].dayDate) {
       newFirstDay = course[0].dayDate;
     }
     newCourse = new Array();
     for (var i = 0; i < course.length; i++) {
-      if (obj.parentNode.getAttribute('data-text') != course[i].dayDate) {
+      if (event.parentNode.getAttribute('data-text') != course[i].dayDate) {
         newCourse.push(course[i]); 
       }
     }
@@ -429,7 +429,7 @@ function addDate() {
 }
 
 function scrapDataOnCourse(obj) {
-  if (starvalue == 1) {
+  if (heartIconValue == 1) {
     if (document.querySelectorAll('.placeName').length == 1 && document.querySelectorAll('.placeName')[0].value == ""
       && document.querySelectorAll('.basicAddr')[0].value == "" && document.querySelectorAll('.detailAddr')[0].value == "") {
       var placeNames = document.querySelectorAll('.placeName');
@@ -684,9 +684,10 @@ function placeNameDrop(ev) {
 
 function removeForm(obj){
   if (document.querySelectorAll('.reviewPlace').length != 1) {
-  document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
-  document.getElementById('leftField').removeChild(obj.parentNode);
-  getGeoLocation();
+    document.getElementById('rightField').removeChild(document.getElementById("rightField").childNodes[$(obj.parentNode).index()]);
+    document.getElementById('leftField').removeChild(obj.parentNode);
+    getGeoLocation();
+  }
 }
 
 function addForm(){
@@ -702,7 +703,7 @@ function addForm(){
   document.getElementById('rightField').appendChild(div2);
 }
 
-function displayCourseDayPage(index) { // 현재 review Array에 맞는 Page를 보여준다.
+function displayCourseDayByIndex(index) { // 현재 review Array에 맞는 Page를 보여준다.
   
 }
 
@@ -732,7 +733,7 @@ function courseDataInit(courseData) {
   if (courseData.length != 0) {
     course = courseData;
     $('#button_calendar').calendar('set date', new Date(course[0].dayDate));
-    displayCourseDayPage(0);
+    displayCourseDayByIndex(0);
   }
 }
 
