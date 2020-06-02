@@ -289,11 +289,7 @@ function birthCheck(){
   if(form.birth.value==""){
     document.getElementById("alert_birth").innerHTML=('<span style="color: grey;">생년월일을 입력해주세요!</span>');
     return false;
-   } else {
-     document.getElementById("alert_birth").innerHTML=('<span style="color: green;">OK!</span>');
-   }
-  /*
-  else if(form.birth.value!=""){
+   } else if(form.birth.value!=""){
       if(form.birth.value.length != 8 ){
          document.getElementById("alert_birth").innerHTML=('<span style="color: red;">생년월일을 잘못 입력했습니다!</span>');
          return false;
@@ -304,7 +300,6 @@ function birthCheck(){
          document.getElementById("alert_birth").innerHTML=('<span style="color: green;">OK!</span>');
      }
    }
-  */
 }
 
 //전화번호 유효성
