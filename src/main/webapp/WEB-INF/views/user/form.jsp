@@ -14,7 +14,7 @@
 			
 			<!--사진-->        
           <div class="mb-4">
-           <img id="image_section" src="#" alt="your image" style="width:200px; heith:200px;"/>
+           <img id="image_section" src="#" style="width:200px; heith:200px;"/>
            <input type='file' name='photoFile' id="imgInput">
           <!-- Solid dividder -->
           <hr class="solid">
