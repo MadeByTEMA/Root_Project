@@ -138,6 +138,14 @@ function displayReviewDayByIndex(index) { // 현재 review Array에 맞는 Page�
         document.querySelectorAll('.basicAddr')[i].value =  review[index][i].basicAddr;
         document.querySelectorAll('.detailAddr')[i].value =  review[index][i].detailAddr;
         document.querySelectorAll('.placeReview')[i].value = review[index][i].placeReview;
+        $(document).ready(function() {
+          console.log($('#summernote'));
+          console.log($('.summernoteEditor').get(i));
+          $('#summernote').summernote({
+            height: 540,  
+            lang: 'ko-KR',
+          });
+        });
       }
     } else {
       document.querySelectorAll('.title')[0].value = "";

@@ -78,7 +78,7 @@
 		        </div>
 		      </div>
 	        <div class="reviewPlaceReview">
-	           <div id="editor" class="toastEditor">
+	           <div id="summernote" class="summernoteEditor">
 	           <input class="placeReview" name="placeReviews" type="text" value="">
 	           </div>
 	        </div>
@@ -131,4 +131,5 @@
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=24cdf736c8b9797f29a0e35af3b6773a&libraries=services,clusterer,drawing"></script>
 <script type="text/JavaScript" src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 <script type="text/JavaScript" src="../../js/review/form.js"></script>
