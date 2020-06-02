@@ -12,6 +12,14 @@
 		<div class="col-lg-8 mx-auto">
 			<form action='add' method='post' name="form" enctype='multipart/form-data'>
 			
+			<!--사진-->        
+          <div class="mb-4">
+           <img id="image_section" src="#" alt="your image" style="width:200px; heith:200px;"/>
+           <input type='file' name='photoFile' id="imgInput">
+          <!-- Solid dividder -->
+          <hr class="solid">
+        </div>
+        
 			<!--이메일-->
 				<div class="mb-4">
 					<input type='text' name='email' id="email"
@@ -100,13 +108,6 @@
 					<hr class="solid">
 				</div>
 				
-				<!--사진-->				
-					<div class="mb-4">
-					<input  type='text' readonly placeholder="사진" size=30>
-					 <input type='file' name='photoFile' id="photoFile">
-					<!-- Solid dividder -->
-					<hr class="solid">
-				</div>
 				<!--별명-->
 					<div class="mb-4">
 					 <input type='text' name='nickName' id="nickName" oninput="nickNameSearchh()"  
@@ -141,6 +142,22 @@ var emailCnt =0;
 var telCnt =0;
 var nickNameCnt =0;
 
+function readURL(input) {
+	   if (input.files && input.files[0]) {
+	    var reader = new FileReader();
+	    
+	    reader.onload = function (e) {
+	     $('#image_section').attr('src', e.target.result);  
+	    }
+	    
+	    reader.readAsDataURL(input.files[0]);
+	    }
+	  }
+	    
+	  $("#imgInput").change(function(){
+	     readURL(this);
+	  });
+	  
 //주소 API 연결
 function openDaumZipAddress(btn) { 
     new daum.Postcode({
