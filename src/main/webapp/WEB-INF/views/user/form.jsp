@@ -15,7 +15,7 @@
 			<!--이메일-->
 				<div class="mb-4">
 					<input type='text' name='email' id="email"
-						onkeyup="emailSearch()" placeholder="EMAIL" size=30 maxlength=20>
+						onkeyup="emailSearch()" placeholder="EMAIL" size=30 maxlength=40>
 					<span id="alert_email" style="color: grey;">예)
 						bitcamp@naver.com</span><br>
 					<!-- Solid divider -->
@@ -63,7 +63,8 @@
 				
 				<!--성별-->
 				<div class="mb-4">
-					&nbsp; <input type='radio' name='gender' id="gender" value="2">여자
+				        <input type="text" placeholder="GENDER" readonly  maxlength=2>
+					&nbsp; <input type='radio' name='gender' id="gender" value="2" >여자
 					&nbsp; <input type='radio' name='gender' id="gender" value="1">남자
 					<span id="alert_gender" style="color: grey;"></span><br>
 
@@ -108,13 +109,13 @@
 				</div>
 				<!--별명-->
 					<div class="mb-4">
-					 <input type='text' name='nickName' id="nickName"
-		oninput="nickNameSearchh()"  placeholder="별명" size=30 maxlength=20>  <span id="alert_nickName"
-		style="color: grey;"></span><br> <input type="button"
-		onclick="checkForm()" value="등록"> <input type="button"
-		onclick="reset()" value="초기화">
+					 <input type='text' name='nickName' id="nickName" oninput="nickNameSearchh()"  
+					 placeholder="별명" size=30 maxlength=20>  
+					 <span id="alert_nickName" style="color: grey;"></span><br> 
 					<!-- Solid divider -->
 					<hr class="solid">
+					<input type="button" onclick="checkForm()" value="등록"> 
+					<input type="button" onclick="reset()" value="초기화">
 				</div>
 
 			</form>
@@ -240,9 +241,9 @@ function emailSearch() {
 //password 유효성
 function passwordCheck(){
   var form = document.form;
-  if(form.email.value==""){
+  if(form.password.value==""){
     document.getElementById("alert_password").innerHTML=('<span style="color: red;">비밀번호를 입력해주세요!</span>');
-  } else if(form.email.value!=""){
+  } else if(form.password.value!=""){
     if(!passcheck.test(form.password.value)) {
       document.getElementById("alert_password").innerHTML=('<span style="color: red;">영문자, 숫자 조합으로 8자 이상 적어주세요!</span>');
       return false;
