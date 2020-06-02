@@ -170,16 +170,19 @@ function removeDate(event) { // Dropdown에 Date 삭제 minus 버튼을 눌렀�
     }
     document.querySelectorAll('.menu')[0].removeChild(event.parentNode);
     dropdownSort();
-    if ((document.querySelectorAll('.dayCount')[0].innerHTML).substring(3,4) == (removeIndex + 1)) {
+    if ((document.querySelectorAll('.dayCount')[0].innerHTML).substring(3,5) == (removeIndex + 1)) {
     var index = removeIndex;
     if (review.length == removeIndex) {
       --index;
     }
     displayReviewDayByIndex(index);
     displayDropdownDate(index);
+    } else if ((document.querySelectorAll('.dayCount')[0].innerHTML).substring(3,5) > (removeIndex + 1)) {
+      var index = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3,5) - 2;
+      console.log(index);
+      displayDropdownDate(index);
     }
   }
-
 }
 
 function newReview() { // review에 새로운 Day를 추가함 dayDate 값만 넣는다.
@@ -215,22 +218,25 @@ function displayDropdownDate(index) { // dropdown에서 index에 해당하는 �
 }
 
 function addDate(event) { // Dropdown에 Date 추가
-
-  var datediv = document.querySelectorAll('.datePlus')[0];
-  datediv.className = 'item';
-  $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
-  $('.item').attr('draggable', 'true');
-  $('.item').attr('ondragstart', 'courseDateDrag(event)');
-  $('.item').attr('ondrop', 'courseDateDrop(event)');
-  $('.item').attr('ondragover', 'allowDrop(event)');
-  
-  var plusdiv = document.createElement('div');
-  plusdiv.className = 'datePlus';
-  plusdiv.innerHTML += '<i class="plus icon" onclick="addDate(this);"></i>'
-  document.querySelectorAll('.menu')[0].appendChild(plusdiv);
-  if (event != null) {
-    review.push(newReview());
-    dropdownSort();
+  if (document.querySelectorAll('.item').length < 99) {
+    var datediv = document.querySelectorAll('.datePlus')[0];
+    datediv.className = 'item';
+    $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
+    $('.item').attr('draggable', 'true');
+    $('.item').attr('ondragstart', 'courseDateDrag(event)');
+    $('.item').attr('ondrop', 'courseDateDrop(event)');
+    $('.item').attr('ondragover', 'allowDrop(event)');
+    
+    var plusdiv = document.createElement('div');
+    plusdiv.className = 'datePlus';
+    plusdiv.innerHTML += '<i class="plus icon" onclick="addDate(this);"></i>'
+    document.querySelectorAll('.menu')[0].appendChild(plusdiv);
+    if (event != null) {
+      review.push(newReview());
+      dropdownSort();
+    }
+  } else {
+    console.log("Day를 추가할 수 없습니다.")
   }
 }
 
@@ -251,7 +257,9 @@ function calculateDate(date, addDays) { // date에 addDays를 넣어 date string
 function dropdownInit() { // 가장 처음에 dropdown 초기화
   for (var i = 0; i < review.length; i++) {
     if (i != 0) {
-    addDate();
+      if (document.querySelectorAll('.item').length < review.length) {
+        addDate(); 
+      }
     }
     var str = '<div class="innerline"><div class="innerlineDay">Day' + (i + 1) + '</div>';
     str += '<div class="innerlineDate" onclick="displaySelectReviewDateData(this);">' + review[i].dayDate + '</div></div>';
@@ -268,15 +276,18 @@ function startDateChange(date) { // startDate가 변동되면, Date dropdown에 
       review[i].dayDate = calculateDate(date, i);
     } 
   }
-  if (typeof (document.querySelectorAll('.default.text')[0].innerHTML).substring(3, 4) != "number") { 
+  
+  if (typeof document.querySelectorAll('.dayCount')[0] == "undefined") { 
     document.getElementById('dropdown').childNodes[5].innerHTML = '<div class="dayCount">Day1</div>';
     document.getElementById('dropdown').childNodes[5].innerHTML += '<div class="innerDate"><input type="hidden" name="dayDate" value="'+ newFirstdate + '">' + newFirstdate + '</div>';
     document.getElementById('dropdown').className = 'ui selection dropdown';
+    dropdownInit();
   } else {
-    document.querySelectorAll('.innerDate')[0].innerHTML = newFirstdate;
+    dayIndex = (document.querySelectorAll('.dayCount')[0].innerHTML).substring(3, 5);
+    document.querySelectorAll('.innerDate')[0].innerHTML = calculateDate(newFirstdate, dayIndex - 1);
     document.getElementById('dropdown').className = 'ui selection dropdown';
+    dropdownSort();
   }
-  dropdownInit();
 }
 
 function reviewDataInit(reviewData) { // DB로 전달받은 reviewData를 review에 저장하고 첫번째 page를 준비한다.
