@@ -53,7 +53,7 @@
   <!-- Template Main JS File -->
   <script src="${pageContext.getServletContext().getContextPath()}/js/main.js"></script>
   <script src='${pageContext.getServletContext().getContextPath()}/semantic/dist/semantic.min.js'></script>
-  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+  
   
   
 <title>나만의 루트를 만들다. 루트</title>
