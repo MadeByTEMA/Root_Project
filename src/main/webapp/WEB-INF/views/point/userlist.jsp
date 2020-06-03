@@ -10,6 +10,9 @@
 <script src="https://cdn.bootpay.co.kr/js/bootpay-3.2.4.min.js" type="application/javascript"></script>
 <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 <link rel="stylesheet" href="/resources/demos/style.css">
+<script src="vendor/jquery/jquery.min.js"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
 <style>
 
@@ -67,7 +70,7 @@ div.point_no {
         <c:set var = "sum1" value = "0" />
         <c:set var = "sum2" value = "0" />
         <c:set var = "sum3" value = "0" />
-          <c:forEach items="${userlist}" var="item">
+          <c:forEach items="${list}" var="item">
              <c:if test="${(item.pointType==0 && item.content == 1) || 
                    (item.pointType==0 && item.content == 3)}">
                  <c:set var= "sum1" value="${sum1 + item.price}"/>
@@ -78,13 +81,12 @@ div.point_no {
                   <c:set var= "sum1" value="${sum1 - item.price}"/>
                   <c:set var= "sum3" value="${sum3 - item.price}"/>
               </c:if>
-              </c:forEach>
+          </c:forEach>
       <div id="tabs">
             <ul>
               <li><a href="#tabs-1" style="width: 150px; text-align: center;">전체 </a></li>
               <li><a href="#tabs-2" style="width: 150px; text-align: center;">포인트 적립</a></li>
               <li><a href="#tabs-3" style="width: 150px; text-align: center;">포인트 사용</a></li>
-              <li><a href="#tabs-4" style="width: 150px; text-align: center;">충전 하기</a></li>
             </ul>
             <div id="tabs-1" style="height: 170px">
              <div class="tab_total" style="margin-left: 100px; margin-top: 20px;">
@@ -92,6 +94,43 @@ div.point_no {
                   <span class="tab_img"><img src="${pageContext.servletContext.contextPath}/img/point/userlist/pointimg.jpg" alt="포인트이미지" style="width: 50px; height: 50px;"></span>
                   <span class="tab_sum" style="font-size: 18px;"><c:out value="${sum1}"/></span>
                   <span class="tab_won" style="font-size: 20px;">원</span>
+                <!-- modal -->
+                  
+                 <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop"  style="float: right; margin-right: 100px;">
+                  충전하기
+                </button>
+                
+                <!-- Modal -->
+                <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1" role="dialog" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h3 class="modal-title" id="staticBackdropLabel">충전 하기</h3>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                      </div>
+                       <div class="modal-body">
+                        <p><strong>카드 결제</strong>, <strong>휴대폰 결제</strong> 및 <strong>계좌 이체</strong>가 가능합니다. </p>
+                        <input id="data-charge-price" type="text" placeholder="충전할 금액을 입력하세요."/>
+                        <span>원</span>           
+                        <hr>
+                        <h5>원하는 충전 가격을 선택해주세요</h5>
+                        <p>
+                        <button id="choice_price_3000">+ 3000</button>
+                        <button id="choice_price_5000">+ 5000</button>
+                        <button id="choice_price_10000">+ 10000</button>
+                        </p>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button id="withdraw_addform" type="button" class="btn btn-primary">충전 하기</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  <!-- /modal -->
              </div>
             </div>
             <div id="tabs-2" style="height: 170px">
@@ -110,14 +149,6 @@ div.point_no {
                   <span class="tab_won" style="font-size: 20px;">원</span>
               </div>
             </div>  
-            <div id="tabs-4" style="height: 170px">
-              <div class="tab_withdraw" style="margin-left: 100px; margin-top: 50px;">
-                <p><strong>카드 결제</strong>, <strong>휴대폰 결제</strong> 및 <strong>계좌 이체</strong>가 가능합니다. </p>
-                <input id="data-charge-price" type="text" placeholder="충전할 금액을 입력하세요."/>
-                <span>원</span>           
-                <a id="withdraw_addform" class="btn btn-primary" href="#">충전하기</a><br><br>
-              </div>
-            </div>    
           <!-- calendar List--> 
         </div>
       </div>
@@ -192,46 +223,38 @@ div.point_no {
                  </div>
                  </tr>
                 </c:forEach>
-                <!-- 
-                  <div id="more_btn_div" align="center">
-                    <hr>
-                      <a id="more_btn_a" href="javascript:moreContent('more_list',10);"> 더보기
-                      </a>
-                    <hr>
-                  </div>
-                   -->
              </table> 
-<div class="text-center">
-  <nav aria-label="pagination">
-    <ul class="pagination">
-    
-      <!-- prev 버튼 -->
-      <li id="page-prev">
-        <a href="userlist${pageMaker.makeQuery(pageMaker.startPage-1)}" aria-label="Prev">
-          <span aria-hidden="true">«</span>
-        </a>
-      </li>
-      
-      <!-- 페이지 번호 (시작 페이지 번호부터 끝 페이지 번호까지) -->
-      <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
-          <li id="page${idx}">
-            <a href="userlist${pageMaker.makeQuery(idx)}">
-              <!-- 시각 장애인을 위한 추가 -->
-                <span>${idx}<span class="sr-only">(current)</span></span>
-            </a>
-          </li>
-      </c:forEach>
-      
-      <!-- next 버튼 -->
-      <li id="page-next">
-          <a href="userlist${pageMaker.makeQuery(pageMaker.endPage + 1)}" aria-label="Next">
-            <span aria-hidden="true">»</span>
-          </a>
-      </li>
-      
-    </ul>
-  </nav>
-</div>
+                <div class="text-center">
+                  <nav aria-label="pagination">
+                    <ul class="pagination">
+                    
+                      <!-- prev 버튼 -->
+                      <li id="page-prev">
+                        <a href="userlist${pageMaker.makeQuery(pageMaker.startPage-1)}" aria-label="Prev">
+                          <span aria-hidden="true">«</span>
+                        </a>
+                      </li>
+                      
+                      <!-- 페이지 번호 (시작 페이지 번호부터 끝 페이지 번호까지) -->
+                      <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+                          <li id="page${idx}">
+                            <a href="userlist${pageMaker.makeQuery(idx)}">
+                              <!-- 시각 장애인을 위한 추가 -->
+                                <span>${idx}<span class="sr-only">(current)</span></span>
+                            </a>
+                          </li>
+                      </c:forEach>
+                      
+                      <!-- next 버튼 -->
+                      <li id="page-next">
+                          <a href="userlist${pageMaker.makeQuery(pageMaker.endPage + 1)}" aria-label="Next">
+                            <span aria-hidden="true">»</span>
+                          </a>
+                      </li>
+                      </ul>
+                    </nav>
+                  </div>
+                  
            </div>
     </div>
     <!-- /.row -->
@@ -276,23 +299,6 @@ var d2 =  document.querySelector("#data-charge-email");
 var d3 =  document.querySelector("#data-charge-Addr");
 var d4 =  document.querySelector("#data-charge-tel");
 
-
-console.log(a);
-console.log(b);
-console.log(c);
-console.log(d);
-console.log(p1);
-console.log(d1);
-console.log(d2);
-console.log(d3);
-console.log(d4);
-// ------------- paing
-/*   function selChange() {
-    var sel = document.getElementById('cntPerPage').value;
-    location.href="userlist?userNo=${loginUser.no}&nowPage=${paging.nowPage}&cntPerPage="+sel;
-  }
-   */
-  
 //충전  function
 //-------------------  결제 시스템
 document.querySelector("#withdraw_addform").onclick = () => {
@@ -391,14 +397,6 @@ document.querySelector("#withdraw_addform").onclick = () => {
 }
 
 
-// -------------------  팝업1
-
-  function showPopup() { 
-  window.open(
-      "../point/userlist?userNo=${loginUser.no}", 
-      "a", "width=400, height=300, left=100, top=50"); 
-  }
-
  // -------------------  달력
   $(function(){
       $("#startDate").datepicker({
@@ -480,10 +478,3 @@ document.querySelector("#withdraw_addform").onclick = () => {
   }
 </script>
   
-  <!-- /.container -->
-  <!-- Bootstrap core JavaScript -->
-  <script src="vendor/jquery/jquery.min.js"></script>
-  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Footer -->
-
