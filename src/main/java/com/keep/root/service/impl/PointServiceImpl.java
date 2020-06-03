@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import org.springframework.stereotype.Component;
 import com.keep.root.dao.PointDao;
+import com.keep.root.domain.Criteria;
 import com.keep.root.domain.Point;
 import com.keep.root.service.PointService;
 
@@ -36,15 +37,6 @@ public class PointServiceImpl implements PointService {
     }
     return pointDao.insert(params) ;
   }
-  // pointType : 입금 0 출금 1
-  // content :
-  // 1,2,3,4,
-  // 1. 포인트 적립
-  // 2. 포인트 사용
-  // 3. 충전 결제
-  // 4. 출금 계좌 출금
-
-  // pointNo에 대해서 userNo -30/ trader 30
 
   @Override
   public List<Point> list() throws Exception {
@@ -87,9 +79,20 @@ public class PointServiceImpl implements PointService {
   }
 
   @Override
-  public void withdraw(Point point) throws Exception {
-    // TODO Auto-generated method stub
+  public int getTotalCount(int userNo) throws Exception {
+    return pointDao.getTotalCount(userNo);
+  }
 
+  @Override
+  public List<Point> listPage(int userNo, Criteria cri) throws Exception {
+    HashMap<String, Object> params = new HashMap<>();
+    params.put("userNo", userNo);
+    if (cri.getPage() > 0) {
+      cri.setPage(cri.getPage());
+    }
+    params.put("pageStart", cri.getPageStart());
+    params.put("perPageNum", cri.getPerPageNum());
+    return pointDao.listPage(params) ;
   }
 
 }

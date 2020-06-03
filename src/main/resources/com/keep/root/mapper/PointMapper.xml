@@ -15,6 +15,8 @@
       <result column="point_type"   property="pointType"/>
       <result column="content"   property="content"/>
       <result column="price"   property="price"/>
+      <result column="create_date"   property="createdDate"/>
+      
       
       <collection property="user" javaType="User">
       <id column="user_no"   property="no"/>
@@ -54,7 +56,7 @@
    
    <select id="findAll" resultMap="PointMap" parameterType="map">
      select 
-      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date
      from
       points p
      where
@@ -64,7 +66,7 @@
    
    <select id="findAllByUser" resultMap="PointMap" parameterType="map">
      select 
-      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price,
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
       u.user_name, u.phone_number, u.user_no, u.account, u.bank
      from
       points p
@@ -73,18 +75,6 @@
       not p.user_no = p.trader_no
       and p.user_no=${userNo}
  
-      <!-- 
-     select 
-      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price,
-      u.user_name, u.phone_number, u.user_no, u.account, u.bank
-     from
-      points p
-      inner join users u on (p.user_no=u.user_no) // inner join은 from
-     where
-      not p.user_no = p.trader_no 
-      and p.user_no=1;
-
-       -->
     </select>
    
    <select id="findOutputByUserNo" resultMap="PointMap" parameterType="map">
@@ -112,7 +102,8 @@
       p.trader_no,
       p.user_no,
       p.point_type,
-      p.content
+      p.content,
+      p.create_date
      from
       points p
      where
@@ -155,30 +146,6 @@
    <if test="price != null and price != ''"> p.price=#{price}</if>
    where p.point_no=#{no}
      
-     <!-- 
-     update points p, users u
-     <set>
-      <if test="account != null and account != ''"> u.account=#{account},</if>
-      <if test="bank != null and bank != ''"> u.bank=#{bank},</if>
-      <if test="tel != null and tel != ''"> u.phone_number=#{tel},</if>
-      <if test="price != null and price != ''"> p.price=#{price},</if>
-      <if test="content != null and content != ''"> p.content=#{content}</if>
-     </set>
-     where p.point_no=#{no} and u.user_no#{userNo}
-
-     
-    update points p, users u
-     set
-      u.account=11,
-      u.bank='하나',
-      u.phone_number=010-4444-6666,
-      p.price=10000,
-      p.content=3
-     where p.point_no=2 and u.user_no=1
-     
-       <if test="price != null and price != ''"> p.price=3000</if>
-   where p.point_no=7
-      -->
    </update>
    
    <delete id="delete" parameterType="int">
@@ -189,5 +156,41 @@
     where point_no=8
      -->
    </delete>
+   
+   <select id="listPage" resultMap="PointMap" parameterType="int">
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)
+      where p.user_no=#{userNo}
+      order by p.create_date desc
+      limit #{pageStart}, #{perPageNum}
+  </select>
+    
+    <!--
+      
+     select 
+      p.point_no, p.user_no, p.trader_no, p.point_type, p.content, p.price, p.create_date,
+      u.user_name, u.phone_number, u.user_no, u.account, u.bank
+     from
+      points p
+      inner join users u on (p.user_no=u.user_no)
+      where p.user_no=51
+      order by p.create_date desc
+      limit 1, 10; 
+      
+      select *
+      from points
+      where point_no > 0
+     -->
+    
+    <select id="getTotalCount" resultType="int">
+      select count(*)
+      from points
+      where 
+      user_no=#{userNo}
+    </select>
    
    </mapper>

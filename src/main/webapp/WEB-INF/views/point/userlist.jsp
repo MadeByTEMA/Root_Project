@@ -112,8 +112,8 @@ div.point_no {
             </div>  
             <div id="tabs-4" style="height: 170px">
               <div class="tab_withdraw" style="margin-left: 100px; margin-top: 50px;">
-                  
-                <input id="data-charge-price" type="text" />
+                <p><strong>카드 결제</strong>, <strong>휴대폰 결제</strong> 및 <strong>계좌 이체</strong>가 가능합니다. </p>
+                <input id="data-charge-price" type="text" placeholder="충전할 금액을 입력하세요."/>
                 <span>원</span>           
                 <a id="withdraw_addform" class="btn btn-primary" href="#">충전하기</a><br><br>
               </div>
@@ -142,7 +142,7 @@ div.point_no {
         
         <table id="more_list">
           <thead>
-              <c:forEach items="${userlist}" var="item">
+              <c:forEach items="${list}" var="item">
                 <tr>
                 <div class="list_point">
                   <div class="list_margin">
@@ -158,7 +158,7 @@ div.point_no {
                               <c:if test="${(item.pointType==1 && item.content == 2) || 
                                    (item.pointType==1 && item.content == 4)}">
                                     <span><img src="${pageContext.servletContext.contextPath}/img/point/userlist/useimg.jpg" alt="사용 이미지" style="width: 70px; height: 70px;"></span>    
-                              </c:if>    
+                              </c:if>   
                           </div>
                             <div class="userlist_titleName">
                             <strong>
@@ -171,7 +171,7 @@ div.point_no {
                             </strong>
                              </div>
                           <div class="userlist_price">
-                             <a href="#" class="item_content">
+                             <a href="/point/read${pageMaker.makeQuery(pageMaker.cri.page)}&point_no=${item.no}">
                               <c:if test="${(item.pointType==0 && item.content == 1) || 
                                    (item.pointType==0 && item.content == 3)}">
                                 <span class="point1">으로  <strong>${item.price}</strong>가 포인트 <strong>적립</strong>이 되었습니다.</span>
@@ -180,7 +180,7 @@ div.point_no {
                                    (item.pointType==1 && item.content == 4)}">
                                 <span class="point2">으로  <strong>${item.price}</strong>가 포인트 <strong>사용</strong>이 되었습니다.</span>    
                               </c:if>
-                            </a>
+                              </a>
                           </div>   
                         </div>
                         <div class="amount_space">
@@ -192,34 +192,46 @@ div.point_no {
                  </div>
                  </tr>
                 </c:forEach>
+                <!-- 
                   <div id="more_btn_div" align="center">
                     <hr>
                       <a id="more_btn_a" href="javascript:moreContent('more_list',10);"> 더보기
                       </a>
                     <hr>
                   </div>
-                  
+                   -->
              </table> 
-             <!--  
-              <div style="display: block; text-align: center;">   
-                <c:if test="${paging.startPage != 1 }">
-                  <a href="userlist?nowPage=${paging.startPage - 1 }&cntPerPage=${paging.cntPerPage}">&lt;</a>
-                </c:if>
-                <c:forEach begin="${paging.startPage }" end="${paging.endPage }" var="p">
-                  <c:choose>
-                    <c:when test="${p == paging.nowPage }">
-                      <b>${p }</b>
-                    </c:when>
-                    <c:when test="${p != paging.nowPage }">
-                      <a href="../userlist?userNo?=${loginUser.no}&nowPage=${p }&cntPerPage=${paging.cntPerPage}">${p }</a>
-                    </c:when>
-                  </c:choose>
-                </c:forEach>
-                <c:if test="${paging.endPage != paging.lastPage}">
-                  <a href="/userlist?nowPage=${paging.endPage+1 }&cntPerPage=${paging.cntPerPage}">&gt;</a>
-                </c:if>
-              </div>
-               -->
+<div class="text-center">
+  <nav aria-label="pagination">
+    <ul class="pagination">
+    
+      <!-- prev 버튼 -->
+      <li id="page-prev">
+        <a href="userlist${pageMaker.makeQuery(pageMaker.startPage-1)}" aria-label="Prev">
+          <span aria-hidden="true">«</span>
+        </a>
+      </li>
+      
+      <!-- 페이지 번호 (시작 페이지 번호부터 끝 페이지 번호까지) -->
+      <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
+          <li id="page${idx}">
+            <a href="userlist${pageMaker.makeQuery(idx)}">
+              <!-- 시각 장애인을 위한 추가 -->
+                <span>${idx}<span class="sr-only">(current)</span></span>
+            </a>
+          </li>
+      </c:forEach>
+      
+      <!-- next 버튼 -->
+      <li id="page-next">
+          <a href="userlist${pageMaker.makeQuery(pageMaker.endPage + 1)}" aria-label="Next">
+            <span aria-hidden="true">»</span>
+          </a>
+      </li>
+      
+    </ul>
+  </nav>
+</div>
            </div>
     </div>
     <!-- /.row -->
@@ -359,6 +371,21 @@ document.querySelector("#withdraw_addform").onclick = () => {
         //결제가 정상적으로 완료되면 수행됩니다
         //비즈니스 로직을 수행하기 전에 결제 유효성 검증을 하시길 추천합니다.
         console.log(data);
+        var xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState != 4 || xhr.status != 200){  
+              console.log("withdraw send() 리턴함.");
+            } else {
+              console.log("withdraw 요청 완료");
+            }
+        };   
+        xhr.open("GET", 
+                "http://localhost:9999/Root_Project/app/point/add?userNo=" + a.value 
+                + "&reviewUserNo=" + b.value
+                + "&pointType=" + c.value
+                + "&content=" + d.value
+                + "&price=" + p1.value, true);
+          xhr.send("충전 요청에 성공했습니다.");
       });
 
 }
@@ -368,7 +395,7 @@ document.querySelector("#withdraw_addform").onclick = () => {
 
   function showPopup() { 
   window.open(
-      "${pageContext.servletContext.contextPath}/WEB-INF/views/point/userlist?userNo=${loginUser.no}", 
+      "../point/userlist?userNo=${loginUser.no}", 
       "a", "width=400, height=300, left=100, top=50"); 
   }
 
@@ -415,7 +442,43 @@ document.querySelector("#withdraw_addform").onclick = () => {
   datepicker.setDefaults( datepicker.regional.ko );
   return datepicker.regional.ko;
   }));
-  </script>
+  
+  
+  // paging
+  $(function(){
+    //perPageNum select 박스 설정
+    setPerPageNumSelect();
+    
+    //prev 버튼 활성화, 비활성화 처리
+    var canPrev = '${pageMaker.prev}';
+    if(canPrev !== 'true'){
+      $('#page-prev').addClass('disabled');
+    }
+    
+    //next 버튼 활성화, 비활성화 처리
+    var canNext = '${pageMaker.next}';
+    if(canNext !== 'true'){
+      $('#page-next').addClass('disabled');
+    }
+    
+    //현재 페이지 파란색으로 활성화
+    var thisPage = '${pageMaker.cri.page}';
+    //매번 refresh 되므로 다른 페이지 removeClass 할 필요는 없음->Ajax 이용시엔 해야함
+    $('#page'+thisPage).addClass('active');
+  })
+  
+  function setPerPageNumSelect(){
+    var perPageNum = "${pageMaker.cri.perPageNum}";
+    var $perPageSel = $('#perPageSel');
+    var thisPage = '${pageMaker.cri.page}';
+    $perPageSel.val(perPageNum).prop("selected",true);
+    //PerPageNum가 바뀌면 링크 이동
+    $perPageSel.on('change',function(){
+      //pageMarker.makeQuery 사용 못하는 이유: makeQuery는 page만을 매개변수로 받기에 변경된 perPageNum을 반영못함
+      window.location.href = "userlist?page="+thisPage+"&perPageNum="+$perPageSel.val();
+    })
+  }
+</script>
   
   <!-- /.container -->
   <!-- Bootstrap core JavaScript -->

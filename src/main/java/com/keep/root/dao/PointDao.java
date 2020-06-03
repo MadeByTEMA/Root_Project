@@ -1,7 +1,9 @@
 package com.keep.root.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import com.keep.root.domain.Point;
 
 public interface PointDao {
@@ -29,4 +31,9 @@ public interface PointDao {
   int update(Point point) throws Exception;
 
   int delete(int no) throws Exception;
+  
+  // paging
+  int getTotalCount(int userNo) throws Exception;
+  
+  List<Point> listPage(HashMap<String, Object> params) throws Exception;
 }

@@ -63,7 +63,7 @@
         <div class="sh_content"></div>
            <p>적립 및 사용한 포인트를 확인해보세요</p>
         <div class="sh_footer">
-          <a href='../point/userlist?userNo=${loginUser.no}' class='btn btn-success btn-sm'><strong>포인트</strong></a>
+           <a href='../point/userlist?userNo=${loginUser.no}&page=1&perPageNum=8' class='btn btn-success btn-sm'><strong>포인트</strong></a>
          </div>
        </div>
     </div>
