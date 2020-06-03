@@ -45,7 +45,6 @@
         <p>${reviewPlace.placeReview}<br></p>
         </c:if>
         <hr>
-              장소사진 : <br> 
         <img src='${pageContext.servletContext.contextPath}/img/search/testimg.jpg' style="width: 20ox;"><br>
       </c:forEach>
     </c:forEach>
@@ -53,14 +52,14 @@
   </div>
    <input id="data-user-no" type="hidden" value="${loginUser.no}">
    <input id="data-reverse-trader-no" type="hidden" value="${loginUser.no}">
-        <input id="data-pointType" type="hidden" value="1">
-        <input id="data-content" type="hidden" value="2">
+   <input id="data-pointType" type="hidden" value="1">
+   <input id="data-content" type="hidden" value="2">
         
-        <input id="data-reverse-pointType" type="hidden" value="0">
-        <input id="data-reverse-content" type="hidden" value="1">
+   <input id="data-reverse-pointType" type="hidden" value="0">
+   <input id="data-reverse-content" type="hidden" value="1">
         
-        <input id="data-DayPrice" type="hidden" value="150">
-        <input id="data-PlacePrice" type="hidden" value="30">
+   <input id="data-DayPrice" type="hidden" value="150">
+   <input id="data-PlacePrice" type="hidden" value="30">
               
  
       <!-- Sidebar Widgets Column -->
@@ -105,6 +104,7 @@
 
 <script src="../node_modules/jquery/dist/jquery.min.js"></script>
 <script>
+"use strict"
 $(function(){
     var $win = $(window);
     var top = $(window).scrollTop(); 
@@ -124,17 +124,13 @@ $(function(){
         $layer.animate({"top":yPosition }, {duration:speed, easing:easing, queue:false});
     });
 });
-</script>
-<script>
+
 $(document).ready(function() {
     $(window).scroll(function() {
         $(this).scrollTop() > 1000 ? $(".float_sidebar").fadeIn() : $(".float_sidebar").fadeOut()
     })
 });
-</script>
 
-<script>
-"use strict"
 
 // scrap Day value
 var da = document.querySelector("#data-reviewDay-no");
@@ -149,12 +145,10 @@ var c = document.querySelector('#data-pointType');
 var d = document.querySelector('#data-content');
 
 // trader date value(reverse)
-
 var a1 = document.querySelector("#data-reverse-user-no");
 var b1 = document.querySelector("#data-reverse-trader-no");
 var c1 = document.querySelector('#data-reverse-pointType');
 var d1 = document.querySelector('#data-reverse-content');
-
 
 // point price value
 var e1 = document.querySelector('#data-DayPrice');
@@ -162,11 +156,9 @@ var e2 = document.querySelector('#data-PlacePrice');
 
 // tag data
 var button_tag1 = ${'total_scrap_butoon'};
-// var button_tag1 = ${'total_scrap_butoon'};
 
 console.log(a1);
 console.log(b1);
-
 
 // 동일 게시물 비교
 var co1 = document.querySelector("#data-reviewDay-no");
@@ -178,6 +170,7 @@ document.querySelector("#total_scrap_butoon").onclick = () => {
         sendScrapDayData();
         sendPointDayData();
         reverseSendPointDayData();
+        changeDayData();
      }else{ 
         console.log("error");
      }
@@ -188,19 +181,28 @@ document.querySelector("#place_scrap_butoon").onclick = () => {
         sendScrapPlaceData();
         sendPointPlaceData();
         reverseSendPointPlaceData();
+        changePlaceData();
      }else{ 
         console.log("error");
      }
+}
+
+function changeDayData() {
+  document.getElementById("total_scrap_butoon").innerHTML = ('<button id="total_scrap_butoon" style="float: right; background-color: Lime;" disabled >스크랩 완료</button>');
+}
+
+function changePlaceData() {
+    document.getElementById("place_scrap_butoon").innerHTML = ('<button id="place_scrop_button" style="float: right; background-color: Lime;" disabled >스크랩 완료</button>');
 }
 
 function sendScrapDayData() {
      var xhr = new XMLHttpRequest();
      xhr.onreadystatechange = () => {
        if (xhr.readyState != 4 || xhr.status != 200){  
-               console.log("scrapDay send() 리턴함.");
+            alret("해당 스크랩을 할 수 없습니다.")
          } else {
              console.log("Scrap 요청 완료");
-           }
+        }
      };         
       xhr.open("GET", 
           "http://localhost:9999/Root_Project/app/scrap/addReviewDay?userNo=" 
@@ -212,10 +214,10 @@ function sendScrapDayData() {
        var xhr = new XMLHttpRequest();
        xhr.onreadystatechange = () => {
          if (xhr.readyState != 4 || xhr.status != 200){  
-                 console.log("scrapPlace send() 리턴함.");
+              console.log("scrapPlace send() 리턴함.");
            } else {
                console.log("Scrap 요청 완료");
-             }
+          }
        };         
         xhr.open("GET", 
             "http://localhost:9999/Root_Project/app/scrap/addReviewPlace?userNo=" 
@@ -229,10 +231,10 @@ function sendScrapDayData() {
        var xhr = new XMLHttpRequest();
        xhr.onreadystatechange = () => {
          if (xhr.readyState != 4 || xhr.status != 200){  
-                  console.log("DayPoint send() 리턴함.");
+            console.log("DayPoint send() 리턴함.");
          } else {
-             console.log("withdraw 요청 완료");
-           }
+            console.log("withdraw 요청 완료");
+         }
         };       
         xhr.open("GET", 
             "http://localhost:9999/Root_Project/app/point/add?userNo=" + a.value 

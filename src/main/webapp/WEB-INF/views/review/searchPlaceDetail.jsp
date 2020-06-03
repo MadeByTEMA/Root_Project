@@ -120,10 +120,16 @@ document.querySelector("#place_scrop_button").onclick = () => {
         sendScrapData();
         sendPointData();
         reverseSendPointPlaceData();
+        changePlaceData();
      }else{ 
         console.log("스크랩을 취소했습니다.");
      }
 }
+
+
+function changePlaceData() {
+    document.getElementById("place_scrop_button").innerHTML = ('<button id="place_scrop_button" style="float: right; background-color: Lime;" disabled >스크랩 완료</button>');
+  }
 
 
 function sendScrapData() {
