@@ -2,7 +2,7 @@ var review = new Array();
 
 {
 var mapContainer = document.getElementById('map'), // 지도를 표시할 div
-mapOption = { 
+  mapOption = { 
   center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
   level: 3 // 지도의 확대 레벨
 };
@@ -30,9 +30,6 @@ var distanceArray = new Array();
  var distanceOverlay; // 선의 거리정보를 표시할 커스텀오버레이 입니다
  var dots = {}; // 선이 그려지고 있을때 클릭할 때마다 클릭 지점과 거리를 표시하는 커스텀 오버레이 배열입니다.
 }
-{
-var editor = new Object();
-}
 
 $('.ui.dropdown').dropdown({
   action:'nothing'
@@ -43,6 +40,10 @@ $('.minus.icon').css('padding-left', 'calc(100% - 144px)');
 $('.item').attr('style', 'padding:11px 5px 11px 14px !important');
 
 $('#placeAddPlusButtonIcon').on("click", function() {
+  addForm();
+});
+
+$('reviewPlacePhotoArea').on("click", function() {
   addForm();
 });
 
@@ -127,25 +128,134 @@ function getSelectReviewDayForm(index) { // 해당한 index의 ReviewDayForm을 
   }
 }
 
+class MyUploadAdapter { // custom UploadAdapter 작성 
+  constructor( loader ) { 
+    this.loader = loader; 
+  } 
+  upload() { 
+    return this.loader.file 
+    .then( file => new Promise( 
+        ( resolve, reject ) => { 
+        this._initRequest();
+        this._initListeners( resolve, reject, file );
+        this._sendRequest( file );
+      }
+        ) 
+    );
+  }
+  _initRequest() { 
+    const xhr = this.xhr = new XMLHttpRequest(); 
+    //여기서는 POST 요청과 json으로 응답을 받지만 어떤 포맷으로 하든 너의 선택이다. 
+    xhr.open( 'POST', 'http://localhost:9999/Root_Project/app/review/tempPhoto', true ); 
+    xhr.responseType = 'json';
+
+  }
+  _initListeners(resolve, reject, file) {
+    const xhr = this.xhr;
+    const loader = this.loader;
+    //const genericErrorText = '파일을 업로드 할 수 없습니다.';
+
+    xhr.addEventListener('error', () => {reject(genericErrorText)})
+    xhr.addEventListener('abort', () => reject())
+    xhr.addEventListener('load', () => {
+      const response = xhr.response;
+      console.log(xhr);
+      console.log(response);
+      if(!response || response.error) {
+        return reject( response && response.error ? response.error.message : genericErrorText );
+      }
+      resolve({
+          default: response //업로드된 파일 주소
+      })
+    })
+  }
+  _sendRequest(file) {
+    const data = new FormData();
+    data.append('upload',file);
+    this.xhr.send(data);
+  }
+  abort() { 
+    if ( this.xhr ) { 
+      this.xhr.abort();
+    } 
+  } 
+}
+
+function MyCustomUploadAdapterPlugin( editor ) { // Custom adaper 활성화 
+  editor.plugins.get( 'FileRepository' ).createUploadAdapter = ( loader ) => {
+    // Configure the URL to the upload script in your back-end here! 
+    // 결국엔 내가 구현해 주어야 할 것은, 
+    // FileRepository가 어떤 업로드 어댑터를 사용하게 하느냐만 설정해주면 된다. 
+    // 나머지 이미지 업로드 플러그인, 파일 로더, FileRepository등등은 이미 만들어져 있다. 
+    return new MyUploadAdapter( loader ); 
+  };
+}
+
 function displayReviewDayByIndex(index) { // 현재 review Array에 맞는 Page를 보여준다.
   if (index != null) {
     getSelectReviewDayForm(index);
     if (review[index].title != null) {
       document.querySelectorAll('.title')[0].value = review[index].title;
       document.querySelectorAll('.mainReview')[0].value = review[index].mainReview;
-      for (var i = 0; i < review[index].length; i++) {
+      for (let i = 0; i < review[index].length; i++) {
         document.querySelectorAll('.placeName')[i].value = review[index][i].name;
         document.querySelectorAll('.basicAddr')[i].value =  review[index][i].basicAddr;
         document.querySelectorAll('.detailAddr')[i].value =  review[index][i].detailAddr;
-        document.querySelectorAll('.placeReview')[i].value = review[index][i].placeReview;
-        $(document).ready(function() {
-          console.log($('#summernote'));
-          console.log($('.summernoteEditor').get(i));
-          $('#summernote').summernote({
-            height: 540,  
-            lang: 'ko-KR',
-          });
-        });
+        //document.querySelectorAll('.placeReview')[i].value = ;
+        ClassicEditor
+          .create( document.querySelectorAll( '.ckEditor' )[i], {
+            toolbar: {
+              items: [
+                'heading',
+                '|',
+                'fontFamily',
+                'fontSize',
+                'fontColor',
+                'bold',
+                'italic',
+                'link',
+                'bulletedList',
+                'numberedList',
+                '|',
+                'indent',
+                'outdent',
+                '|',
+                'imageUpload',
+                'blockQuote',
+                'insertTable',
+                'mediaEmbed',
+                'undo',
+                'redo'
+              ]
+            },
+            language: 'ko',
+            image: {
+              toolbar: [
+                'imageTextAlternative',
+                'imageStyle:full',
+                'imageStyle:side'
+              ]
+            },
+            table: {
+              contentToolbar: [
+                'tableColumn',
+                'tableRow',
+                'mergeTableCells'
+              ]
+            },
+            extraPlugins: [ MyCustomUploadAdapterPlugin ],
+            licenseKey: '',
+            
+          } )
+        .then( editor => {
+          editor.setData(review[index][i].placeReview);
+          review[index][i].editor = editor;
+          console.log(review[index][i]);
+          console.log(review[index][i].editor.getData());
+        } )
+        .catch( error => {
+            console.error( error );
+        } );
       }
     } else {
       document.querySelectorAll('.title')[0].value = "";

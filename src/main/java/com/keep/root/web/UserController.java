@@ -2,8 +2,10 @@ package com.keep.root.web;
 
 import java.io.File;
 import java.util.UUID;
+
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+
 import com.keep.root.domain.User;
 import com.keep.root.service.UserService;
 
@@ -110,7 +113,7 @@ public class UserController {
       User updateUser, //
       MultipartFile photoFile, //
       HttpSession session //
-      ) throws Exception {
+  ) throws Exception {
     session.getAttribute("loginUser");
     if (photoFile.getSize() > 0) {
       String dirPath = servletContext.getRealPath("/upload/user");
@@ -163,7 +166,7 @@ public class UserController {
   @ResponseBody
   @RequestMapping(value = "epSearch", method = RequestMethod.POST)
   public int epSearch(String email, String password) throws Exception {
-    System.out.println("email:"+email);
+    System.out.println("email:" + email);
     System.out.println("password:" + password);
     int count = userService.epSearch(email, password);
     System.out.println("리턴 값" + count);

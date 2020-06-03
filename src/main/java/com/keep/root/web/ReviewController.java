@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.UUID;
 
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.logging.log4j.LogManager;
@@ -16,8 +17,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.keep.root.domain.Review;
 import com.keep.root.domain.ReviewDay;
 import com.keep.root.domain.ReviewPlace;
@@ -142,6 +146,23 @@ public class ReviewController {
       throw new Exception("로그인이 필요합니다.");
     }
     model.addAttribute("list", reviewService.list(user.getNo()));
+  }
+
+  @ResponseBody
+  @RequestMapping(value = "tempPhoto", method = RequestMethod.POST)
+  public void tempPhoto(HttpServletResponse response, HttpSession session, MultipartFile upload) throws Exception {
+    if (upload.getSize() > 0) {
+      String dirPath = servletContext.getRealPath("/upload/temp");
+      String filename = UUID.randomUUID().toString();
+      File newFile = new File(dirPath + "/" + filename);
+      upload.transferTo(newFile);
+      System.out.println(newFile.getName());
+
+      ObjectMapper objectMapper = new ObjectMapper();
+      response.getWriter().write(
+          objectMapper.writeValueAsString("http://localhost:9999/Root_Project/upload/temp/" + newFile.getName()));
+
+    }
   }
 
   /*
