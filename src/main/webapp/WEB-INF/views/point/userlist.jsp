@@ -239,7 +239,6 @@ div.point_no {
                       <c:forEach begin="${pageMaker.startPage}" end="${pageMaker.endPage}" var="idx">
                           <li id="page${idx}">
                             <a href="userlist${pageMaker.makeQuery(idx)}">
-                              <!-- 시각 장애인을 위한 추가 -->
                                 <span>${idx}<span class="sr-only">(current)</span></span>
                             </a>
                           </li>
