@@ -19,16 +19,24 @@ public class ReviewPlace {
   public ReviewPlace( //
       String name, //
       String basicAddr, //
+      String placeReview, //
+      int status //
+      ) {
+    this.name = name;
+    this.basicAddr = basicAddr;
+    this.placeReview = placeReview;
+    this.status = status;
+  }
+  public ReviewPlace( //
+      String name, //
+      String basicAddr, //
       String detailAddr, //
       String placeReview, //
       int status, //
       List<ReviewPlacePhoto> reviewPlacePhotos //
-  ) {
-    this.name = name;
-    this.basicAddr = basicAddr;
+      ) {
+    this(name, basicAddr, placeReview, status);
     this.detailAddr = detailAddr;
-    this.placeReview = placeReview;
-    this.status = status;
     this.reviewPlacePhotos = reviewPlacePhotos;
   }
 

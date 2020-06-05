@@ -20,13 +20,22 @@ public class ReviewDay {
       String title, //
       Date dayDate, //
       String mainReview, //
-      int status, //
-      List<ReviewPlace> reviewPlace //
-  ) {
+      int status //
+      ) {
     this.title = title;
     this.dayDate = dayDate;
     this.mainReview = mainReview;
     this.status = status;
+  }
+
+  public ReviewDay( //
+      String title, //
+      Date dayDate, //
+      String mainReview, //
+      int status, //
+      List<ReviewPlace> reviewPlace //
+      ) {
+    this(title, dayDate, mainReview, status);
     this.reviewPlace = reviewPlace;
   }
 

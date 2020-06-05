@@ -50,7 +50,13 @@
     order by
       review_no asc
   </select>
-
+  
+  <update id="update" parameterType="Course">
+    update reviews set
+      create_date=#{createdDate},
+      <if test="status != null and status != ''">status=#{status}</if> 
+    where review_no=#{no}
+  </update>
   
   <select id="findByNo" resultMap="ReviewMap" parameterType="int">
     select 
