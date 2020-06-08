@@ -12,8 +12,8 @@
 </c:if>
 <link rel='stylesheet' href='https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css' integrity='sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh' crossorigin='anonymous'>
   <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,600,600i,700,700i" rel="stylesheet">
-
   <!-- Vendor CSS Files -->
   <link href="${pageContext.getServletContext().getContextPath()}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <link href="${pageContext.getServletContext().getContextPath()}/vendor/icofont/icofont.min.css" rel="stylesheet">
@@ -34,8 +34,8 @@
   <link rel='stylesheet' href='${pageContext.getServletContext().getContextPath()}/semantic/dist/semantic.min.css'>
 <link rel='stylesheet' href='<tiles:getAsString name="css.common"/>'>
 <link rel='stylesheet' href='<tiles:getAsString name="css.page"/>'>
-  
-  
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/5.13.0/css/font-awesome.min.css">
   
   <!-- Vendor JS Files -->
   <script src="${pageContext.getServletContext().getContextPath()}/vendor/jquery/jquery.min.js"></script>
@@ -46,6 +46,8 @@
   <script src="${pageContext.getServletContext().getContextPath()}/vendor/venobox/venobox.min.js"></script>
   <script src="${pageContext.getServletContext().getContextPath()}/vendor/owl.carousel/owl.carousel.min.js"></script>
   <script src="${pageContext.getServletContext().getContextPath()}/vendor/aos/aos.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
 
   <!-- Template Main JS File -->
   <script src="${pageContext.getServletContext().getContextPath()}/js/main.js"></script>

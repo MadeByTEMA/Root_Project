@@ -74,8 +74,9 @@
         <div class="sh_content"></div>
           <p>${loginUser.name} 의 정보 수정 및 확인이 가능합니다.</p>
         <div class="sh_footer">
-         <a href="#" class='btn btn-success btn-sm' onclick="window.open('../user/passCheck?userEmail=${loginUser.email}', 'passCheck', 'left= 100px, top=100px, height=400px, width=500px, scrollbars=0, toolbar=no, location=no, resizable=no')">
-         정보 수정</a>
+
+<a href="#" class='btn btn-success btn-sm' onclick="window.open('../user/passCheck?userEmail=${loginUser.email}', 'passCheck', 'left= 100px, top=100px, height=400px, width=500px, scrollbars=0, toolbar=no, location=no, resizable=no')">
+         정보 수정</a> 
          </div>
       </div>
       <div class="sh_group">

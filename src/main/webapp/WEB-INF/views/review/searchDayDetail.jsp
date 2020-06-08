@@ -10,7 +10,7 @@
       <div class="col-lg-8">
         <c:forEach items="${review.reviewDay}" var="reviewDay">
         <!-- Title -->
-        <h1 class="mt-4"># 데이 스크랩 상세 </h1>
+        <h3 class="mt-4"># 데이 스크랩 상세 </h3>
         <!-- Author -->
         <p class="lead"></p>
         <hr>

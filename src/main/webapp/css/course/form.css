@@ -22,7 +22,7 @@ div.rightStatebar {
 }
 div.leftContent {
   float:left;
-  width:50%;
+  width:30%;
 }
 div.rightContent {
   float:right;
@@ -31,6 +31,7 @@ div.rightContent {
 div.plus {
 	padding:11px 16px;
 }
+
 .ui.rating {
 	float:right;
 }
@@ -68,4 +69,108 @@ div.plus {
     left: auto;
     bottom: auto;
     right: auto;
+}
+\
+
+/*
+*
+* ==========================================
+* CUSTOM UTIL CLASSES
+* ==========================================
+*
+*/
+
+hr.dashed {
+    border-top: 2px dashed #999;
+}
+
+hr.dotted {
+    border-top: 2px dotted #999;
+}
+
+hr.solid {
+    border-top: 1px solid #d4d3d5;
+}
+hr.solid2 {
+    border-top: 1px solid #d4d3d5;
+   width:500px;
+   float:left;
+}
+
+
+
+hr.hr-text {
+  position: relative;
+    border: none;
+    height: 1px;
+    background: #999;
+}
+
+hr.hr-text::before {
+    content: attr(data-content);
+    display: inline-block;
+    background: #fff;
+    font-weight: bold;
+    font-size: 0.85rem;
+    color: #999;
+    border-radius: 30rem;
+    padding: 0.2rem 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+
+
+/*
+*
+* ==========================================
+* FOR DEMO PURPOSES
+* ==========================================
+*
+*/
+
+body {
+    min-height: 100vh;
+    background-color: #fff; 
+    color: #333;
+}
+.text-uppercase {
+  letter-spacing: .1em;
+}
+input{
+	margin-top:10px;
+	border-color:transparent;
+	background-color: transparent;
+  font-family: "Open Sans", sans-serif;
+	    font-size: 12px;
+	    
+	
+	
+}
+input:focus{
+
+    outline: none;
+
+}
+
+
+#btn2{
+text-align:center;
+color:white;
+border: 0;
+outline: 10;
+width: 80px;
+height: 20px;
+border-radius: 6px;
+background:#ff9b69;
+float:right;
+margin-right:10px;
+margin-bottom:0px;
+padding-left: 10px;
+padding-right: 10px;
+padding-top: 3px;
+padding-bottom: 3px;
 }

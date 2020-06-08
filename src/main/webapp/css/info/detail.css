@@ -221,7 +221,6 @@ backgrount-color:#e7e7ea;
 .mainReview {
   padding: 10px 10px 10px 10px;
   height:440px;
-  text-align:center;
   line-height:440px;
   width:100%;
 }
@@ -296,6 +295,11 @@ hr.dotted {
 hr.solid {
     border-top: 1px solid #d4d3d5;
 }
+hr.solid2 {
+    border-top: 1px solid #d4d3d5;
+    width:500px;
+    float:left;
+}
 
 
 hr.hr-text {
@@ -341,14 +345,17 @@ body {
 }
 input{
 	margin-top:10px;
+	width:1000px;
 	border-color:transparent;
 	background-color: transparent;
 	    font-family: "Raleway", sans-serif;
+	    
 	    font-size: 12px;
 	    
 	
 	
 }
+
 input:focus{
 
     outline: none;

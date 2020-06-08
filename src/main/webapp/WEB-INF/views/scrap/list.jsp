@@ -20,7 +20,7 @@
         <td><a href='../review/searchDayDetail?no=${scrap.review.no}'>${scrap.reviewDay.title}</td> 
         <td>${scrap.reviewDay.dayDate}</td> 
         <td>${scrap.reviewDay.mainReview}</td> 
-        <td><button type="button" onclick="location.href='delete?no=${scrap.reviewDay.no}'">삭제</button></td>
+        <td><button id="btn2" type="button" onclick="location.href='delete?no=${scrap.reviewDay.no}'">삭제</button></td>
       </tr>
   </c:forEach>
    </thead>

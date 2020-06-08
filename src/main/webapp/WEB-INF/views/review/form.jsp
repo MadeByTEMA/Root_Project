@@ -8,9 +8,13 @@
 		<div class="topAreaDiv">
 		  <div class="topStatusbar">
 		    <div class="topStatusLeftStatusbar">
-	        <div class="ui calendar" id="button_calendar">
-	          <div class="ui button">여행시작일</div>
+	         <div class="ui calendar" id="button_calendar">
+	     <i class="fa fa-calendar-check-o" aria-hidden="true"></i>
+	          <div class="ui button"><small>여행시작일</small></div>
 	        </div>
+	        
+	
+           
 		      <div id="dropdown" class="ui disabled dropdown">
 		        <input type="hidden" name="selectDate">
 		        <i class="dropdown icon"></i>
@@ -31,24 +35,28 @@
 		    </div>
 		    <div class="topStatusRightStatusbar">
 		      <div class="myCourseLoadDiv">
-		        <i class="big cloud download alternate icon"></i>
-		        <div class="myCourseLoadText">내 코스 불러오기</div>
+		        <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+		        <div class="myCourseLoadText"><small>내 코스 불러오기</small></div>
 		      </div>
 		      <div class="mainPictureUploadDiv">
-		        <i id="mainPhoto" class="bordered big camera retro icon"></i>
+		       <i class="fa fa-camera" aria-hidden="true fa-5x"></i>
 		          <input class="reviewDayMainPhoto" name="reviewDayMainPhotos" type="file" style="display:none"/>
 		      </div>
 		    </div>
 		  </div>
-		  <div class='topTitlebar'> 
-		    <h1> <input class="title" name="titles" type="text" placeholder="제목"></h1>
-		  </div>
+		  
+		  <div class="mb-4">
+					<input name="titles" type="text" placeholder="제목">
+					<span id="alert_nickName" style="color:grey;"></span><br>
+					<!-- Solid divider -->
+					<hr class="solid">
+				</div>
 		  <div class='topMainReviewbar'> 
 		    <p> <input class="mainReview" name="mainReviews" type="text" placeholder="메인 후기"></p>
 		  </div>
 		</div>
 		<div class='courseNameDiv'>
-		  <h1>Course</h1>
+		  <h3>Course</h3>
 		</div>
 		<div id="map" style="width:100%; height:350px;"></div>
 		<div class="reviewPlaceNamebar">
@@ -58,21 +66,25 @@
 		  <div class="reviewPlaceArea"><div class="reviewPlace">
 			    <div class="placeBasicbar">
 				    <div class="revicePlaceName">
-				      <input class="placeName" name="names" type="text" onchange="matchShowReivewPlaceName();" value="" placeholder="장소명">
-				    </div>
+					<input name="placeName" name="names" type="text" onchange="matchShowReivewPlaceName();" value="" placeholder="장소명">
+					<!-- Solid divider -->
 				    <div class="placeRemove">
-				      <i id="placeRemoveMinusButtonIcon" class="big minus circle icon"></i>
+				      <i id="placeRemoveMinusButtonIcon" class="fa fa-minus-square-o" aria-hidden="true"></i>
 				    </div>
+					<hr class="solid">
+				</div>
+				
+				    
 				    <div class="reviewPlacePhotoArea">
-				      <i id="placeMainPhoto" class="bordered big camera icon"></i>
+				      <i id="placeMainPhoto" class="fa fa-camera" aria-hidden="true"></i>
 				      <input class="reviewPlaceMainPhoto" name="reviewPlaceMainPhotos" type="file" style="display:none"/>
 				    </div>
 			    </div>
 				  <div class="placeAddrbar">
 				    <div class="reviceBasicAddr">
-		          <input class="basicAddr" name="basicAddrs" onChange="getGeoLocation();" type="text" value="">
+		          <input class="basicAddr" name="basicAddrs" onChange="getGeoLocation();" type="text" value="" placeholder="주소검색">
 		          <div class="reviewAddrSearchIcon" onClick="openDaumZipAddress(this);">
-		            <i id="placeRemoveMinusButtonIcon" class="big search icon"></i>
+		            <i id="placeRemoveMinusButtonIcon" class="fa fa-search" aria-hidden="true"></i>
 		          </div>
 		        </div>
 		        <div class="reviceDetailAddr">
@@ -118,12 +130,12 @@
       </script>
 		  <div class="reviewPlacePlusArea">
 		    <div class="placePlus">
-		      <i id="placeAddPlusButtonIcon" class="big plus circle icon"></i>
+		      <i id="placeAddPlusButtonIcon"class="fa fa-plus-square-o" aria-hidden="true"></i>
 		    </div>
 		  </div>
 			<div class="buttonArea">
-			  <button type="button" onclick="submitForm(2)">저장하기</button>
-			  <button type="button" onclick="submitForm(1)">게시하기</button>
+			  <button id="btn2" type="button" onclick="submitForm(2)">저장하기</button>
+			  <button id="btn2" type="button" onclick="submitForm(1)">게시하기</button>
 			</div>
 		</div>
 	</div>
